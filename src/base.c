@@ -1,15 +1,21 @@
 #include "../include/base.h"
-#include "../include/player.h"
+#include "../include/memory.h"
 
-void set_hp(struct Player *self, unsigned hp)
+void base_set_hp(struct Base *base, unsigned hp)
 {
+    //struct Player *self = (struct Player *)ptr;
     if (hp > 0)
-    {
-        self->base->hp = hp;
-    }
-    else
-    {
-        fprintf(stderr, "Can't assignt negative value to HP.");
-        exit(-1);
-    }
+        base->hp = hp;
 }
+
+struct Base *base_init(struct Base *base)
+{
+    base = memory_allocate(base, sizeof(struct Base));
+    return base;
+}
+
+/*inline void base_check_string(const char *_s)
+{
+    if (_s == "")
+        ;
+}*/
