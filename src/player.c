@@ -12,10 +12,18 @@
 #include <stdlib.h>
 
 #include "../include/player.h"
+#include "../include/str.h"
 #include "../include/memory.h"
 
 extern inline struct Player *Player_init(struct Player *self)
 {
     self = memory_allocate(self, sizeof(struct Player));
     return self;
+}
+
+void Player_set_name(struct Player *const self, const char *_s)
+{
+    if (!Str_is_valid(_s))
+        memory_die("Introduce a valid name!");
+    self->base->name = (char *)_s;
 }
