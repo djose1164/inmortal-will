@@ -19,9 +19,3 @@ extern inline struct Player *Player_init(struct Player *self)
     self = memory_allocate(self, sizeof(struct Player));
     return self;
 }
-
-void Player_del(struct Player *const self)
-{
-    if (self)
-        free(self);
-}

@@ -12,6 +12,7 @@
 #define PLAYER_H
 
 #include "../include/base.h"
+#include "../include/memory.h"
 
 /**
  * @brief Struct with the basic information of a player.
@@ -37,6 +38,9 @@ struct Player *Player_init(struct Player *self);
  * 
  * @param self The player to remove.
  */
-void del(struct Player *const self);
+inline void Player_del(struct Player *const self)
+{
+    memory_release(self);
+};
 
 #endif // PLAYER_H
