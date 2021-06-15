@@ -43,4 +43,11 @@ inline void Player_del(struct Player *const self)
     memory_release(self);
 };
 
+void Player_set_name(struct Player *const self, const char *_s);
+
+static inline char *Player_get_name(struct Player *const self)
+{
+    return self->base->name;
+}
+
 #endif // PLAYER_H
