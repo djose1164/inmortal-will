@@ -10,24 +10,8 @@
  */
 #ifndef PLAYER_H
 #define PLAYER_H
-struct Player;
 
-/**
- * @brief The virtual method for the player.
- * 
- */
-struct vtable_Player
-{
-    // I love Python. Create a new player.
-    struct Player (*__init__)(struct Player *const player);
-    // Delete a player.
-    void (*__delete__)(struct Player *const player);
-
-    void (*attack)(struct Player *const player);
-    void (*talk)();
-    void (*eat)();
-    void (*equip)(struct Player *const player);
-};
+#include "../include/base.h"
 
 /**
  * @brief Struct with the basic information of a player.
@@ -36,18 +20,23 @@ struct vtable_Player
  */
 struct Player
 {
-    /**The name of the player.*/
-    char *name;
-    /**The age of the player. Mustn't be negative.*/
-    unsigned age;
-    /**The tipical profession of the player. Like a manga character. */
-    char *profession;
-    /**The total attack of the player.*/
-    unsigned attack;
-    /**The total life of the player. */
-    int life;
+    struct Base *base;
 };
 
-void *__init__(struct vtable_Player);
+/**
+ * @brief To create a new player. Further parameters will be passed to the 
+ * constructor.
+ * 
+ * @param self The object to create.
+ * @return struct Player* The new memory allocated.
+ */
+struct Player *player_init(struct Player *self);
+
+/**
+ * @brief To elimante an existing player.
+ * 
+ * @param self The player to remove.
+ */
+void del(struct Player *const self);
 
 #endif // PLAYER_H
