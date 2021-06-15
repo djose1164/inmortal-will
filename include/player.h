@@ -30,7 +30,7 @@ struct Player
  * @param self The object to create.
  * @return struct Player* The new memory allocated.
  */
-struct Player *player_init(struct Player *self);
+struct Player *Player_init(struct Player *self);
 
 /**
  * @brief To elimante an existing player.

@@ -14,13 +14,13 @@
 #include "../include/player.h"
 #include "../include/memory.h"
 
-extern inline struct Player *player_init(struct Player *self)
+extern inline struct Player *Player_init(struct Player *self)
 {
     self = memory_allocate(self, sizeof(struct Player));
     return self;
 }
 
-void player_del(struct Player *const self)
+void Player_del(struct Player *const self)
 {
     if (self)
         free(self);
