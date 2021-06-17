@@ -1,9 +1,24 @@
+/**
+ * @file memory.h
+ * @author your name (you@domain.com)
+ * @brief Declarations of all functions related to memory management.
+ * @version 0.1
+ * @date 2021-06-16
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #ifndef MEMORY_H
 #define MEMORY_H
 
 #include <stdio.h>
 #include <stdbool.h>
 
+/**
+ * @brief Verify that the allocation was successful. If wasn't, the program
+ * will die.
+ * 
+ */
 #define memory_check_allocation(ptr) (             \
     {                                              \
         if (!ptr)                                  \
@@ -12,18 +27,34 @@
         }                                          \
     })
 
+/**
+ * @brief Kill the program and shows the reasion.
+ * 
+ */
 #define memory_die(msg) (             \
     {                                 \
         fprintf(stderr, "%s\n", msg); \
         exit(-1);                     \
     })
 
-extern size_t memory_get_allocated_counter(void);
-extern size_t memory_get_realased_counter(void);
 
 /*****************************************************************************/
 /* Public functions:                                                         */
 /*****************************************************************************/
+
+/**
+ * @brief Get the counter's value.
+ * 
+ * @return size_t Times of memory allocated.
+ */
+extern size_t memory_get_allocated_counter(void);
+
+/**
+ * @brief Get the counter's value.
+ * 
+ * @return size_t Times of memory released.
+ */
+extern size_t memory_get_released_counter(void);
 
 /**
  * @brief All method of allocation must call this function to set memory
@@ -39,8 +70,8 @@ void *memory_allocate(void *ptr, unsigned size);
  * freed.
  * 
  * @param ptr Pointer to some memory.
- * @return true Points to some allocated memory. Can be realased.
- * @return false Points to nothing. Cannot be realased.
+ * @return true Points to some allocated memory. Can be released.
+ * @return false Points to nothing. Cannot be released.
  */
 static inline bool memory_is_free(void *ptr)
 {
@@ -50,10 +81,18 @@ static inline bool memory_is_free(void *ptr)
     return true;
 }
 
+/**
+ * @brief Free memory. If the memory is already freed the program's gonna die.
+ * 
+ * @param ptr Pointer to somewhere memory.
+ */
 void memory_release(void *ptr);
 
+/**
+ * @brief Must be executed atexit. Will check if the management of memory was
+ * good.
+ * 
+ */
 void memory_check_counter(void);
 
-//inline void s(void *ptr);
-//inline void
 #endif //MEMORY_H
