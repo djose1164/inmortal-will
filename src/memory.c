@@ -6,6 +6,9 @@ static size_t memory_release_counter;
 
 void *memory_allocate(void *ptr, unsigned size)
 {
+    if (memory_is_free(ptr))
+        memory_die("ptr no free\n");
+
     ptr = malloc(size);
     memory_check_allocation(ptr);
 
@@ -13,17 +16,6 @@ void *memory_allocate(void *ptr, unsigned size)
     return ptr;
 }
 
-inline bool memory_is_free(void *ptr)
-{
-    /**
-     * @brief Call this method before freeing some memory.
-     * 
-     */
-    if (!ptr)
-        return false;
-
-    return true;
-}
 
 void memory_release(void *ptr)
 {
@@ -57,6 +49,5 @@ void memory_check_counter(void)
         char errmsg[50];
         snprintf(errmsg, sizeof(errmsg), "Allocated: %zu.\tReleased: %zu\n",
                  memory_allocated_counter, memory_release_counter);
-        memory_die(errmsg);
     }
 }

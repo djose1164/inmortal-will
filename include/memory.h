@@ -42,7 +42,13 @@ void *memory_allocate(void *ptr, unsigned size);
  * @return true Points to some allocated memory. Can be realased.
  * @return false Points to nothing. Cannot be realased.
  */
-bool memory_is_free(void *ptr);
+static inline bool memory_is_free(void *ptr)
+{
+    if (!ptr)
+        return false;
+
+    return true;
+}
 
 void memory_release(void *ptr);
 
