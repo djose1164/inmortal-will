@@ -33,7 +33,7 @@ size_t memory_get_allocated_counter(void)
     return memory_allocated_counter;
 }
 
-size_t memory_get_release_counter(void)
+size_t memory_get_released_counter(void)
 {
     return memory_release_counter;
 }
