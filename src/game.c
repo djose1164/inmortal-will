@@ -56,9 +56,8 @@ static void set_profession(struct Player *const self)
     fgets(line, sizeof(line), stdin);
     sscanf(line, "%hu", &chose);
 
-    profession_option_is_valid(chose);
+    //profession_option_is_valid(chose);
 
-    
     self->profession = (char *)professions[chose - 1];
 }
 
