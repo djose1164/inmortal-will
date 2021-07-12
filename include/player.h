@@ -22,6 +22,7 @@
 struct Player
 {
     struct Base *base;
+    char *profession;
 };
 
 /**
