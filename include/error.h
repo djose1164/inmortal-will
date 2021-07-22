@@ -1,6 +1,6 @@
 /*
 *----------------------------------------------------------------------------*
-|               error.h     -   Public Interface                             |
+|               error.h     ---  Public Interface                            |
 *----------------------------------------------------------------------------*
 |   Public interface for error handling. Here's only functions declariations.|
 |   For variables declaritions see error_vars.h.                             |
