@@ -15,20 +15,14 @@
 
 // TODO: Think on a better name.
 
+/**
+ * @brief Parent class.
+ * 
+ */
 struct Base
 {
-    /**El nombre del jugador. */
-    char *name;
-    /**La edad del jugador. No debe ser negativa. */
-    unsigned age;
-    /**El ataque del jugador. */
-    unsigned attack;
-    /**Defensa del jugador. */
-    unsigned defense;
-    /**La vida del jugador. */
-    int hp;
-    /**El mana del jugador. */
-    int mp;
+    char *name;     /* Player's name. */
+    char *type;     /* Object's type. */ 
 };
 
 /*****************************************************************************/
