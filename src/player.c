@@ -15,15 +15,11 @@
 #include "../include/str.h"
 #include "../include/memory.h"
 
-extern inline struct Player *Player_init(struct Player *self)
-{
-    self = memory_allocate(self, sizeof(struct Player));
-    return self;
-}
 
-void Player_set_name(struct Player *const self, const char *_s)
+
+void Player_set_name(struct Player *const self, const char *name)
 {
-    if (!Str_is_valid(_s))
+    if (!Str_is_valid(name))
         memory_die("Introduce a valid name!");
-    self->base->name = (char *)_s;
+    self->object.name = (char *)name;
 }

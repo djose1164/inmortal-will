@@ -11,7 +11,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "../include/base.h"
+#include "include/object.h"
 #include "../include/memory.h"
 
 /**
@@ -21,7 +21,7 @@
  */
 struct Player
 {
-    struct Base *base;
+    struct Object object;
     char *profession;
 };
 
@@ -32,23 +32,27 @@ struct Player
  * @param self The object to create.
  * @return struct Player* The new memory allocated.
  */
-struct Player *Player_init(struct Player *self);
+static inline struct Player *Player_init(struct Player *self)
+{
+    self = memory_allocate(self, sizeof(struct Player));
+    return self;
+}
 
 /**
- * @brief To elimante an existing player.
+ * @brief To eliminate an existing player.
  * 
  * @param self The player to remove.
  */
-inline void Player_del(struct Player *const self)
+static inline void Player_del(struct Player *const self)
 {
     memory_release(self);
 };
 
-void Player_set_name(struct Player *const self, const char *_s);
+void Player_set_name(struct Player *const self, const char *name);
 
 static inline char *Player_get_name(struct Player *const self)
 {
-    return self->base->name;
+    return self->object.name;
 }
 
 #endif // PLAYER_H
