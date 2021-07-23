@@ -15,9 +15,17 @@
 #include "../include/str.h"
 #include "../include/memory.h"
 
+Player *Player_init(Player *self)
+{
+    self = memory_allocate(self, sizeof(Player));
+    self->object.set_name("Person");
+    self->object.type("Human");
+    self->object.set_repr(Str_fmt("Name: %s\tType: %s", self->object.get_name(), 
+                                  self->object.get_type()));
+    return self;
+}
 
-
-void Player_set_name(struct Player *const self, const char *name)
+void Player_set_name(Player *const self, const char *name)
 {
     if (!Str_is_valid(name))
         memory_die("Introduce a valid name!");

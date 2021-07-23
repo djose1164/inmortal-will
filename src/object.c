@@ -1,21 +1,15 @@
-#include "../include/base.h"
+#include "include/object.h"
 #include "../include/memory.h"
 
-void base_set_hp(struct Base *base, unsigned hp)
+extern void object_binds(Object *self)
 {
-    //struct Player *self = (struct Player *)ptr;
-    if (hp > 0)
-        base->hp = hp;
-}
+    // Binds setter methods.
+    self->set_name = set_name;
+    self->set_type = set_type;
+    self->set_repr = set_repr;
 
-struct Base *base_init(struct Base *base)
-{
-    base = memory_allocate(base, sizeof(struct Base));
-    return base;
+    // Binds getter methods.
+    self->get_name = get_name;
+    self->get_type = get_type;
+    self->get_repr = get_repr;
 }
-
-/*inline void base_check_string(const char *_s)
-{
-    if (_s == "")
-        ;
-}*/
