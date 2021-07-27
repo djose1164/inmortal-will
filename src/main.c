@@ -1,12 +1,23 @@
 #include <stdio.h>
 #include <assert.h>
-#include "../include/player.h"
-#include "../include/base.h"
-#include "../include/memory.h"
-#include "../include/game.h"
+#include <raylib.h>
+#include "gui/welcome.h"
+
+#define APP_NAME "Immortal Will"
 
 int main(int argc, char const *argv[])
 {
-    game_start();
+    const int screenWidth = 800;
+    const int screenHeight = 700;
+
+    InitWindow(screenWidth, screenHeight, APP_NAME);
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        welcome_start();
+        EndDrawing();
+    } //game_start();
     return 0;
 }
