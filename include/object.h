@@ -13,7 +13,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "include/str.h"
+#include "str.h"
 
 /**
  * @brief Parent class. Its members, like name, make refernce to the object
@@ -28,9 +28,10 @@
  * and further useful members.
  * 
  */
+typedef struct Object Object;
 struct Object
 {
-    char *name; /* Object's name.         */
+     /* Object's name.         */
     char *type; /* Object's type.         */
     char *repr; /* Info about the object. */
 
@@ -38,25 +39,13 @@ struct Object
     void (*get_repr)(Object *self);
     void (*set_type)(Object *self, const char *msg);
     char *(*get_type)(Object *self);
-    void (*set_name)(Object *self, const char *msg);
-    char *(*get_name)(Object *self);
 };
 
-typedef struct Object Object;
+
 
 /*****************************************************************************/
 /* Private functions:                                                        */
 /*****************************************************************************/
-
-static inline void set_name(Object *self, const char *name)
-{
-    self->name = name;
-}
-
-static inline char *get_name(Object *self)
-{
-    return self->name;
-}
 
 static inline set_type(Object *self, const char *type)
 {
