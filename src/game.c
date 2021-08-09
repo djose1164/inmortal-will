@@ -1,15 +1,14 @@
 #include "../include/game.h"
 #include "../include/memory.h"
-#include "../include/base.h"
+#include "../include/object.h"
 #include <string.h>
 
-static const char *const professions[] = {"Warrior", "Wizard"};
+static const char *professions[] = {"Warrior", "Wizard"};
 
 void game_start()
 {
-    struct Player *player = 0x00;
+    Player *player = 0x00;
     player = Player_init(player);
-    player->base = base_init(player->base);
 
     printf("\t\t\t*-*-*-*-*-*-*-\n"
            "\t\t\tImmortal Will!\n"
@@ -20,16 +19,16 @@ void game_start()
 
     game_set_player_name(player);
     set_profession(player);
-    printf("You have chose: %s as your nickname.\n", player->base->name);
+    printf("You have chose: %s as your nickname.\n", player->object.name);
     printf("You have chose: %s as your profession.\n", player->profession);
 
-    memory_release(player->base->name);
-    memory_release(player->base);
+    memory_release(player->object.name);
     memory_release(player);
-    printf("Allocated: %zu\t Deallocated: %zu\n", memory_get_allocated_counter(), memory_get_released_counter());
+    printf("Allocated: %zu\t Deallocated: %zu\n", memory_get_allocated_counter(),
+           memory_get_released_counter());
 }
 
-static void game_set_player_name(struct Player *self)
+static void game_set_player_name(Player *self)
 {
     char line[50];
     char *name = 0L;
@@ -40,10 +39,10 @@ static void game_set_player_name(struct Player *self)
 
     name = memory_allocate(name, sizeof(line));
     strncpy(name, line, sizeof(name));
-    self->base->name = name;
+    self->object.name = name;
 }
 
-static void set_profession(struct Player *const self)
+static void set_profession(Player *const self)
 {
     char line[sizeof(unsigned short)];
     const char *profession;
