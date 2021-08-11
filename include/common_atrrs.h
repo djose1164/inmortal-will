@@ -11,13 +11,30 @@
 #ifndef COMMONATRRS_H
 #define COMMONATRRS_H
 
+#include <stdbool.h>
+
+/**
+ * @brief For passing to memory_allocate. If you don't care the type pass OBJECT.
+ * Objects should be freed at exit.
+ */
+extern enum Type
+{
+    PLAYER,     /* Will be player type. */
+    MONSTER,    /* Will be monster type. */
+    ITEM,       /* Will be item type. */
+    OBJECT      /* The type doesn't care. */
+};
+typedef enum Type Type;
+
 typedef struct CommonAtrrs CommonAtrrs;
 struct CommonAtrrs
 {
     char *name;
-    unsigned level;
+    unsigned lvl;
     int defense;
     int attack;
+    char *repr;
+    bool delete;
 };
 
 /*      --------     Setters.    --------                */
@@ -28,29 +45,39 @@ struct CommonAtrrs
  * @param self Pointer to object.
  * @param name The name to be setted.
  */
-static inline void set_name(CommonAtrrs *self, const char *name)
+static inline void commonAtrrs_set_name(CommonAtrrs *self, const char *name)
 {
     self->name = (char *)name;
 }
 
 /**
- * @brief Set the level object
+ * @brief Set the lvl object
  * 
  * @param self 
- * @param level 
+ * @param lvl 
  */
-static inline void set_level(CommonAtrrs *self, const unsigned level)
+static inline void commonAtrrs_set_lvl(CommonAtrrs *self, const unsigned lvl)
 {
-    self->level += level;
+    self->lvl = lvl;
 }
 
+/**
+ * @brief 
+ * 
+ * @param self 
+ * @param lvl 
+ */
+static inline void commonAtrrs_upgrade_lvl(CommonAtrrs *self, const unsigned lvl)
+{
+    self->lvl += lvl;
+}
 /**
  * @brief Set the defense object
  * 
  * @param self 
  * @param defense 
  */
-static inline void set_defense(CommonAtrrs *self, const unsigned defense)
+static inline void commonAtrrs_set_defense(CommonAtrrs *self, const unsigned defense)
 {
     self->defense += defense;
 }
@@ -61,7 +88,7 @@ static inline void set_defense(CommonAtrrs *self, const unsigned defense)
  * @param self 
  * @param attack 
  */
-static inline void set_attack(CommonAtrrs *self, const unsigned attack)
+static inline void commonAtrrs_set_attack(CommonAtrrs *self, const unsigned attack)
 {
     self->attack += attack;
 }
@@ -74,20 +101,20 @@ static inline void set_attack(CommonAtrrs *self, const unsigned attack)
  * @param self 
  * @return char* 
  */
-static inline char *get_name(CommonAtrrs *self)
+static inline char *commonAtrrs_get_name(CommonAtrrs *self)
 {
     return self->name;
 }
 
 /**
- * @brief Get the level object
+ * @brief Get the lvl object
  * 
  * @param self 
  * @return char* 
  */
-static inline unsigned get_level(CommonAtrrs *self)
+static inline unsigned commonAtrrs_get_lvl(CommonAtrrs *self)
 {
-    return self->level;
+    return self->lvl;
 }
 
 /**
@@ -96,7 +123,7 @@ static inline unsigned get_level(CommonAtrrs *self)
  * @param self 
  * @return char* 
  */
-static inline unsigned get_defense(CommonAtrrs *self)
+static inline unsigned commonAtrrs_get_defense(CommonAtrrs *self)
 {
     return self->defense;
 }
@@ -107,8 +134,19 @@ static inline unsigned get_defense(CommonAtrrs *self)
  * @param self 
  * @return char* 
  */
-static inline unsigned get_attack(CommonAtrrs *self)
+static inline unsigned commonAtrrs_get_attack(CommonAtrrs *self)
 {
     return self->attack;
 }
+
+static inline void commonAtrrs_set_repr(CommonAtrrs *self, const char *msg)
+{
+    self->repr = (char *)msg;
+}
+
+static inline const char *commonAtrrs_get_repr(CommonAtrrs *self)
+{
+    return (const char *)self->repr;
+}
+
 #endif //COMMONATRRS_H
