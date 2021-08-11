@@ -14,6 +14,7 @@
 #define OBJECT_H
 
 #include "str.h"
+#include "utils/linked_list.h"
 
 /**
  * @brief Parent class. Its members, like name, make refernce to the object
@@ -44,7 +45,7 @@ struct Object
 
 
 /*****************************************************************************/
-/* Private functions:                                                        */
+/*                                  Private functions:                       */
 /*****************************************************************************/
 
 static inline set_type(Object *self, const char *type)
@@ -57,15 +58,6 @@ static inline get_type(Object *self)
     return self->type;
 }
 
-static inline void set_repr(Object *self, const char *msg)
-{
-    self->repr = msg;
-}
-
-static inline char *get_repr(Object *self)
-{
-    return self->repr;
-}
 
 extern void object_binding_setters(Object *self);
 
