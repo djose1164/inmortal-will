@@ -13,7 +13,9 @@
   - [ ] Analyze better the algorithm.
 - [ ] Finish welcome screen.
 - [ ] Implementation gui.
-  - [ ] Finish text input module.
+  - [x] Finish text input module.
+  - [ ] Improve text input module.
+  - [ ] Create button module.
 
 
 ## Me quede
