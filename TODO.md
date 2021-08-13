@@ -10,9 +10,9 @@
 - [ ] Finish welcome screen.
 - [ ] Implementation gui.
   - [x] Finish text input module.
-  - [ ] Improve text input module.
-  - [ ] Create button module.
-
+    - [ ] Improve text input module.
+  - [x] Create button module.
+    - [ ] Improve button module.
 
 ## Me quede
 
