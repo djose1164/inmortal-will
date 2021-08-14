@@ -12,7 +12,7 @@
 #define PLAYER_H
 
 #include "living.h"
-#include "include/memory.h"
+#include "utils/linked_list.h"
 
 /**
  * @brief Struct with the basic information of a player.
@@ -24,19 +24,17 @@ struct Player
     Living being;
     char *profession;
 };
-
 typedef struct Player Player;
 
+/* Player's linked list. */
+extern LinkedList player_list;
 
 /**
  * @brief To eliminate an existing player.
  * 
  * @param self The player to remove.
  */
-static inline void Player_del(Player *const self)
-{
-    memory_release(self);
-};
+void Player_del(Player *self);
 
 void Player_set_name(Player *const self, const char *name);
 
@@ -49,13 +47,5 @@ static inline char *Player_get_name(Player *const self)
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-/**
- * @brief To create a new player. Further parameters will be passed to the 
- * constructor.
- * 
- * @param self The object to create.
- * @return Player* The new memory allocated.
- */
-static Player *Player_new(Player *self);
-
+Player *Player_init(Player *self, const char *name);
 #endif // PLAYER_H

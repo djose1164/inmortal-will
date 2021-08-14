@@ -9,19 +9,34 @@
  * @copyright Copyright (c) 2021
  * 
  */
-#include <stdlib.h>
 
 #include "player.h"
+#include "common_atrrs.h"
 #include "str.h"
-#include "memory.h"
+#include "living.h"
+#include "core/memory.h"
 
+LinkedList player_list = { .head = NULL };
 
-void Player_init(Player *self, const char *name)
+Player *Player_init(Player *self, const char *name)
 {
-    self = Player_new(self);
+    self = memory_allocate(self, sizeof(Player));
+    
     CommonAtrrs *temp = &self->being.attrs;
-    self->being.attrs.name = (char *)name;
-    commonAtrrs_set_repr(temp, Str_fmt("Name: %s\n", commonAtrrs_get_name(temp)));
+    temp->name = (char *)name;
+    commonAtrrs_set_repr(temp, Str_fmt("Name: %s.", commonAtrrs_get_name(temp)));
+    
+    return self;
+}
+
+void Player_del(Player *self)
+{
+    // If repr was setted, release it.
+    if (self->being.attrs.repr)
+        memory_release(self->being.attrs.repr);
+        
+    // Finally release the memory.
+    memory_release(self);
 }
 
 void Player_set_name(Player *const self, const char *name)
@@ -34,9 +49,3 @@ void Player_set_name(Player *const self, const char *name)
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
-
-static Player *Player_new(Player *self)
-{
-    self = memory_allocate_type(self, sizeof(Player), PLAYER);
-    return self;
-}
