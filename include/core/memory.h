@@ -13,10 +13,10 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "utils/linked_list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
 #include "common_atrrs.h"
+#include "utils/linked_list.h"
 
 /**
  * @brief Verify that the allocation was successful. If wasn't, the program

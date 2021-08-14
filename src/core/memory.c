@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "core/memory.h"
 
 static size_t memory_allocated_counter;
 static size_t memory_release_counter;
