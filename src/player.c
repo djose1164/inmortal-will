@@ -11,23 +11,32 @@
  */
 #include <stdlib.h>
 
-#include "../include/player.h"
-#include "../include/str.h"
-#include "../include/memory.h"
+#include "player.h"
+#include "str.h"
+#include "memory.h"
 
-Player *Player_init(Player *self)
+
+void Player_init(Player *self, const char *name)
 {
-    self = memory_allocate(self, sizeof(Player));
-    self->object.set_name("Person");
-    self->object.type("Human");
-    self->object.set_repr(Str_fmt("Name: %s\tType: %s", self->object.get_name(), 
-                                  self->object.get_type()));
-    return self;
+    self = Player_new(self);
+    CommonAtrrs *temp = &self->being.attrs;
+    self->being.attrs.name = (char *)name;
+    commonAtrrs_set_repr(temp, Str_fmt("Name: %s\n", commonAtrrs_get_name(temp)));
 }
 
 void Player_set_name(Player *const self, const char *name)
 {
     if (!Str_is_valid(name))
         memory_die("Introduce a valid name!");
-    self->object.name = (char *)name;
+    //self->object.name = (char *)name;
+}
+
+/*****************************************************************************/
+/*                                  Private functions:                       */
+/*****************************************************************************/
+
+static Player *Player_new(Player *self)
+{
+    self = memory_allocate_type(self, sizeof(Player), PLAYER);
+    return self;
 }
