@@ -5,11 +5,11 @@ static size_t memory_release_counter;
 
 void *memory_allocate(void *ptr, unsigned size)
 {
-    memory_is_free(ptr, "ptr no free");
+    //memory_is_free(ptr, "ptr no free");
 
     ptr = malloc(size);
     memory_check_allocation(ptr);
-
+    //list
     ++memory_allocated_counter;
     return ptr;
 }
@@ -25,13 +25,13 @@ void *memory_allocate_type(void *ptr, unsigned size, Type type)
          * El nuevo nudo sera agregado al final de la linked list.
          * 
          */
-        
+        ptr = memory_allocate(ptr, sizeof(Player));
+        linkedList_push(&player_list, ptr);
         break;
-    
+
     default:
         break;
     }
-
 }
 
 void memory_release(void *ptr)
@@ -60,8 +60,8 @@ void memory_check_counter(void)
     printf(
         "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n"
         "|Function: %-20s\t\tFrom: %-20s|"
-        "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n"
-        ,__FUNCTION__,__FILE__);
+        "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n",
+        __FUNCTION__, __FILE__);
 
     if (memory_allocated_counter == memory_release_counter)
     {
@@ -75,17 +75,35 @@ void memory_check_counter(void)
 
         SET_RED;
         printf("Leak of memory found, getting details...\n\n"
-               "%s\n", errmsg);
+               "%s\n",
+               errmsg);
     }
 
     RESET_COLOR;
 }
 
-void memoryGarbage_watch(LinkedList *l)
+void memoryGarbage_watch(LinkedList *l, Type type)
 {
-    List *current = l->head;
+    switch (type)
+    {
+    case PLAYER:
+        memoryGarbage_watch_player(l);
+        break;
+
+    default:
+        break;
+    }
+}
+
+static void memoryGarbage_watch_player(LinkedList *player_list)
+{
+    List *current = player_list->head;
     for (; current; current = current->next)
     {
-        
+        if (current->delete)
+        {
+            Player_del(current->item);
+            linkedList_delete(player_list, current);
+        }
     }
 }
