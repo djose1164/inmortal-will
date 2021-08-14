@@ -11,12 +11,14 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stdio.h>
-#include <stdbool.h>
-#include "utils/linked_list.h"
+
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
 #include "common_atrrs.h"
+#include "player.h"
+#include "utils/linked_list.h"
+#include <stdio.h>
+#include <stdbool.h>
 
 /**
  * @brief Verify that the allocation was successful. If wasn't, the program
@@ -111,5 +113,7 @@ void memory_check_counter(void);
  * @brief Look up for any node that needs to be deallocated.
  * 
  */
-void memoryGarbage_watch(LinkedList *l);
+void memoryGarbage_watch(LinkedList *l, Type type);
+
+static void memoryGarbage_watch_player(LinkedList *player_list);
 #endif //MEMORY_H

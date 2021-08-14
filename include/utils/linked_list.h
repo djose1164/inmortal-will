@@ -1,29 +1,24 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
-#include "../memory.h"
-
-typedef struct LinkedList LinkedList;
-typedef struct List List;
-
-struct LinkedList
-{
-    List *head;
-};
-
-struct List
-{
-    void *item;
-    List *next;
-};
+#include "utils/list.h"
+#include "core/memory.h"
 
 /**
  * @brief Add a new list to the end of linked list.
  * 
- * @param head The linked list' head.
- * @param l The list to add.
+ * @param l The linked list.
+ * @param object The object to keep track of.
  */
-void linkedList_add(LinkedList *l, List *list);
+void linkedList_push(LinkedList *l, void *object);
+
+/**
+ * @brief Delete the passed list.
+ * 
+ * @param l The linked list.
+ * @param target List to delete.
+ */
+void linkedList_delete(LinkedList *l, List *target);
 
 /**
  * @brief Delete the entire linked list inclunding all its nodes.
@@ -32,7 +27,14 @@ void linkedList_add(LinkedList *l, List *list);
  */
 void linkedList_detroy(LinkedList *head);
 
-List *list_new(void *item);
+/**
+ * @brief Return the list if was found, NULL otherwise.
+ * 
+ * @param l The linked list.
+ * @param value The value to search -a pointer-.
+ * @return List* Resturn the list if found, otherwise NULL.
+ */
+List *linkedList_find_by_value(LinkedList *l, void *value);
 
 // ---------------------------------------------------------------------------
 //                                   Private methods
@@ -43,13 +45,18 @@ List *list_new(void *item);
  * 
  * @param list The list to be deleted.
  */
-static void list_delete(LinkedList *l, List *target);
+static void list_delete(List *target);
 
 /**
- * @brief Initialize a list.
+ * @brief Initialize a new list.
  * 
- * @param target The list to be init.
  * @param item The list's value.
  */
-static void list_init(List *target, void *item);
+static List *list_init(List *new, void *item);
+
+static List **list_find_indirect(const LinkedList *l, const List *target);
+
+static bool list_head_is_NULL(const LinkedList *l);
+
+static void list_set_head(LinkedList *l, void *object);
 #endif //LINKED_LIST_H
