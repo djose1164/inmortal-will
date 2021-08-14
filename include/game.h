@@ -5,7 +5,7 @@
 
 void game_start();
 
-static void set_profession(struct Player *const self);
-static void game_set_player_name(struct Player *self);
+static void set_profession(Player *const self);
+static void game_set_player_name(Player *self);
 
 #endif //GAME_H
