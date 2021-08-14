@@ -11,8 +11,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "include/object.h"
-#include "../include/memory.h"
+#include "living.h"
+#include "include/memory.h"
 
 /**
  * @brief Struct with the basic information of a player.
@@ -21,20 +21,12 @@
  */
 struct Player
 {
-    struct Object object;
+    Living being;
     char *profession;
 };
 
 typedef struct Player Player;
 
-/**
- * @brief To create a new player. Further parameters will be passed to the 
- * constructor.
- * 
- * @param self The object to create.
- * @return Player* The new memory allocated.
- */
-extern Player *Player_init(Player *self);
 
 /**
  * @brief To eliminate an existing player.
@@ -50,7 +42,20 @@ void Player_set_name(Player *const self, const char *name);
 
 static inline char *Player_get_name(Player *const self)
 {
-    return self->object.name;
+    return self->being.attrs.name;
 }
+
+/****************************************************************************/
+/*                                   Private Functions.                     */
+/****************************************************************************/
+
+/**
+ * @brief To create a new player. Further parameters will be passed to the 
+ * constructor.
+ * 
+ * @param self The object to create.
+ * @return Player* The new memory allocated.
+ */
+static Player *Player_new(Player *self);
 
 #endif // PLAYER_H
