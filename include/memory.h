@@ -13,6 +13,10 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include "utils/linked_list.h"
+#include "utils/utils.h"
+#include "utils/terminal_colors.h"
+#include "common_atrrs.h"
 
 /**
  * @brief Verify that the allocation was successful. If wasn't, the program
@@ -66,6 +70,16 @@ extern size_t memory_get_released_counter(void);
 void *memory_allocate(void *ptr, unsigned size);
 
 /**
+ * @brief Create an specific type of object.
+ * 
+ * @param ptr The pointer to assign memory.
+ * @param size The size to be setted.
+ * @param type The type of object to create.
+ * @return void* Return the memory allocated.
+ */
+void *memory_allocate_type(void *ptr, unsigned size, Type type);
+
+/**
  * @brief Check if the memory pointed to is free or not. If yes, cannot be 
  * freed.
  * 
@@ -73,12 +87,10 @@ void *memory_allocate(void *ptr, unsigned size);
  * @return true Points to some allocated memory. Can be released.
  * @return false Points to nothing. Cannot be released.
  */
-static inline bool memory_is_free(void *ptr)
+static inline void memory_is_free(void *ptr, const char *errmsg)
 {
     if (!ptr)
-        return false;
-
-    return true;
+        memory_die(errmsg);
 }
 
 /**
@@ -95,4 +107,9 @@ void memory_release(void *ptr);
  */
 void memory_check_counter(void);
 
+/**
+ * @brief Look up for any node that needs to be deallocated.
+ * 
+ */
+void memoryGarbage_watch(LinkedList *l);
 #endif //MEMORY_H
