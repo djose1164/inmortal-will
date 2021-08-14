@@ -1,33 +1,27 @@
-#include "../include/game.h"
-#include "../include/memory.h"
-#include "../include/object.h"
-#include <string.h>
+#include "include/game.h"
 
 static const char *professions[] = {"Warrior", "Wizard"};
 
 void game_start()
 {
-    Player *player = 0x00;
-    player = Player_init(player);
+    // Set
+    //Player *player = Player_init(player);
+    // Text input
+    TextInput txt_inpt;
+    textInput_init(&txt_inpt, screenWidth/3, screenHeight/3, 300, 150);
+    // Starting the game. Show a message asking to fill in.
+    DrawText("Set a nickname..", screenWidth/2, screenHeight/4, 28, RED);
+    textInput_draw(&txt_inpt);
+    DrawText("Hola", (screenWidth/3) + 5, (screenHeight/3) + 3, 26, RED);
+    //game_set_player_name(player);
+    //set_profession(player);
 
-    printf("\t\t\t*-*-*-*-*-*-*-\n"
-           "\t\t\tImmortal Will!\n"
-           "\t\t\t*-*-*-*-*-*-*-\n"
-           "\t\t\t          v0.1\n"
-           "\n\n"
-           "\t\aTo start playing enter some information below!\n\n");
-
-    game_set_player_name(player);
-    set_profession(player);
-    printf("You have chose: %s as your nickname.\n", player->object.name);
-    printf("You have chose: %s as your profession.\n", player->profession);
-
-    memory_release(player->object.name);
-    memory_release(player);
-    printf("Allocated: %zu\t Deallocated: %zu\n", memory_get_allocated_counter(),
-           memory_get_released_counter());
+    //memory_release(player->living.name);
+    //memory_release(player);
+    //printf("Allocated: %zu\t Deallocated: %zu\n", memory_get_allocated_counter(),
+    //       memory_get_released_counter());
 }
-
+#if 0
 static void game_set_player_name(Player *self)
 {
     char line[50];
@@ -78,3 +72,4 @@ static bool profession_option_is_valid(unsigned option)
 
     return 0;
 }
+#endif
