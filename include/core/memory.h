@@ -12,11 +12,11 @@
 #define MEMORY_H
 
 
+#include "utils/linked_list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
 #include "common_atrrs.h"
 #include "player.h"
-#include "utils/linked_list.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -28,9 +28,7 @@
 #define memory_check_allocation(ptr) (             \
     {                                              \
         if (!ptr)                                  \
-        {                                          \
             memory_die("Couldn't assign memory."); \
-        }                                          \
     })
 
 /**
@@ -71,6 +69,8 @@ extern size_t memory_get_released_counter(void);
  */
 void *memory_allocate(void *ptr, unsigned size);
 
+static memory_save_allocated(void *ptr);
+
 /**
  * @brief Create an specific type of object.
  * 
@@ -79,7 +79,7 @@ void *memory_allocate(void *ptr, unsigned size);
  * @param type The type of object to create.
  * @return void* Return the memory allocated.
  */
-void *memory_allocate_type(void *ptr, unsigned size, Type type);
+void *memory_allocate_type(void *ptr, Type type);
 
 /**
  * @brief Check if the memory pointed to is free or not. If yes, cannot be 
@@ -110,10 +110,26 @@ void memory_release(void *ptr);
 void memory_check_counter(void);
 
 /**
+ * @brief Private allocated for allocating by type.
+ * 
+ * @param ptr Ptr to allocate.
+ * @param size The required size.
+ * @return void* The memory allocated.
+ */
+static void *memory_allocate_p(void *ptr, unsigned size);
+
+/**
  * @brief Look up for any node that needs to be deallocated.
  * 
  */
 void memoryGarbage_watch(LinkedList *l, Type type);
 
 static void memoryGarbage_watch_player(LinkedList *player_list);
+
+/**
+ * @brief Call this function atexit. Will free any memory left desallocated.
+ * 
+ */
+void memoryGarbage_atexit(void);
+
 #endif //MEMORY_H
