@@ -23,9 +23,9 @@ void linkedList_delete(LinkedList *l, List *target);
 /**
  * @brief Delete the entire linked list inclunding all its nodes.
  * 
- * @param head The linked list to be deleted.
+ * @param l The linked list to be deleted.
  */
-void linkedList_detroy(LinkedList *head);
+void linkedList_detroy(LinkedList *l);
 
 /**
  * @brief Return the list if was found, NULL otherwise.
@@ -40,12 +40,7 @@ List *linkedList_find_by_value(LinkedList *l, void *value);
 //                                   Private methods
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Delete the given list.
- * 
- * @param list The list to be deleted.
- */
-static void list_delete(List *target);
+static void list_delete_all(List *head);
 
 /**
  * @brief Initialize a new list.

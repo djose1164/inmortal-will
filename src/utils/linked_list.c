@@ -11,7 +11,6 @@
 
 #include "utils/linked_list.h"
 
-
 // TODO: Check implemention of indirect for push.
 
 void linkedList_push(LinkedList *l, void *object)
@@ -32,14 +31,12 @@ void linkedList_push(LinkedList *l, void *object)
     current->next = list_init(current->next, object);
 }
 
-
 void linkedList_delete(LinkedList *l, List *target)
 {
     List **before = list_find_indirect(l, target);
-    List *temp = *before;
     *before = target->next;
-    printf("## aout\n");
-    list_delete(temp);
+    //printf("## temp: %p --- target->next: %p\n", temp, target->next);
+    memory_release(target);
 }
 
 List *linkedList_find_by_value(LinkedList *l, void *value)
@@ -59,13 +56,22 @@ List *linkedList_find_by_value(LinkedList *l, void *value)
     return NULL;
 }
 
+void linkedList_detroy(LinkedList *l)
+{
+    list_delete_all(l->head);
+}
+
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
 
-static void list_delete(List *target)
+static void list_delete_all(List *head)
 {
-    memory_release(target);
+    if (head && head->next)
+        list_delete_all(head->next);
+
+    memory_release(head->item);
+    memory_release(head);
 }
 
 static List **list_find_indirect(const LinkedList *l, const List *target)
@@ -74,7 +80,7 @@ static List **list_find_indirect(const LinkedList *l, const List *target)
     if ((*current) == target)
         return current;
 
-    while ((*current) && (*current)->next != target)
+    while ((*current) && (*current) != target)
         current = &(*current)->next;
     return current;
 }
@@ -90,15 +96,13 @@ static bool list_head_is_NULL(const LinkedList *l)
 static void list_set_head(LinkedList *l, void *object)
 {
     List *mem = list_init(mem, object);
-    mem->item = object;
-    mem->delete = false;
 
     l->head = mem;
 }
 
 static List *list_init(List *new, void *item)
 {
-    new = memory_allocate(new, sizeof(List));
+    new = memory_allocate_type(new, LIST);
     new->item = item;
     new->delete = false;
     new->next = NULL;

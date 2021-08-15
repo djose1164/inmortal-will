@@ -1,18 +1,15 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include "../include/str.h"
-#include "../include/memory.h"
+#include "str.h"
 
 const char *Str_fmt(const char *_s, ...)
 {
     va_list args;
     va_start(args, _s);
 
-    char *buf = NULL;
+    const char *buf = NULL;
     int n = vsnprintf(NULL, 0, _s, args);
-
+    
     va_end(args);
-
+    
     if (n >= 0)
     {
         va_start(args, _s);
