@@ -5,7 +5,7 @@ const char *Str_fmt(const char *_s, ...)
     va_list args;
     va_start(args, _s);
 
-    char *buf = NULL;
+    const char *buf = NULL;
     int n = vsnprintf(NULL, 0, _s, args);
     
     va_end(args);
