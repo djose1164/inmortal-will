@@ -15,8 +15,6 @@
 
 void linkedList_push(LinkedList *l, void *object)
 {
-    // TODO: Review this.
-    List *current;
     if (list_head_is_NULL(l))
     {
         list_set_head(l, object);
@@ -25,10 +23,14 @@ void linkedList_push(LinkedList *l, void *object)
 
     // For each node, check if empty. If so, put the new list there, otherwise
     // continue searching.
-    current = l->head;
-    while (current->next)
-        current = current->next;
-    current->next = list_init(current->next, object);
+    for_each_item(item, l)
+    {
+        if (!item->next)
+        {
+            item->next = list_init(item, object);
+            break;
+        }
+    }
 }
 
 void linkedList_delete(LinkedList *l, List *target)
@@ -41,16 +43,10 @@ void linkedList_delete(LinkedList *l, List *target)
 
 List *linkedList_find_by_value(LinkedList *l, void *value)
 {
-    List *current = l->head;
-    bool found = false;
-    // While current isn't null and value diffrent, keep searching.
-    while (current)
+    for_each_item(item, l)
     {
-        if (current->item == value)
-            found = true;
-        if (found)
-            return current;
-        current = current->next;
+        if (item->item == value)
+            return item;
     }
 
     return NULL;
@@ -77,9 +73,6 @@ static void list_delete_all(List *head)
 static List **list_find_indirect(const LinkedList *l, const List *target)
 {
     List **current = &l->head;
-    if ((*current) == target)
-        return current;
-
     while ((*current) && (*current) != target)
         current = &(*current)->next;
     return current;
