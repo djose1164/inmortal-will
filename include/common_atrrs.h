@@ -22,7 +22,8 @@ extern enum Type
     PLAYER,     /* Will be player type. */
     MONSTER,    /* Will be monster type. */
     ITEM,       /* Will be item type. */
-    OBJECT      /* The type doesn't care. */
+    OBJECT,     /* The type doesn't care. */
+    LIST        /* Node of linked list. */
 };
 typedef enum Type Type;
 
