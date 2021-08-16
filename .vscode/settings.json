@@ -2,6 +2,8 @@
   "files.associations": {
     "stdio.h": "c",
     "stdlib.h": "c",
-    "text_input.h": "c"
+    "text_input.h": "c",
+    "player.h": "c",
+    "*.tcc": "c"
   }
 }

@@ -4,7 +4,6 @@
 #include <raylib.h>
 #include "memory.h"
 #include "utils/terminal_colors.h"
-#include "utils/vars.h"
 
 enum ButtonStatus
 {

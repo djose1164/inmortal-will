@@ -1,5 +1,4 @@
 #include "gui/button.h"
-#include "utils/vars.h"
 
 static const unsigned NUM_FRAME = 3U;
 
@@ -27,8 +26,8 @@ void button_init(Button *button, const char *str_sound, const char *texture)
     button->source.width = (float)button->texture.width; 
     button->source.height = frame_height;
 
-    button->pos.x = screenWidth/2;
-    button->pos.y = screenHeight/3;
+    button->pos.x = GetScreenWidth()/2;
+    button->pos.y = GetScreenHeight()/3;
     button->color = WHITE;
 
     printf("File: %s Function: %s\n", __FILE__, __FUNCTION__);

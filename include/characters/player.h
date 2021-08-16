@@ -28,6 +28,10 @@ static inline char *Player_get_name(Player *const self)
     return self->being.attrs.name;
 }
 
+void Player_draw(const Player *self);
+
+void Player_goto(Player *self);
+
 /****************************************************************************/
 /*                                   Private Functions.                     */
 /****************************************************************************/

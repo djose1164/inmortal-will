@@ -15,11 +15,13 @@ int main(int argc, char const *argv[])
     {
     BeginDrawing();
         ClearBackground(BLACK);
+
         // Draw the app's title.
         DrawText(APP_NAME, (int)screenWidth/2.5, 1, 64, RED);
-
-        // TODO: Stuff.
         
+        Player_draw(&pj);
+        Player_goto(&pj);
+        //game_start();
     EndDrawing();    
     }
 
