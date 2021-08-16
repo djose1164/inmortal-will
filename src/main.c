@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <raylib.h>
-#include "utils/vars.h"
-#include "common_atrrs.h"
-#include "str.h"
-#include "../include/memory.h"
-#include "gui/button.h"
+#include "main.h"
 
 #define APP_NAME "InmortalWill"
 
