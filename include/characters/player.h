@@ -11,30 +11,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "common_atrrs.h"
-#include "living.h"
-#include "core/memory.h"
-#include "graphics/graphics.h"
-#include "utils/linked_list.h"
-#include "utils/vars.h"
-#include <raylib.h>
+#include "characters/player_vars.h"
 
-/**
- * @brief Struct with the basic information of a player.
- * It's following the style of a RPG.
- * 
- */
-struct Player
-{
-    Living being;
-    Vector2 vector2D;
-    Texture2D skin;
-    char *profession;
-};
-typedef struct Player Player;
-
-/* Player's linked list. */
-extern LinkedList player_list;
 
 /**
  * @brief To eliminate an existing player.

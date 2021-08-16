@@ -1,23 +1,14 @@
-#include "player.h"
-#include "utils/vars.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "main.h"
 
-#define APP_NAME "Immortal Will"
-
-const unsigned screenWidth = 1080;
-const unsigned screenHeight = 700;
+#define APP_NAME "InmortalWill"
 
 int main(int argc, char const *argv[])
 {
-    InitWindow(screenWidth, screenHeight, APP_NAME);
+    // Windows size.
+    const unsigned screenWidth = 1280;
+    const unsigned screenHeight = 700;
 
-    Texture2D texture = LoadTexture("resources/player.png");
-    Player pj = {
-        .vector2D.x = screenWidth / 4,
-        .vector2D.y = screenHeight / 5,
-        .skin = texture
-    };
+    InitWindow(screenWidth, screenHeight, APP_NAME);
     
     SetTargetFPS(60);
     while (!WindowShouldClose())
