@@ -11,8 +11,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "common_atrrs.h"
 #include "living.h"
+#include "core/memory.h"
+#include "graphics/graphics.h"
 #include "utils/linked_list.h"
+#include "utils/vars.h"
+#include <raylib.h>
 
 /**
  * @brief Struct with the basic information of a player.
@@ -22,6 +27,8 @@
 struct Player
 {
     Living being;
+    Vector2 vector2D;
+    Texture2D skin;
     char *profession;
 };
 typedef struct Player Player;
@@ -42,6 +49,10 @@ static inline char *Player_get_name(Player *const self)
 {
     return self->being.attrs.name;
 }
+
+void Player_draw(const Player *self);
+
+void Player_goto(Player *self);
 
 /****************************************************************************/
 /*                                   Private Functions.                     */

@@ -15,7 +15,6 @@
 #include "utils/linked_list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
-#include "common_atrrs.h"
 #include "player.h"
 #include <stdio.h>
 #include <stdbool.h>

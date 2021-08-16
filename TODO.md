@@ -14,6 +14,12 @@
   - [x] Create button module.
     - [ ] Improve button module.
 
+## LinkedList
+
+- [x] Change to a for each loop where it is appropriate.
+- [ ] Create more type of lists.
+- [ ] Finish implementation for monster type.
+
 ## Me quede
 
 Me quede en acabar de implementar las linked list: una para player y otra para monster.

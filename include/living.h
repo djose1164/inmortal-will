@@ -3,7 +3,6 @@
 
 #include "common_atrrs.h"
 
-typedef struct Living Living;
 struct Living
 {
     unsigned age;
@@ -11,7 +10,8 @@ struct Living
     unsigned vit;   /* The HP has to be proportional to its VIT. */
     unsigned str;   /* The attack has to be proportional to its STR. */
     CommonAtrrs attrs;
+    unsigned weight;
 };
-
+typedef struct Living Living;
 
 #endif //LIVING_H
