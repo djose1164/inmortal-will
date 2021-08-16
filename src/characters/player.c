@@ -50,7 +50,7 @@ void Player_draw(const Player *self)
         .width = self->skin.width,
         .height = self->skin.height};
 
-    DrawTextureRec(self->skin, rec, self->vector2D, WHITE);
+    DrawTextureRec(self->skin, rec, self->pos, WHITE);
 }
 
 void Player_goto(Player *self)
@@ -59,15 +59,15 @@ void Player_goto(Player *self)
     graphics_check_bound_limits(self);    
 
     if (IsKeyDown(KEY_A))
-        self->vector2D.x -= multiplier;
+        self->pos.x -= multiplier;
     if (IsKeyDown(KEY_D))
-        self->vector2D.x += multiplier;
+        self->pos.x += multiplier;
     if (IsKeyDown(KEY_W))
-        self->vector2D.y -= multiplier;
+        self->pos.y -= multiplier;
     if (IsKeyDown(KEY_S))
-        self->vector2D.y += multiplier;
+        self->pos.y += multiplier;
 
-    printf("## %d --- %d\n", self->vector2D.x, GetScreenWidth());
+    printf("## %d --- %d\n", self->pos.x, GetScreenWidth());
 }
 
 /*****************************************************************************/
