@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "player.h"
+#include "characters/player.h"
 
 // Forward declaration.
 //typedef struct Player Player;

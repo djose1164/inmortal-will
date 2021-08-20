@@ -10,7 +10,7 @@
  * 
  */
 
-#include "player.h"
+#include "characters/player.h"
 
 LinkedList player_list = {.head = NULL};
 

@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "player.h"
+#include "characters/player.h"
 #include "memory.h"
 #include "gui/text_input.h"
 #include "vars.h"

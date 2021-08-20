@@ -15,7 +15,7 @@
 #include "utils/linked_list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
-#include "player.h"
+#include "characters/player.h"
 #include <stdio.h>
 #include <stdbool.h>
 
