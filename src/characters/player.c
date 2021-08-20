@@ -55,8 +55,15 @@ void Player_draw(const Player *self)
 
 void Player_goto(Player *self)
 {
-    const unsigned short multiplier = 4U;
-    graphics_check_bound_limits(self);    
+    /**
+     * @brief Se calculara la velocidad dependiendo el tiempo por el cual el 
+     * usuario mantuvo la tecla presionada. Para la aceleracion se calculara el
+     * peso y la fuerza del pj. Es decir v = at.
+     * 
+     */
+    static int counter = 0;
+    const double multiplier = 4;
+    graphics_check_bound_limits(self);
 
     if (IsKeyDown(KEY_A))
         self->pos.x -= multiplier;
@@ -66,8 +73,6 @@ void Player_goto(Player *self)
         self->pos.y -= multiplier;
     if (IsKeyDown(KEY_S))
         self->pos.y += multiplier;
-
-    printf("## %d --- %d\n", self->pos.x, GetScreenWidth());
 }
 
 /*****************************************************************************/

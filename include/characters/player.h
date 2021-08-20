@@ -11,8 +11,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "characters/player_vars.h"
-
+#include "./player_vars.h"
+#include "core/physics.h"
 
 /**
  * @brief To eliminate an existing player.
