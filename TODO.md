@@ -20,6 +20,6 @@
 - [ ] Create more type of lists.
 - [ ] Finish implementation for monster type.
 
-## Me quede
+## Para manana
 
-Me quede en acabar de implementar las linked list: una para player y otra para monster.
+Continuar la implementacion del modulo de error.
