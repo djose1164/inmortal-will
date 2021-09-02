@@ -1,15 +1,15 @@
 /*
 *----------------------------------------------------------------------------*
-|               commonatrrs.h     ---     Public Interface                   |
+|               commonattrs.h     ---     Public Interface                   |
 *----------------------------------------------------------------------------*
 |   Public interface for common attributes. Here's only functions, structs,  |
 |   and/or variables declariations                                           |
-|   For any definition see commonatrrs.h.                                    |
+|   For any definition see commonattrs.h.                                    |
 *----------------------------------------------------------------------------*
 */
 
-#ifndef COMMONATRRS_H
-#define COMMONATRRS_H
+#ifndef COMMONATTRS_H
+#define COMMONATTRS_H
 
 #include <stdbool.h>
 
@@ -27,18 +27,22 @@ extern enum Type
 };
 typedef enum Type Type;
 
-typedef struct CommonAtrrs CommonAtrrs;
-struct CommonAtrrs
+/**
+ * @brief This struct contains any common attribute shared for any living being.
+ * 
+ */
+struct CommonAttrs
 {
-    char *name;
-    unsigned lvl;
-    int defense;
-    int attack;
-    char *repr;
-    bool delete;
+    char *name;     /* Name (the nicksame has to be saved here). */
+    unsigned lvl;   /* Current level. */
+    int defense;    /* Current defense. */
+    int attack;     /* Current attack. */
+    char *repr;     /* A brief description. */
+    bool delete;    /* TODO: Remember this. */
 };
+typedef struct CommonAttrs CommonAttrs;
 
-/*      --------     Setters.    --------                */
+/*          --------     Setters.    --------                */
 
 /**
  * @brief Set the name object.
@@ -46,7 +50,7 @@ struct CommonAtrrs
  * @param self Pointer to object.
  * @param name The name to be setted.
  */
-static inline void commonAtrrs_set_name(CommonAtrrs *self, const char *name)
+static inline void commonAttrs_set_name(CommonAttrs *const self, const char *name)
 {
     self->name = (char *)name;
 }
@@ -54,55 +58,87 @@ static inline void commonAtrrs_set_name(CommonAtrrs *self, const char *name)
 /**
  * @brief Set the lvl object
  * 
- * @param self 
- * @param lvl 
+ * IMPORTANT: For upgrade lvl use `commonAttrs_upgrade_lvl()`.
+ * 
+ * @param self Pointer to object.
+ * @param lvl The level to be setted.
  */
-static inline void commonAtrrs_set_lvl(CommonAtrrs *self, const unsigned lvl)
+static inline void commonAttrs_set_lvl(CommonAttrs *self, const unsigned lvl)
 {
     self->lvl = lvl;
 }
 
 /**
- * @brief 
+ * @brief Set the defense object. 
  * 
- * @param self 
- * @param lvl 
+ * @param self Pointer to object.
+ * @param defense The defense to set.
  */
-static inline void commonAtrrs_upgrade_lvl(CommonAtrrs *self, const unsigned lvl)
+static inline void commonAttrs_set_defense(CommonAttrs *self, const unsigned defense)
 {
-    self->lvl += lvl;
-}
-/**
- * @brief Set the defense object
- * 
- * @param self 
- * @param defense 
- */
-static inline void commonAtrrs_set_defense(CommonAtrrs *self, const unsigned defense)
-{
-    self->defense += defense;
+    self->defense = defense;
 }
 
 /**
  * @brief Set the attack object
  * 
- * @param self 
- * @param attack 
+ * @param self Pointer to object.
+ * @param attack The attack to set.
  */
-static inline void commonAtrrs_set_attack(CommonAtrrs *self, const unsigned attack)
+static inline void commonAttrs_set_attack(CommonAttrs *self, const unsigned attack)
+{
+    self->attack = attack;
+}
+
+static inline void commonAttrs_set_repr(CommonAttrs *self, const char *msg)
+{
+    self->repr = (char *)msg;
+}
+
+/*          --------     Upgrades.  ---------                */
+
+/**
+ * @brief Upgrade the attack object
+ * 
+ * @param self Pointer to object.
+ * @param attack The attack to add.
+ */
+static inline void commonAttrs_upgrade_attack(CommonAttrs *self, const unsigned attack)
 {
     self->attack += attack;
 }
 
-/*      --------     Getters.    --------                */
+/**
+ * @brief Upgrade defense object. 
+ * 
+ * @param self Pointer to object.
+ * @param defense The defense to add.
+ */
+static inline void commonAttrs_upgrade_defense(CommonAttrs *self, const unsigned defense)
+{
+    self->defense += defense;
+}
+
+/**
+ * @brief Upgrade level (adding the passed lvl to the current lvl).
+ * 
+ * @param self Pointer to object.
+ * @param lvl The levels to be added.
+ */
+static inline void commonAttrs_upgrade_lvl(CommonAttrs *self, const unsigned lvl)
+{
+    self->lvl += lvl;
+}
+
+/*          --------     Getters.    --------                */
 
 /**
  * @brief Get the name object
  * 
- * @param self 
- * @return char* 
+ * @param self Pointer to object.
+ * @return char* The name setted.
  */
-static inline char *commonAtrrs_get_name(CommonAtrrs *self)
+static inline char *commonAttrs_get_name(CommonAttrs *self)
 {
     return self->name;
 }
@@ -110,10 +146,10 @@ static inline char *commonAtrrs_get_name(CommonAtrrs *self)
 /**
  * @brief Get the lvl object
  * 
- * @param self 
- * @return char* 
+ * @param self Pointer to object.
+ * @return char* The level setted.
  */
-static inline unsigned commonAtrrs_get_lvl(CommonAtrrs *self)
+static inline unsigned commonAttrs_get_lvl(CommonAttrs *self)
 {
     return self->lvl;
 }
@@ -121,10 +157,10 @@ static inline unsigned commonAtrrs_get_lvl(CommonAtrrs *self)
 /**
  * @brief Get the defense object
  * 
- * @param self 
- * @return char* 
+ * @param self Pointer to object.
+ * @return unsigned The defense setted.
  */
-static inline unsigned commonAtrrs_get_defense(CommonAtrrs *self)
+static inline unsigned commonAttrs_get_defense(CommonAttrs *self)
 {
     return self->defense;
 }
@@ -133,21 +169,22 @@ static inline unsigned commonAtrrs_get_defense(CommonAtrrs *self)
  * @brief Get the attack object
  * 
  * @param self 
- * @return char* 
+ * @return unsigned The attack setted. 
  */
-static inline unsigned commonAtrrs_get_attack(CommonAtrrs *self)
+static inline unsigned commonAttrs_get_attack(CommonAttrs *self)
 {
     return self->attack;
 }
 
-static inline void commonAtrrs_set_repr(CommonAtrrs *self, const char *msg)
-{
-    self->repr = (char *)msg;
-}
-
-static inline const char *commonAtrrs_get_repr(CommonAtrrs *self)
+/**
+ * @brief Get the short description of this object.
+ * 
+ * @param self Pointer to object.
+ * @return const char* The short description.
+ */
+static inline const char *commonAttrs_get_repr(CommonAttrs *self)
 {
     return (const char *)self->repr;
 }
 
-#endif //COMMONATRRS_H
+#endif //COMMONATTRS_H
