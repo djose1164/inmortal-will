@@ -14,11 +14,13 @@ enum ButtonStatus
 
 struct Button
 {
-    Sound sound;        /* The sound to play. */
-    Texture2D texture;  /* The image to set. */
-    Rectangle source;   /* The container for the texture. */
-    Vector2 pos;        /* The position fo the container. */
-    Color color;        /* The button's color. */
+    Sound sound;            /* The sound to play. */
+    Texture2D texture;      /* The image to set. */
+    Rectangle source;       /* The container for the texture. */
+    Vector2 pos;            /* The position fo the container. */
+    Color color;            /* The button's color. */
+    void (*on_click)(void); /* Function to call on click. */
+    bool play_sound;        /* Wheather should play sound or not. */
 };
 typedef struct Button Button;
 
@@ -31,7 +33,7 @@ void button_draw(const Button *button);
  * @param texture Path to texture.
  * @param rec Pointer to the rectangle area.
  */
-void button_init(Button *button, const char *str_sound, const char *texture);
+void button_init(Button *button, const char *str_sound, const char *texture, void (*on_click)(void));
 
 /*****************************************************************************/
 /*                                  Private functions:                       */
