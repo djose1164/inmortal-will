@@ -20,7 +20,7 @@ Player *Player_init(Player *self, const char *name)
 
     CommonAtrrs *temp = &self->being.attrs;
     temp->name = (char *)name;
-    commonAtrrs_set_repr(temp, Str_fmt("Name: %s.", commonAtrrs_get_name(temp)));
+    commonAttrs_set_repr(temp, Str_fmt("Name: %s.", commonAttrs_get_name(temp)));
 
     return self;
 }
