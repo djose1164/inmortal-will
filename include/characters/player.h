@@ -11,7 +11,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "./player_vars.h"
+#include "characters/player_vars.h"
 #include "core/physics.h"
 
 /**
