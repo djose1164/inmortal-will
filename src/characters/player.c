@@ -39,7 +39,7 @@ void Player_set_name(Player *const self, const char *name)
 {
     //if (!Str_is_valid(name))
     //    memory_die("Introduce a valid name!");
-    //self->object.name = (char *)name;
+    self->being.attrs.name = (char *)name;
 }
 
 void Player_draw(const Player *self)
