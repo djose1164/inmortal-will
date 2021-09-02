@@ -14,19 +14,44 @@
 #include <raylib.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 
-typedef struct TextInput TextInput;
+struct BlinkingUnderscore
+{
+    unsigned x;
+    unsigned y;
+};
+
 struct TextInput
 {
     Rectangle rec;
+    struct BlinkingUnderscore underscore;
     char *msg;
     short max_char;
     size_t char_counter;
     size_t font_size;
+    void (*on_enter)(void);
 };
+typedef struct TextInput TextInput;
 
 // Private variables
 static size_t frameCounter;
+
+/**
+ * @brief Check if the bounds of the text input box 
+ * 
+ * @param text_input 
+ * @param underscore 
+ * @return true 
+ * @return false 
+ */
+static inline bool textInput_check_bound(const TextInput *text_input)
+{
+    if (text_input->underscore.x > ((text_input->rec.x + text_input->rec.width) 
+                                    - text_input->font_size))
+        return false;
+    return true;
+}
 
 /**
  * @brief Setup a text input. Do this before drawing it!
@@ -39,7 +64,7 @@ static size_t frameCounter;
  * @param msg Save the getted input. 
  */
 void textInput_init(TextInput *text_input, const Rectangle *rec, size_t max_char,
-                    size_t font_size);
+                    size_t font_size, char *buffer, void (*on_enter)(void));
 
 /**
  * @brief Draw the a text input box.
@@ -64,7 +89,7 @@ static bool textInput_set_cursor(const TextInput *text_input);
  * set first.
  * 
  */
-static void textInput_blinking_underscore(const TextInput *text_input);
+static void textInput_blinking_underscore(TextInput *text_input);
 
 /**
  * @brief Display each char get from the user.
