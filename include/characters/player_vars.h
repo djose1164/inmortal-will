@@ -2,7 +2,8 @@
 #define PLAYER_VARS
 
 #include "living.h"
-#include "utils/linked_list.h"
+#include "utils/list.h"
+#include <stddef.h>
 #include <raylib.h>
 
 /**

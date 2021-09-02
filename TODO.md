@@ -23,3 +23,8 @@
 ## Para manana
 
 Continuar la implementacion del modulo de error.
+Me quede en acabar de implementar las linked list: una para player y otra para monster.
+
+## Cosas a checkear
+
+Memory es muy dependiente a otros modulos.

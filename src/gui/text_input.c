@@ -2,23 +2,34 @@
 
 static size_t frameCounter = 0;
 
-void textInput_draw(TextInput *text_input)
+static inline void _set_cursor(const TextInput *text_input)
 {
-    // Draw the rectangle and later the cursur.
-    DrawRectangleRec(text_input->rec, LIGHTGRAY);
-
-    if (textInput_set_cursor(text_input))
+    if (textInput_set_cursor(text_input) 
+        && textInput_check_bound(text_input))
         textInput_getchar(text_input);
+}
 
-    DrawText(text_input->msg, text_input->rec.x + 5,
-             text_input->rec.y, text_input->font_size, RED);
-
-    // Blinking event.
+static inline void _blinking_event(TextInput *text_input)
+{
     if (!((frameCounter / 20) % 2))
         textInput_blinking_underscore(text_input);
 }
 
-void textInput_init(TextInput *text_input, const Rectangle *rec, size_t max_char, size_t font_size)
+void textInput_draw(TextInput *text_input)
+{
+    DrawRectangleRec(text_input->rec, LIGHTGRAY);
+
+    // Set the cursor inside the rectangle.
+    _set_cursor(text_input);
+
+    DrawText(text_input->msg, text_input->rec.x + 5,
+             text_input->rec.y, text_input->font_size, RED);
+
+    _blinking_event(text_input);
+}
+
+void textInput_init(TextInput *text_input, const Rectangle *rec, size_t max_char, 
+                    size_t font_size, char *buffer, void (*on_enter)(void))
 {
     text_input->rec.height = rec->height;
     text_input->rec.width = rec->width;
@@ -28,7 +39,10 @@ void textInput_init(TextInput *text_input, const Rectangle *rec, size_t max_char
     text_input->max_char = max_char;
     text_input->char_counter = 0;
     text_input->font_size = font_size;
-    text_input->msg = NULL;
+    text_input->msg = buffer;
+    text_input->on_enter = on_enter;
+
+    memset(&text_input->underscore, 0, sizeof text_input->underscore);
 }
 
 /*****************************************************************************/
@@ -54,26 +68,34 @@ static bool textInput_set_cursor(const TextInput *text_input)
     return false;
 }
 
-static void textInput_blinking_underscore(const TextInput *text_input)
+static void textInput_blinking_underscore(TextInput *text_input)
 {
-    unsigned x = text_input->rec.x + 5 + MeasureText(text_input->msg, text_input->font_size);
-    unsigned y = text_input->rec.y + 12;
-    DrawText("_", x, y, text_input->font_size, RED);
+    text_input->underscore.x = text_input->rec.x + 5 + 
+                               MeasureText(text_input->msg, 
+                               text_input->font_size);
+    text_input->underscore.y = text_input->rec.y + text_input->font_size/2;
+
+    DrawText("_", text_input->underscore.x, text_input->underscore.y, 
+            text_input->font_size, RED);
+}
+
+static inline void textInput_update_msg(TextInput *const text_input, const char key)
+{
+    text_input->msg[text_input->char_counter] = (char)key;
+    text_input->msg[text_input->char_counter + 1] = '\0';
+    ++text_input->char_counter;
 }
 
 static void textInput_getchar(TextInput *const text_input)
 {   
     int key = GetCharPressed();
-
+    
     // Check if there are more chars pressed.
     while (key > 0)
     {
-        if (((key >= 32) && (key <= 125)) && text_input->char_counter < text_input->max_char)
-        {
-            text_input->msg[text_input->char_counter] = (char)key;
-            text_input->msg[text_input->char_counter + 1] = '\0';
-            ++text_input->char_counter;
-        }
+        if (((key >= 32) && (key <= 125)) && (text_input->char_counter 
+                                              <= text_input->max_char))
+            textInput_update_msg(text_input, key);    
 
         key = GetCharPressed(); /* Get next char in the queue. */
     }
@@ -85,5 +107,11 @@ static void textInput_getchar(TextInput *const text_input)
         --text_input->char_counter;
         text_input->msg[text_input->char_counter] = '\0';
     }
-    //printf("## char: %c\n", (char)key);
+   
+    if (IsKeyReleased(KEY_ENTER))
+    {
+        if (text_input->on_enter)
+            text_input->on_enter();
+    }
+
 }
