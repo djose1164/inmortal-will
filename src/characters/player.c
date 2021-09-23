@@ -18,7 +18,7 @@ Player *Player_init(Player *self, const char *name)
 {
     self = memory_allocate(self, sizeof(Player));
 
-    CommonAtrrs *temp = &self->being.attrs;
+    CommonAttrs *temp = &self->being.attrs;
     temp->name = (char *)name;
     commonAttrs_set_repr(temp, Str_fmt("Name: %s.", commonAttrs_get_name(temp)));
 

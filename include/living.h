@@ -9,7 +9,7 @@ struct Living
     int stamina;
     unsigned vit;   /* The HP has to be proportional to its VIT. */
     double str;   /* The attack has to be proportional to its STR. */
-    CommonAtrrs attrs;
+    CommonAttrs attrs;
     unsigned weight;
 };
 typedef struct Living Living;
