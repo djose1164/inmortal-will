@@ -7,7 +7,7 @@
 - [ ] Design a better error management.
 - [ ] Finish player and monster linked list implementation.
   - [ ] Analyze better the algorithm.
-- [ ] Finish welcome screen.
+- [x] Finish welcome screen.
 - [ ] Implementation gui.
   - [x] Finish text input module.
     - [ ] Improve text input module.
@@ -20,10 +20,9 @@
 - [ ] Create more type of lists.
 - [ ] Finish implementation for monster type.
 
-## Para manana
+## For manana
 
-Continuar la implementacion del modulo de error.
-Me quede en acabar de implementar las linked list: una para player y otra para monster.
+Add mas documentation y comments donde it's necesario.
 
 ## Cosas a checkear
 
