@@ -11,10 +11,10 @@ char *err_code_string(enum ErrCode code)
 #define X(errcode, errmean) \
     case errcode:           \
         return errmean;
-        ERROR_TABLE
+        ERROR_TABLE(X)
 #undef X
     }
-    
+
     return NULL;
 }
 
@@ -28,7 +28,7 @@ static void err_die(char *errmsg)
 
 int main(void)
 {
-    enum ErrCode errcode = NULL_POINTER;
+    enum ErrCode errcode = FAILED_MEMORY_ALLOCATION;
     printf("Error: %s\n", err_code_string(errcode));
     return 0;
 }
