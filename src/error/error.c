@@ -6,20 +6,19 @@
 
 char *err_code_string(enum ErrCode code)
 {
-    if (!err_code_is_valid(code))
-        err_die("The given code is not valid. Closing...");
+    switch (code)
+    {
+#define X(errcode, errmean) \
+    case errcode:           \
+        return errmean;
+        ERROR_TABLE
+#undef X
+    }
     
-    return err_string_list[code];
+    return NULL;
 }
 
 /*      Private.        */
-
-static bool err_code_is_valid(unsigned code)
-{
-    if (code < ERRCODE_LAST)
-        return true;
-    return false;
-}
 
 static void err_die(char *errmsg)
 {
@@ -29,6 +28,7 @@ static void err_die(char *errmsg)
 
 int main(void)
 {
-    printf("Error: %s\n", err_code_string(1));
+    enum ErrCode errcode = NULL_POINTER;
+    printf("Error: %s\n", err_code_string(errcode));
     return 0;
 }

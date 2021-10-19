@@ -10,20 +10,24 @@
 #ifndef ERROR_VARS_H
 #define ERROR_VARS_H
 
+#define ERROR_TABLE                                         \
+    X(FAILED_MEMORY_ALLOCATION, "Failed memory allocation") \
+    X(NULL_POINTER, "Null pointer")                         \
+    X(ALLOCATIONS_GREATER, "Allocations greater")           \
+    X(DEALLOCATIONS_GREATER, "Deallocations greater")
+
 enum ErrCode
 {
-    FAILED_MEMORY_ALLOCATION,
-    NULL_POINTER,
-    ALLOCATIONS_GREATER,
-    DEALLOCATIONS_GREATER,
-    ERRCODE_LAST
+#define X(errname, b) errname,
+    ERROR_TABLE
+#undef X
+        ERRCODE_LAST
 };
 
 char *err_string_list[ERRCODE_LAST] = {
-    "Failed memory allocation",
-    "Null pointer",
-    "Allocations greater",
-    "Deallocations greater",
+#define X(a, errmean) errmean,
+    ERROR_TABLE
+#undef X
 };
 
 extern enum ErrCode current_error;
