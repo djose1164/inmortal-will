@@ -14,6 +14,7 @@
 #include "gui/button.h"
 #include "gui/text_input.h"
 #include <raylib.h>
+#include <string.h>
 
 //----------------------------------------------------------------------------
 //                          Public methods.
