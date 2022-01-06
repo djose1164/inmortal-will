@@ -14,6 +14,10 @@
   - [x] Create button module.
     - [ ] Improve button module.
 
+- [ ] Planear el siguiente ecenario.
+- [ ] Crear el personaje.
+- [ ] Creacion del modo multiplayer.
+
 ## LinkedList
 
 - [x] Change to a for each loop where it is appropriate.
