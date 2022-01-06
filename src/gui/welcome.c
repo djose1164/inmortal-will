@@ -21,11 +21,12 @@ bool welcome_start(Player *const player)
 
     while (!WindowShouldClose())
     {
-        if (done)
+        if (done && strlen(text_input.msg))
         {
             Player_set_name(player, text_input.msg);
             return true;
         }
+        done = false;
         
         BeginDrawing();
             ClearBackground(BLACK);
