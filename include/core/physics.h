@@ -1,19 +1,24 @@
+
+
 #ifndef PHYSICS
 #define PHYSICS
 
 #include "living.h"
 #include <raylib.h>
 
-struct PhysicsAttrs
+struct World
 {
-    Vector2 velocity;
-    Vector2 pos;
-    double mass;
-    double acceleration;
+    double gravity;
 };
+
 
 static inline double physics_get_velocity(Living *being, const double time)
 {
     return (double)(being->str / being->weight) * time;
+}
+
+static inline double physics_speed(double distance, double time)
+{
+    return (double)(distance/time);
 }
 #endif //PHYSICS

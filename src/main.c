@@ -12,6 +12,12 @@ int main(int argc, char const *argv[])
     
     game_start();
     
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+            
+        EndDrawing;
+    }
     
     CloseWindow();
     return 0;

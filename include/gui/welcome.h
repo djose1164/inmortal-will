@@ -13,6 +13,7 @@
 #include "characters/player_vars.h"
 #include "gui/button.h"
 #include "gui/text_input.h"
+#include "utils/time.h"
 #include <raylib.h>
 #include <string.h>
 

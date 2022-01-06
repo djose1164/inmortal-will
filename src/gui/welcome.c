@@ -27,7 +27,7 @@ bool welcome_start(Player *const player)
             return true;
         }
         done = false;
-        
+
         BeginDrawing();
             ClearBackground(BLACK);
             welcome_message("Welcome to Immortal Will!");
@@ -36,6 +36,7 @@ bool welcome_start(Player *const player)
             button_draw(&button);
         EndDrawing();
     }
+    time_sleep(1);
     return false;
 }
 
