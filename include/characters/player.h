@@ -21,7 +21,7 @@
  */
 void player_del(Player *self);
 
-void player_set_name(Player *const self, const char *name);
+void player_setName(Player *const self, const char *name);
 
 static inline char *player_get_name(Player *const self)
 {
@@ -32,9 +32,11 @@ void player_draw(const Player *self);
 
 void player_goto(Player *self);
 
+Player *player_init(Player *self, const char *name);
+
 /****************************************************************************/
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-Player *player_init(Player *self, const char *name);
+static void player_setTexture(Player *self, const char *texture);
 #endif // player_H

@@ -23,7 +23,7 @@ bool welcome_start(Player *const player)
     {
         if (done && strlen(text_input.msg))
         {
-            player_set_name(player, text_input.msg);
+            player_setName(player, text_input.msg);
             return true;
         }
         done = false;

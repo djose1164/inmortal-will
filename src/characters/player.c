@@ -35,7 +35,7 @@ void player_del(Player *self)
     memory_release(self);
 }
 
-void player_set_name(Player *const self, const char *name)
+void player_setName(Player *const self, const char *name)
 {
     //if (!Str_is_valid(name))
     //    memory_die("Introduce a valid name!");
@@ -78,3 +78,4 @@ void player_goto(Player *self)
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
+
