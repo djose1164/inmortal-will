@@ -1,5 +1,5 @@
-#ifndef PLAYER_VARS
-#define PLAYER_VARS
+#ifndef player_VARS
+#define player_VARS
 
 #include "living.h"
 #include "utils/list.h"
@@ -25,4 +25,4 @@ typedef struct Player Player;
 /* Player's linked list. */
 extern LinkedList player_list;
 
-#endif //PLAYER_VARS
+#endif //player_VARS

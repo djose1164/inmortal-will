@@ -10,7 +10,16 @@ int main(int argc, char const *argv[])
     InitWindow(screenWidth, screenHeight, APP_NAME);
     SetTargetFPS(60);
     
-    game_start();
+    Player player = {0};
+    player_init(&player, "djos1164");
+    player
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        EndDrawing();
+    }
     
     
     CloseWindow();

@@ -117,7 +117,7 @@ static void memoryGarbage_watch_player(LinkedList *player_list)
         if (current->delete)
         {
             List *temp = current->next;
-            Player_del(current->item);
+            player_del(current->item);
             linkedList_delete(player_list, current);
             current = temp;
         }

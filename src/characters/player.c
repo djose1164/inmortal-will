@@ -14,7 +14,7 @@
 
 LinkedList player_list = {.head = NULL};
 
-Player *Player_init(Player *self, const char *name)
+Player *player_init(Player *self, const char *name)
 {
     self = memory_allocate(self, sizeof(Player));
 
@@ -25,7 +25,7 @@ Player *Player_init(Player *self, const char *name)
     return self;
 }
 
-void Player_del(Player *self)
+void player_del(Player *self)
 {
     // If repr was setted, release it.
     if (self->being.attrs.repr)
@@ -35,14 +35,14 @@ void Player_del(Player *self)
     memory_release(self);
 }
 
-void Player_set_name(Player *const self, const char *name)
+void player_set_name(Player *const self, const char *name)
 {
     //if (!Str_is_valid(name))
     //    memory_die("Introduce a valid name!");
     self->being.attrs.name = (char *)name;
 }
 
-void Player_draw(const Player *self)
+void player_draw(const Player *self)
 {
     Rectangle rec = {
         .x = 0,
@@ -53,7 +53,7 @@ void Player_draw(const Player *self)
     DrawTextureRec(self->skin, rec, self->pos, WHITE);
 }
 
-void Player_goto(Player *self)
+void player_goto(Player *self)
 {
     /**
      * @brief Se calculara la velocidad dependiendo el tiempo por el cual el 

@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  * 
  */
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef player_H
+#define player_H
 
 #include "characters/player_vars.h"
 #include "core/physics.h"
@@ -19,22 +19,22 @@
  * 
  * @param self The player to remove.
  */
-void Player_del(Player *self);
+void player_del(Player *self);
 
-void Player_set_name(Player *const self, const char *name);
+void player_set_name(Player *const self, const char *name);
 
-static inline char *Player_get_name(Player *const self)
+static inline char *player_get_name(Player *const self)
 {
     return self->being.attrs.name;
 }
 
-void Player_draw(const Player *self);
+void player_draw(const Player *self);
 
-void Player_goto(Player *self);
+void player_goto(Player *self);
 
 /****************************************************************************/
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-Player *Player_init(Player *self, const char *name);
-#endif // PLAYER_H
+Player *player_init(Player *self, const char *name);
+#endif // player_H
