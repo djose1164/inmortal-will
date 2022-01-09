@@ -1,9 +1,10 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <raylib.h>
 #include "memory.h"
 #include "utils/terminal_colors.h"
+#include "utils/utils.h"
+#include <raylib.h>
 
 enum ButtonStatus
 {
@@ -12,6 +13,7 @@ enum ButtonStatus
     PRESSED
 };
 
+typedef struct Button Button;
 struct Button
 {
     Sound sound;            /* The sound to play. */
@@ -19,10 +21,13 @@ struct Button
     Rectangle source;       /* The container for the texture. */
     Vector2 pos;            /* The position fo the container. */
     Color color;            /* The button's color. */
-    void (*on_click)(void); /* Function to call on click. */
     bool play_sound;        /* Wheather should play sound or not. */
+
+    void (*set_audio)(Button *self, const char *url);
+    void (*set_texture)(Button *self, const char *url);
+    void (*on_click)(void); /* Function to call on click. */
+    void (*set_pos)(Button *self, Vector2 *pos);
 };
-typedef struct Button Button;
 
 void button_draw(const Button *button);
 
@@ -34,6 +39,25 @@ void button_draw(const Button *button);
  * @param rec Pointer to the rectangle area.
  */
 void button_init(Button *button, const char *str_sound, const char *texture, void (*on_click)(void));
+
+/**
+ * @brief Set the audio for a button. The sound will be played when the button
+ * is clicked.
+ * 
+ * @param button Pointer to a button. 
+ * @param sound_url Path to sound.
+ */
+void button_set_audio(Button *button, const char *sound_url);
+
+/**
+ * @brief Set the texture of skin for the button.
+ * 
+ * @param button Pointer to button.
+ * @param path Path to texture/skin.
+ */
+void button_set_texture(Button *button, const char *path);
+
+void button_set_pos(Button *button, Vector2 *pos);
 
 /*****************************************************************************/
 /*                                  Private functions:                       */
@@ -52,4 +76,6 @@ static Button *button_new(Button *ptr);
  * @param ptr Pointer to the button.
  */
 static void button_update(Button *ptr);
+
+static void button_bindfuncs(Button *self, void (*on_click)(void));
 #endif //BUTTON_H

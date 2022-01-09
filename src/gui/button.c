@@ -10,31 +10,65 @@ void button_draw(const Button *button)
 
 void button_init(Button *button, const char *str_sound, const char *texture, void (*on_click)(void))
 {
-    // If the sound's path was passed, load it.
-    if (str_sound)
-    {
-        InitAudioDevice();
-        button->sound = LoadSound(str_sound);
-        button->play_sound = true;
-    }
-    else
-        button->play_sound = false;
-    button->on_click = on_click;
-    
-    // Load the texture's source.
-    button->texture = LoadTexture(texture);
-    unsigned frame_height = button->texture.height/NUM_FRAME;
-    // Frame for drawing.
-    button->source.x = 0;
-    button->source.y = frame_height;
-    button->source.width = (float)button->texture.width; 
-    button->source.height = frame_height;
+    button_bindfuncs(button, on_click);
+    puts("Setting audio to button...");
+    button->set_audio(button, str_sound);
+    puts("Setting audio to button... Done!");
 
-    button->pos.x = GetScreenWidth()/2;
-    button->pos.y = GetScreenHeight()/2.5;
+    puts("Setting texture to button...");
+    button->set_texture(button, texture);
+    puts("Setting texture to button... Done");
+
+    puts("Setting posittion to button...");
+    Vector2 current_pos = {(float)(GetScreenWidth() / 2), 
+                           (float)(GetScreenHeight() / 2)};
+    button->set_pos(button, &current_pos);
+    puts("Setting posittion to button... Done!");
     button->color = WHITE;
 
     printf("File: %s Function: %s\n", __FILE__, __FUNCTION__);
+}
+
+void button_set_audio(Button *button, const char *sound_url)
+{
+    button->play_sound = false;
+    if (!sound_url)
+        return;
+    if (!utils_file_exists(sound_url))
+        return; // TODO: this must be handle as a error.
+
+    InitAudioDevice();
+    button->sound = LoadSound(sound_url);
+    button->play_sound = true;
+}
+
+void button_set_texture(Button *button, const char *path)
+{
+    char cwd[216];
+    char buf[512];
+    getcwd(cwd, sizeof cwd);
+    snprintf(buf, sizeof buf, "%s%s", cwd, path);
+
+    if (!utils_file_exists(buf))
+        return; //TODO: must be handle as a error.
+
+    // Load the texture's source.
+    button->texture = LoadTexture(path);
+    unsigned frame_height = button->texture.height / NUM_FRAME;
+    // Frame for drawing.
+    button->source.x = 0;
+    button->source.y = frame_height;
+    button->source.width = (float)button->texture.width;
+    button->source.height = frame_height;
+    puts("Texture loaded!");
+}
+
+void button_set_pos(Button *button, Vector2 *pos)
+{
+    printf("x=%.3f\ty=%.3f\n"
+           "Expecting: x=%d\ty=%d\n", pos->x, pos->y, GetScreenWidth()/2, GetScreenHeight()/2);
+    button->pos.x = pos->x;
+    button->pos.y = pos->y;
 }
 
 /*****************************************************************************/
@@ -58,26 +92,40 @@ static void button_update(Button *button)
         button->source.width,
         button->source.height
     };
-    
+
     if (CheckCollisionPointRec(GetMousePosition(), btn_bound))
     {
+        // Change cursor.
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
             btn_status = PRESSED;
         else
             btn_status = MOUSE_HOVER;
-        
+
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
             clicked = true;
     }
     else
+    {
         btn_status = NORMAL;
-    
+    }
     button->source.y = btn_status * button->source.height;
     if (clicked)
     {
+        SetMouseCursor(MOUSE_CURSOR_ARROW);
         if (button->on_click)
             button->on_click();
         if (button->play_sound)
             PlaySound(button->sound);
     }
+}
+
+static void button_bindfuncs(Button *self, void (*on_click)(void))
+{
+    puts("Binding funcs to button...");
+    self->set_audio = button_set_audio;
+    self->set_texture = button_set_texture;
+    self->set_pos = button_set_pos;
+    self->on_click = on_click;
+    puts("Binding funcs to button... Done!");
 }
