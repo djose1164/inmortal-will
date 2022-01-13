@@ -11,12 +11,12 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-
+#include "core/type.h"
 #include "utils/linked_list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
-#include "characters/player.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 
 /**
@@ -39,7 +39,6 @@
         fprintf(stderr, "%s\n", msg); \
         exit(-1);                     \
     })
-
 
 /*****************************************************************************/
 /* Public functions:                                                         */
@@ -88,10 +87,11 @@ void *memory_allocate_type(void *ptr, Type type);
  * @return true Points to some allocated memory. Can be released.
  * @return false Points to nothing. Cannot be released.
  */
-static inline void memory_is_free(void *ptr, const char *errmsg)
+static inline bool memory_is_free(void *ptr)
 {
-    if (!ptr)
-        memory_die(errmsg);
+    if (ptr)
+        return true;
+    return false;
 }
 
 /**
