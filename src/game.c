@@ -12,7 +12,7 @@ void game_start()
     {
         BeginDrawing();
             ClearBackground(BLACK);
-            DrawText(TextFormat("Welcome %s.", player.being.attrs.name), 0, 200, 
+            DrawText(TextFormat("Welcome %s.", player.living_super->attrs.name), 0, 200, 
                      36, RED);
         EndDrawing();
     }

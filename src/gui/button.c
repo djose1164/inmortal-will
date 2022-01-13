@@ -44,12 +44,7 @@ void button_set_audio(Button *button, const char *sound_url)
 
 void button_set_texture(Button *button, const char *path)
 {
-    char cwd[216];
-    char buf[512];
-    getcwd(cwd, sizeof cwd);
-    snprintf(buf, sizeof buf, "%s%s", cwd, path);
-
-    if (!utils_file_exists(buf))
+    if (!utils_file_exists(path))
         return; //TODO: must be handle as a error.
 
     // Load the texture's source.

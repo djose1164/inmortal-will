@@ -13,68 +13,91 @@
 #include "characters/player.h"
 
 LinkedList player_list = {.head = NULL};
+static const unsigned multiplier = 4;
 
-Player *Player_init(Player *self, const char *name)
+Player *player_init(const Living *living)
 {
-    self = memory_allocate(self, sizeof(Player));
-
-    CommonAttrs *temp = &self->being.attrs;
-    temp->name = (char *)name;
-    commonAttrs_set_repr(temp, Str_fmt("Name: %s.", commonAttrs_get_name(temp)));
-
+    puts("Creating player...");
+    Player *self = memory_allocate(self, sizeof *self);
+    self->living_super = living;
+    player_bindfuncs(self);
+    puts("Creating player... Done!");
     return self;
 }
 
-void Player_del(Player *self)
+void player_del(Player *self)
 {
-    // If repr was setted, release it.
-    if (self->being.attrs.repr)
-        memory_release(self->being.attrs.repr);
-
-    // Finally release the memory.
+    self->living_super->object_super->del((Object *)self->living_super);
+    self->living_super->del((Living *)self);
     memory_release(self);
 }
 
-void Player_set_name(Player *const self, const char *name)
+void player_set_name(Player *const self, const char *name)
 {
     //if (!Str_is_valid(name))
     //    memory_die("Introduce a valid name!");
-    self->being.attrs.name = (char *)name;
+    self->living_super->name = (char *)name;
 }
 
-void Player_draw(const Player *self)
+static void player_draw(const Player *self)
 {
-    Rectangle rec = {
-        .x = 0,
-        .y = 0,
-        .width = self->skin.width,
-        .height = self->skin.height};
-
-    DrawTextureRec(self->skin, rec, self->pos, WHITE);
+    self->living_super->draw(self->living_super);
 }
 
-void Player_goto(Player *self)
+static void player_update(Player *const self)
 {
-    /**
-     * @brief Se calculara la velocidad dependiendo el tiempo por el cual el 
-     * usuario mantuvo la tecla presionada. Para la aceleracion se calculara el
-     * peso y la fuerza del pj. Es decir v = at.
-     * 
-     */
-    static int counter = 0;
-    const double multiplier = 4;
-    graphics_check_bound_limits(self);
-
-    if (IsKeyDown(KEY_A))
-        self->pos.x -= multiplier;
-    if (IsKeyDown(KEY_D))
-        self->pos.x += multiplier;
-    if (IsKeyDown(KEY_W))
-        self->pos.y -= multiplier;
-    if (IsKeyDown(KEY_S))
-        self->pos.y += multiplier;
+    player_handle_input(self);
 }
 
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
+
+void player_set_texture(Player *self, IW_Texture *texture)
+{
+    self->living_super->frame->bind_texture(self->living_super->frame, texture);
+    puts("Skin loaded!");
+}
+
+static void player_bindfuncs(Player *const self)
+{
+    self->init = player_init;
+    self->set_texture = player_set_texture;
+    self->set_name = player_set_name;
+    self->update = player_update;
+    self->draw = player_draw;
+    self->del = player_del;
+}
+
+static void player_handle_input(Player *const self)
+{
+    static int counter = 0, current_frame = 1;
+    Frame *frame = self->living_super->frame;
+    unsigned width = (float)frame->get_texture_width(frame);
+    bool condition = IsKeyDown(KEY_A) || IsKeyDown(KEY_D) || IsKeyDown(KEY_W)
+                     || IsKeyDown(KEY_S);
+    counter++;
+    if (condition)
+    {
+        if (counter >= GetFPS() / multiplier)
+        {
+            counter = 0;
+            current_frame++;
+            if (current_frame >= 3)
+                current_frame = 1;
+
+            frame->rectangle.x = (float)current_frame * (width / 3);
+        }
+    }
+    else
+        frame->rectangle.x = 0;
+
+    if (IsKeyDown(KEY_A))
+        frame->position.x -= multiplier;
+    if (IsKeyDown(KEY_D))
+        frame->position.x += multiplier;
+    if (IsKeyDown(KEY_W))
+        frame->position.y -= multiplier;
+    if (IsKeyDown(KEY_S))
+        frame->position.y += multiplier;
+}

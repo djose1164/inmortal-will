@@ -39,19 +39,29 @@ static inline void utils_clear_terminal(void)
     system("clear||cls");
 }
 
+static inline void utils_append_cwd(const char *buf, const char *rpath)
+{
+    char cwd[216];
+    getcwd(cwd, sizeof cwd);
+    snprintf(buf, sizeof buf, "%s%s", cwd, rpath);
+}
+
 /**
  * @brief Check weather the file exists or not.
  * 
- * @param fname Path to file.
+ * @param fname Relative path to file.
  * @return true The file exists.
  * @return false The file does not exist.
  */
 static inline bool utils_file_exists(const char *fname)
 {
-    if (access(fname, F_OK))
+    char buf[512];
+    utils_append_cwd(buf, fname);
+    if (access(buf, F_OK))
         return true;
     else
         return false;
 }
+
 
 #endif //UTILS_H

@@ -12,29 +12,47 @@
 #define PLAYER_H
 
 #include "characters/player_vars.h"
-#include "core/physics.h"
+#include "characters/living.h"
+// #include "core/physics.h"
+#include "utils/utils.h"
+
+Player *player_init(const Living *living);
 
 /**
  * @brief To eliminate an existing player.
  * 
  * @param self The player to remove.
  */
-void Player_del(Player *self);
+void player_del(Player *self);
 
-void Player_set_name(Player *const self, const char *name);
+void player_set_name(Player *const self, const char *name);
 
-static inline char *Player_get_name(Player *const self)
+static inline char *player_get_name(Player *const self)
 {
-    return self->being.attrs.name;
+    return self->living_super->name;
 }
 
-void Player_draw(const Player *self);
+void player_goto(Player *self);
 
-void Player_goto(Player *self);
 
 /****************************************************************************/
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-Player *Player_init(Player *self, const char *name);
+/**
+ * @brief Set the given `texture` for the player `self`.
+ * 
+ * @param self Pointer to player.
+ * @param texture Texture to set.
+ */
+static void player_set_texture(Player *const self, IW_Texture *texture);
+
+static void player_bindfuncs(Player *const self);
+
+static void player_update(Player *const self);
+
+static void player_draw(const Player *self);
+
+static void player_handle_input(Player *const self);
+
 #endif // PLAYER_H

@@ -1,6 +1,6 @@
 #include "core/memory.h"
 
-static LinkedList allocated_ptrs = { .head = NULL };
+static LinkedList allocated_ptrs = {.head = NULL};
 
 static size_t memory_allocated_counter;
 static size_t memory_release_counter;
@@ -10,6 +10,7 @@ void *memory_allocate(void *ptr, unsigned size)
     //memory_is_free(ptr, "ptr no free");
     ptr = malloc(size);
     memory_check_allocation(ptr);
+    memset(ptr, 0, sizeof *ptr);
     linkedList_push(&allocated_ptrs, ptr);
     ++memory_allocated_counter;
     return ptr;
@@ -26,10 +27,8 @@ void *memory_allocate_type(void *ptr, Type type)
          * El nuevo nudo sera agregado al final de la linked list.
          * 
          */
-        ptr = memory_allocate_p(ptr, sizeof(Player));
-        linkedList_push(&player_list, ptr);
         break;
-    
+
     case LIST:
         ptr = memory_allocate_p(ptr, sizeof(List));
 
@@ -50,12 +49,12 @@ static void *memory_allocate_p(void *ptr, unsigned size)
 
 void memory_release(void *ptr)
 {
-    memory_is_free(ptr, "Memory already freed!\n");
-
-    free(ptr);
-    ptr = NULL;
-
-    ++memory_release_counter;
+    if (memory_is_free(ptr))
+    {
+        free(ptr);
+        ptr = NULL;
+        ++memory_release_counter;
+    }
 }
 
 size_t memory_get_allocated_counter(void)
@@ -117,7 +116,7 @@ static void memoryGarbage_watch_player(LinkedList *player_list)
         if (current->delete)
         {
             List *temp = current->next;
-            Player_del(current->item);
+            player_del(current->item);
             linkedList_delete(player_list, current);
             current = temp;
         }

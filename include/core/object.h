@@ -13,8 +13,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "str.h"
-#include "utils/linked_list.h"
+#include "core/memory.h"
 
 /**
  * @brief Parent class. Its members, like name, make refernce to the object
@@ -32,34 +31,38 @@
 typedef struct Object Object;
 struct Object
 {
-     /* Object's name.         */
-    char *type; /* Object's type.         */
+    /* Object's name.         */
+    Type type; /* Object's type.         */
     char *repr; /* Info about the object. */
 
     void (*set_repr)(Object *self, const char *msg);
     void (*get_repr)(Object *self);
     void (*set_type)(Object *self, const char *msg);
     char *(*get_type)(Object *self);
+    void (*del)(Object *self);
 };
-
-
 
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
 
-static inline set_type(Object *self, const char *type)
+static inline Object *object_init(const char *repr, Type type)
 {
-    self->type = type;
-}
-
-static inline get_type(Object *self)
-{
-    return self->type;
+    Object *self = memory_allocate(self, sizeof *self);
+    return self;
 }
 
 
-extern void object_binding_setters(Object *self);
+static void object_del(Object *self);
 
+static void object_set_repr(Object *const self, const char *msg);
+
+static char *object_get_repr(const Object *self);
+
+static void object_set_type(Object *const self, const Type type);
+
+static Type object_get_type(const Object *self);
+
+static void object_bindfuncs(Object *const self);
 
 #endif // OBJECT_H
