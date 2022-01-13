@@ -9,19 +9,24 @@ int main(int argc, char const *argv[])
     // The first thing. Init the window.
     InitWindow(screenWidth, screenHeight, APP_NAME);
     SetTargetFPS(60);
-    
-    Player player = {0};
-    player_init(&player, "djos1164");
-    player
 
+    IW_Texture *texture = texture_init("resources/player.png");
+    Frame *frame = frame_init(texture, &(Vector2){100, 100}, &WHITE);
+    Player *player = player_init(living_init("djose1164", PLAYER, frame));
+
+    
     while (!WindowShouldClose())
     {
+        player->update(player);
         BeginDrawing();
-
+            ClearBackground(LIGHTGRAY);
+            DrawText("Holala", 50, 50, 36, RED);
+            player->draw(player);
         EndDrawing();
     }
     
-    
+    player->del(player);
     CloseWindow();
+    memory_check_counter();
     return 0;
 }
