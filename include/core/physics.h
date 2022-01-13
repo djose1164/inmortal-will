@@ -2,8 +2,8 @@
 
 #ifndef PHYSICS
 #define PHYSICS
-
-#include "living.h"
+/*
+#include "characters/living.h"
 #include <raylib.h>
 
 struct World
@@ -21,4 +21,5 @@ static inline double physics_speed(double distance, double time)
 {
     return (double)(distance/time);
 }
+*/
 #endif //PHYSICS
