@@ -8,6 +8,7 @@ extern enum Type
     MONSTER,    /* Will be monster type. */
     ITEM,       /* Will be item type. */
     OBJECT,     /* The type doesn't care. */
-    LIST        /* Node of linked list. */
+    LIST,       /* Node of linked list. */
+    STRING,     /* String object. */
 };
 typedef enum Type Type;
