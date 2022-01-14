@@ -4,6 +4,7 @@
     "stdlib.h": "c",
     "text_input.h": "c",
     "characters/player.h": "c",
-    "*.tcc": "c"
+    "*.tcc": "c",
+    "object.h": "c"
   }
 }
