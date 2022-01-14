@@ -1,34 +1,51 @@
-#ifndef STR_H
-#define STR_H
+#ifndef string_H
+#define string_H
 
+#include "core/object.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "core/memory.h"
+#include <raylib.h>
+#include <assert.h>
 
-static inline bool Str_is_empty(const char *_s)
+typedef struct String String;
+struct String
 {
-    return _s == "" ? true : false;
-}
+    Object *object_super;
+    const char *str;
+    unsigned len;
 
-static inline bool Str_start_space(const char *_s)
-{
-    return _s[0] == ' ' ? true : false;
-}
+    const char *(*to_upper)(const String *self);
+    const char *(*to_lower)(const String *self);
+    bool (*is_equal)(const String *self, const String *str);
+    bool (*is_empty)(const String *self);
+    bool (*starts_with_space)(const String *self);
+    void (*del)(String *self);
+};
 
-static inline bool Str_valid_length(const char *_s)
-{
-    return strlen(_s) < 25 ? true : false;
-}
+String *string_init(const char *str);
 
-static inline bool Str_is_valid(const char *_s)
-{
-    return !Str_is_empty(_s) && !Str_start_space(_s) && Str_valid_length(_s)
-               ? true
-               : false;
-}
+void print(const String *str, ...);
 
-const char *Str_fmt(const char *_s, ...);
+/****************************************************************************/
+/*                                   Private Functions.                     */
+/****************************************************************************/
 
-#endif //STR_H
+static void string_bindfuncs(String *const self);
+
+static bool string_is_empty(const char *_s);
+
+static bool string_is_equal(const String *self, const String *str);
+
+static String *string_to_upper(const String *self);
+
+static String *string_to_lower(const String *self);
+
+static void string_del(String *self);
+
+static bool string_starts_with_space(const char *_s);
+
+const char *string_fmt(const char *_s, ...);
+
+#endif //string_H
