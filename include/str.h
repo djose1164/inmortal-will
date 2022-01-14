@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "core/memory.h"
+#include "core/object.h"
 
 static inline bool Str_is_empty(const char *_s)
 {

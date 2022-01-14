@@ -1,4 +1,4 @@
-#include "core/memory.h"
+#include "core/memory_p.h"
 
 static LinkedList allocated_ptrs = {.head = NULL};
 
