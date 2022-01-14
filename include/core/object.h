@@ -42,16 +42,11 @@ struct Object
     void (*del)(Object *self);
 };
 
+Object *object_init(const char *repr, Type type);
+
 /*****************************************************************************/
 /*                                  Private functions:                       */
 /*****************************************************************************/
-
-static inline Object *object_init(const char *repr, Type type)
-{
-    Object *self = memory_allocate(self, sizeof *self);
-    return self;
-}
-
 
 static void object_del(Object *self);
 
