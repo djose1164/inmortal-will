@@ -1,8 +1,17 @@
 #include "core/object.h"
 
+Object *object_init(const char *repr, Type type)
+{
+    Object *self = memory_allocate(self, sizeof *self);
+    object_bindfuncs(self);
+    return self;
+}
+
 static void object_del(Object *self)
 {
+    puts("Deleting obejct...");
     memory_release(self);
+    puts("Deleting obejct... Done!");
 }
 
 static void object_set_repr(Object *const self, const char *msg)
