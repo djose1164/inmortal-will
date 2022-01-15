@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2021
  * 
  */
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef MEMORY_P_H
+#define MEMORY_P_H
 
 #include "core/type.h"
 #include "utils/linked_list.h"
@@ -131,4 +131,4 @@ static void memoryGarbage_watch_player(LinkedList *player_list);
  */
 void memoryGarbage_atexit(void);
 
-#endif //MEMORY_H
+#endif //MEMORY_P_H

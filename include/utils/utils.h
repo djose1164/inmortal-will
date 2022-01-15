@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define in ,
+
 /**
  * @brief Will run through the linked list until find a NULL pointer. 
  * 
@@ -31,7 +33,7 @@
         size = sizeof((array)) / sizeof(*(array));     \
         keep && count != size;                         \
         keep = !keep, ++count)                         \
-        for (item = (array) + count; keep; keep = !keep)
+        for (typeof(*(item)) = (array) + count; keep; keep = !keep)
 
 static inline void utils_clear_terminal(void)
 {

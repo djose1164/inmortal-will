@@ -13,7 +13,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "core/memory.h"
+#include "core/memory_p.h"
 
 /**
  * @brief Parent class. Its members, like name, make refernce to the object

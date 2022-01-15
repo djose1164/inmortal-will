@@ -10,5 +10,6 @@ extern enum Type
     OBJECT,     /* The type doesn't care. */
     LIST,       /* Node of linked list. */
     STRING,     /* String object. */
+    SCREEN,     /* Screen Object. */
 };
 typedef enum Type Type;
