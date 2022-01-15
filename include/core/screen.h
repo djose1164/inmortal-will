@@ -13,6 +13,13 @@ struct Update
     void (**update_arr)(void *objcs);
 };
 
+struct Cleanup
+{
+    size_t num;
+    void **objcs;
+    void (**del_arr)(void *objcs);
+};
+
 typedef struct Screen Screen;
 /**
  * @brief Screen is a container for whatever you want to keep or do in 
@@ -28,11 +35,15 @@ struct Screen
     Camera2D camera;    /* Screen's camera. */
     const Frame *frames; /* Array of frames to render. */
     unsigned frame_len; /* Frame total to render. */
-    Frame *target; /* Target for camera. */
+    Frame *_target; /* Target for camera. */
     struct Update *update_struct;
+    struct Cleanup *cleanup_struct;
 
     void (*render)(const Screen *self);
     void (*update)(const Screen *self);
+    void (*set_target)(Screen *const self, const Frame *target);
+    void (*cleanup)(Screen *self);
+    void (*del)(Screen *self);
 };
 
 /**
@@ -43,9 +54,18 @@ struct Screen
  * @param frames Array.
  * @return Screen* Pointer to new screen.
  */
-Screen *screen_init(String *title, Frame *background, const Frame *frames);
+Screen *screen_init(String *title, Frame *target, Frame *background, const Frame *frames,
+                    const struct Update *_update, const struct Cleanup *_cleanup);
 
 static void screen_init_camera2D(Screen *const self);
 
 static void screen_render(const Screen *self);
+
+static void screen_update(const Screen *self);
+
+static void screen_cleanup(Screen *self);
+
+static void screen_del(Screen *self);
+
+static void screen_set_target(Screen *const self, const Frame *target);
 #endif //SCREEN_H
