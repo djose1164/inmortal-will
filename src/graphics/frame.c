@@ -1,15 +1,17 @@
 #include "graphics/frame.h"
 
 Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
-                    Color *color)
+                  Color *color)
 {
     puts("Creating frame...");
+    Object *obj = object_init("Frame", FRAME);
     Frame *self = memory_allocate(self, sizeof *self);
+    self->object_super = obj;
     self->_texture = texture;
     self->position = *position;
     self->color = *color;
-    
-    self->rectangle.width = (float)texture->get_width(texture)/3;
+
+    self->rectangle.width = (float)texture->get_width(texture) / 3;
     self->rectangle.height = (float)texture->get_height(texture);
     self->rectangle.x = 0.0f;
     self->rectangle.y = 0.0f;
@@ -29,11 +31,11 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
 
 static void frame_del(Frame *self)
 {
-    if (self->object_super)
-        self->object_super->del((Object *)self);
-    if (self->_texture)
-        self->del_texture(self);
+    puts("Deleting frame...");
+    self->object_super->del(self->object_super);
+    frame_del_texture(self);
     memory_release(self);
+    puts("Deleting frame... Done!");
 }
 
 static void frame_bind_texture(Frame *const self, const IW_Texture *texture)
@@ -54,7 +56,7 @@ static void frame_draw(const Frame *self)
     DrawTextureRec(*self->get_texture(self), self->rectangle, self->position, self->color);
 }
 
-static  Texture2D *frame_get_texture(const Frame *self)
+static Texture2D *frame_get_texture(const Frame *self)
 {
     return &self->_texture->_texture2D;
 }
@@ -73,18 +75,18 @@ static void frame_check_margins(const Frame *self)
     // TODO: update after screen implementation.
     float *frame_x = &self->position.x;
     float *frame_y = &self->position.y;
-    const unsigned width = self->get_texture_width(self) /4;
+    const unsigned width = self->get_texture_width(self) / 4;
     unsigned screen_width = GetScreenWidth();
     unsigned screen_height = GetScreenHeight();
 
     // Check x-axis.
-    if (*frame_x +  width> screen_width)
+    if (*frame_x + width > screen_width)
         *frame_x = (float)screen_width - width;
     else if (*frame_x < 1.0f)
         *frame_x = 1.0f;
-    
+
     // Check y-axis.
-    if (*frame_y+self->get_texture_height(self) > screen_height)
+    if (*frame_y + self->get_texture_height(self) > screen_height)
         *frame_y = (float)screen_height - self->get_texture_height(self);
     else if (*frame_y < 1)
         *frame_y = 1.0f;
