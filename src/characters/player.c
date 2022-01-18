@@ -97,8 +97,5 @@ static void player_handle_input(Player *const self)
         frame->position.x -= multiplier;
     if (IsKeyDown(KEY_D))
         frame->position.x += multiplier;
-    if (IsKeyDown(KEY_W))
-        frame->position.y -= multiplier;
-    if (IsKeyDown(KEY_S))
-        frame->position.y += multiplier;
+    /* Jump stuff. */
 }
