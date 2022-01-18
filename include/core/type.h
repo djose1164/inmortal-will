@@ -11,5 +11,7 @@ extern enum Type
     LIST,       /* Node of linked list. */
     STRING,     /* String object. */
     SCREEN,     /* Screen Object. */
+    FRAME,      /* Frame object. */
+    TEXTURE,    /* Texture object. */
 };
 typedef enum Type Type;
