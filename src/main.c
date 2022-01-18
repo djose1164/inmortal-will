@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
         EndDrawing();
     }
     
-    current->cleanup(current);
+    current->del(current);
     CloseWindow();
     memory_check_counter();
     return 0;
