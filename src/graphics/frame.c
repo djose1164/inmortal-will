@@ -22,7 +22,7 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
     self->get_texture_height = frame_get_texture_height;
     self->draw = frame_draw;
     self->check_margins = frame_check_margins;
-    puts("Creating frame...Done!");
+    puts("Creating frame... Done!");
 
     return self;
 }
@@ -77,8 +77,6 @@ static void frame_check_margins(const Frame *self)
     unsigned screen_width = GetScreenWidth();
     unsigned screen_height = GetScreenHeight();
 
-        printf("x: %.3f  screen_width: %d (width/3)+x: %.3f width: %d\n", *frame_x, 
-               screen_width, (float)*frame_x+self->get_texture_width(self), self->get_texture_width(self));
     // Check x-axis.
     if (*frame_x +  width> screen_width)
         *frame_x = (float)screen_width - width;
