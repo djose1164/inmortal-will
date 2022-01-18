@@ -40,7 +40,9 @@ static void living_draw(const Living *self)
 
 static void living_del(Living *self)
 {
-    self->object_super->del((Object *)self);
+    puts("Deleting living...");
+    self->object_super->del(self->object_super);
     self->frame->del(self->frame);
     memory_release(self);
+    puts("Deleting living... Done!");
 }
