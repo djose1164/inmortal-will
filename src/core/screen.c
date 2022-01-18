@@ -1,5 +1,10 @@
 #include "core/screen.h"
 
+static inline void screen_update_camera2D(Screen *const self)
+{
+    self->camera.target = self->_target->position;
+}
+
 Screen *screen_init(String *title, Frame *target, Frame *background, const Frame *frames,
                     const struct Update *_update, const struct Cleanup *_cleanup)
 {
@@ -50,6 +55,7 @@ static void screen_update(const Screen *self)
     size_t num = self->update_struct->num;
     for (size_t i = 0; i < num; i++)
         self->update_struct->update_arr[i](self->update_struct->objcs[i]);
+    screen_update_camera2D(self);
 }
 
 static void screen_set_target(Screen *const self, const Frame *_target)
