@@ -2,7 +2,7 @@
 
 static inline void screen_update_camera2D(Screen *const self)
 {
-    self->camera.target = self->_target->position;
+    self->camera.target = (Vector2){self->_target->position.x, 0};
 }
 
 Screen *screen_init(String *title, Frame *target, Frame *background, const Frame *frames,
@@ -34,9 +34,9 @@ static void screen_init_camera2D(Screen *const self)
 {
     puts("Init camera...");
     float x_offset = self->_target->get_texture_width(self->_target) / 2.f;
-    float y_offset = self->_target->get_texture_height(self->_target) / 2.f;
+    //float y_offset = self->_target->get_texture_height(self->_target) / 2.f;
     self->camera.target = self->_target->position;
-    self->camera.offset = (Vector2){x_offset, y_offset};
+    self->camera.offset = (Vector2){x_offset, 0};
     self->camera.rotation = 0.f;
     self->camera.zoom = 1.f;
     puts("Init camera... Done!");
