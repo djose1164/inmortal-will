@@ -17,8 +17,9 @@ Screen *screen_init(String *title, Frame *target, Frame *background, const Frame
     screen_init_camera2D(self);
 
     self->background = background;
-    assert(_update);
+    assert(_update && _cleanup);
     self->update_struct = _update;
+    self->cleanup_struct = _cleanup;
 
     self->update = screen_update;
     self->render = screen_render;
@@ -65,8 +66,10 @@ static void screen_set_target(Screen *const self, const Frame *_target)
 
 static void screen_cleanup(Screen *self)
 {
+    puts("Screen cleaning up...");
     for (size_t i = 0; i < self->cleanup_struct->num; i++)
         self->cleanup_struct->del_arr[i](self->cleanup_struct->objcs[i]);
+    puts("Screen cleaning up... Done");
 }
 
 static void screen_del(Screen *self)
@@ -82,5 +85,5 @@ static void screen_del(Screen *self)
     self->title->del(self->title);
 
     memory_release(self);
-    puts("Deleting screen... Done");
+    puts("Deleting screen... Done!");
 }
