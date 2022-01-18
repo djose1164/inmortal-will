@@ -13,19 +13,30 @@ int main(int argc, char const *argv[])
     IW_Texture *texture = texture_init("resources/player.png");
     Frame *frame = frame_init(texture, &(Vector2){100, 100}, &WHITE);
     Player *player = player_init(living_init("djose1164", PLAYER, frame));
+    struct Update update = {
+        .num = 1,
+        .objcs = &player,
+        .update_arr = &player->update
+    };
+    struct Cleanup cleanup = {
+        .num = 1,
+        .objcs = &player,
+        .del_arr = &player->del,
+    };
+    Screen *current = screen_init(string_init("Testing"), frame, NULL, NULL, &update, &cleanup);    
 
     
     while (!WindowShouldClose())
     {
-        player->update(player);
+        current->update(current);
         BeginDrawing();
             ClearBackground(LIGHTGRAY);
             DrawText("Holala", 50, 50, 36, RED);
-            player->draw(player);
+            current->render(current);
         EndDrawing();
     }
     
-    player->del(player);
+    current->cleanup(current);
     CloseWindow();
     memory_check_counter();
     return 0;
