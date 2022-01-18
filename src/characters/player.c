@@ -28,8 +28,7 @@ Player *player_init(const Living *living)
 void player_del(Player *self)
 {
     puts("Deleting player...");
-    self->living_super->object_super->del((Object *)self->living_super);
-    self->living_super->del((Living *)self);
+    self->living_super->del(self->living_super);
     memory_release(self);
     puts("Deleting player... Done");
 }
