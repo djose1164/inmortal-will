@@ -5,10 +5,9 @@ static LinkedList allocated_ptrs = {.head = NULL};
 static size_t memory_allocated_counter;
 static size_t memory_release_counter;
 
-void *memory_allocate(void *ptr, unsigned size)
+void *memory_allocate(unsigned size)
 {
-    //memory_is_free(ptr, "ptr no free");
-    ptr = malloc(size);
+    void *ptr = malloc(size);
     memory_check_allocation(ptr);
     memset(ptr, 0, sizeof *ptr);
     linkedList_push(&allocated_ptrs, ptr);

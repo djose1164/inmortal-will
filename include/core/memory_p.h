@@ -65,7 +65,7 @@ extern size_t memory_get_released_counter(void);
  * @param ptr The pointer to assign a memory.
  * @param size The size to set. 
  */
-void *memory_allocate(void *ptr, unsigned size);
+void *memory_allocate(unsigned size);
 
 static memory_save_allocated(void *ptr);
 
