@@ -9,7 +9,7 @@ Screen *screen_init(String *title, Frame *target, Frame *background, const Frame
                     const struct Update *_update, const struct Cleanup *_cleanup)
 {
     puts("Creating screen...");
-    Screen *self = memory_allocate(self, sizeof *self);
+    Screen *self = memory_allocate(sizeof *self);
     self->object_super = object_init("Screen", SCREEN);
     self->title = string_init(title);
 

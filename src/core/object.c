@@ -2,7 +2,7 @@
 
 Object *object_init(const char *repr, Type type)
 {
-    Object *self = memory_allocate(self, sizeof *self);
+    Object *self = memory_allocate(sizeof *self);
     object_bindfuncs(self);
     return self;
 }

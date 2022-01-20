@@ -2,7 +2,7 @@
 
 String *string_init(const char *str)
 {
-    String *self = memory_allocate(self, sizeof *self);
+    String *self = memory_allocate(sizeof *self);
     memset(self, 0, sizeof *self);
     self->object_super = object_init("String", STRING);
     assert(self);

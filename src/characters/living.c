@@ -5,7 +5,7 @@ const static float multiplier = 4.0f;
 Living *living_init(const char *name, Type type, const Frame *frame)
 {
     puts("Creating living...");
-    Living *self = memory_allocate(self, sizeof *self);
+    Living *self = memory_allocate(sizeof *self);
     Object *obj = object_init(name, type);
     self->object_super = obj;
     self->frame = frame;

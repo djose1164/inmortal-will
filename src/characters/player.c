@@ -18,7 +18,7 @@ static const unsigned multiplier = 4;
 Player *player_init(const Living *living)
 {
     puts("Creating player...");
-    Player *self = memory_allocate(self, sizeof *self);
+    Player *self = memory_allocate(sizeof *self);
     self->living_super = living;
     player_bindfuncs(self);
     puts("Creating player... Done!");
