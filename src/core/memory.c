@@ -1,7 +1,5 @@
 #include "core/memory_p.h"
 
-static LinkedList allocated_ptrs = {.head = NULL};
-
 static size_t memory_allocated_counter;
 static size_t memory_release_counter;
 
@@ -10,38 +8,6 @@ void *memory_allocate(unsigned size)
     void *ptr = malloc(size);
     memory_check_allocation(ptr);
     memset(ptr, 0, sizeof *ptr);
-    linkedList_push(&allocated_ptrs, ptr);
-    ++memory_allocated_counter;
-    return ptr;
-}
-
-void *memory_allocate_type(void *ptr, Type type)
-{
-    //memory_is_free(ptr, "ptr no free");
-    switch (type)
-    {
-    case PLAYER:
-        /**
-         * @brief Debo crear un node tipo player y agregarlo a la linked list.
-         * El nuevo nudo sera agregado al final de la linked list.
-         * 
-         */
-        break;
-
-    case LIST:
-        ptr = memory_allocate_p(ptr, sizeof(List));
-
-    default:
-        break;
-    }
-}
-
-static void *memory_allocate_p(void *ptr, unsigned size)
-{
-    //memory_is_free(ptr, "ptr no free");
-    ptr = malloc(size);
-    memory_check_allocation(ptr);
-
     ++memory_allocated_counter;
     return ptr;
 }
@@ -92,39 +58,4 @@ void memory_check_counter(void)
     }
 
     RESET_COLOR;
-}
-
-void memoryGarbage_watch(LinkedList *l, Type type)
-{
-    switch (type)
-    {
-    case PLAYER:
-        memoryGarbage_watch_player(l);
-        break;
-
-    default:
-        break;
-    }
-}
-
-static void memoryGarbage_watch_player(LinkedList *player_list)
-{
-    List *current = player_list->head;
-    while (current)
-    {
-        if (current->delete)
-        {
-            List *temp = current->next;
-            player_del(current->item);
-            linkedList_delete(player_list, current);
-            current = temp;
-        }
-        else
-            current = current->next;
-    }
-}
-
-void memoryGarbage_atexit(void)
-{
-    linkedList_detroy(&allocated_ptrs);
 }
