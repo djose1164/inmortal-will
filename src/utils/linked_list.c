@@ -95,7 +95,7 @@ static void list_set_head(LinkedList *l, void *object)
 
 static List *list_init(List *new, void *item)
 {
-    new = memory_allocate_type(new, LIST);
+    new = memory_allocate(sizeof *new);
     new->item = item;
     new->delete = false;
     new->next = NULL;

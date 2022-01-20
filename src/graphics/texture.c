@@ -7,7 +7,7 @@ IW_Texture *texture_init(const char *rpath)
         memory_die("texture_init(): file does not exist.");
         
     Object *obj = object_init("Texture", TEXTURE);
-    IW_Texture *self = memory_allocate(self, sizeof *self);
+    IW_Texture *self = memory_allocate(sizeof *self);
     self->obj_super = obj;
     self->rpath = rpath;
 
