@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 #define in ,
 
@@ -28,11 +29,11 @@
  * @param item Var that will be use for each iteration.
  * @param array Array to go through.
  */
-#define for_each(item, array)                          \
-    for (int keep = 1, count = 0,                      \
-        size = sizeof((array)) / sizeof(*(array));     \
-        keep && count != size;                         \
-        keep = !keep, ++count)                         \
+#define for_each(item, array)                           \
+    for (int keep = 1, count = 0,                       \
+             size = sizeof((array)) / sizeof(*(array)); \
+         keep && count != size;                         \
+         keep = !keep, ++count)                         \
         for (typeof(*(item)) = (array) + count; keep; keep = !keep)
 
 static inline void utils_clear_terminal(void)
@@ -41,11 +42,10 @@ static inline void utils_clear_terminal(void)
     system("clear||cls");
 }
 
-static inline void utils_append_cwd(const char *buf, const char *rpath)
+static inline void utils_append_cwd(char *restrict buf, const char *restrict rpath, size_t size)
 {
-    char cwd[216];
-    getcwd(cwd, sizeof cwd);
-    snprintf(buf, sizeof buf, "%s%s", cwd, rpath);
+    getcwd(buf, size);
+    strncat(buf, rpath, size);
 }
 
 /**
@@ -58,12 +58,10 @@ static inline void utils_append_cwd(const char *buf, const char *rpath)
 static inline bool utils_file_exists(const char *fname)
 {
     char buf[512];
-    utils_append_cwd(buf, fname);
+    utils_append_cwd(buf, fname, sizeof buf);
     if (access(buf, F_OK))
         return true;
-    else
-        return false;
+    return false;
 }
-
 
 #endif //UTILS_H
