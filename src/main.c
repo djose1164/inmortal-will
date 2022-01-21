@@ -1,5 +1,10 @@
 #include "main.h"
 
+void draw_background(const Frame *self)
+{
+    DrawTextureEx(*self->get_texture(self), self->position, 0.f, 2.f, WHITE);
+}
+
 int main(int argc, char const *argv[])
 {
     // Windows size.
@@ -23,7 +28,10 @@ int main(int argc, char const *argv[])
         .objcs = &player,
         .del_arr = &player->del,
     };
-    Screen *current = screen_init(string_init("Testing"), frame, NULL, NULL, &update, &cleanup);    
+
+    Frame * background = frame_init(texture_init("./resources/foreground.png"), &(Vector2){0, 0}, &WHITE);
+    background->draw = draw_background;
+    Screen *current = screen_init(string_init("Testing"), frame, background, NULL, &update, &cleanup);    
 
     
     while (!WindowShouldClose())
@@ -31,7 +39,6 @@ int main(int argc, char const *argv[])
         current->update(current);
         BeginDrawing();
             ClearBackground(LIGHTGRAY);
-            DrawText("Holala", 50, 50, 36, RED);
             current->render(current);
         EndDrawing();
     }

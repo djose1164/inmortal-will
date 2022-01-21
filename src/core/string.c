@@ -8,7 +8,7 @@ String *string_init(const char *str)
     assert(self);
     
     self->len = TextLength(str);
-    self->str = memory_allocate(str, sizeof *self->str * self->len);
+    self->str = memory_allocate(sizeof *self->str * self->len);
     assert(self->str);
     TextCopy(self->str, str); 
 
@@ -82,7 +82,7 @@ const char *string_fmt(const char *_s, ...)
     if (n >= 0)
     {
         va_start(args, _s);
-        buf = memory_allocate((void *)buf, n + 1);
+        buf = memory_allocate(n + 1);
         if (buf)
             vsnprintf(buf, n + 1, _s, args);
         va_end(args);

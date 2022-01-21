@@ -44,8 +44,10 @@ static void screen_init_camera2D(Screen *const self)
 
 static void screen_render(const Screen *self)
 {
+    if (self->background)
+        self->background->draw(self->background);
+        
     BeginMode2D(self->camera);
-    ClearBackground(LIGHTGRAY);
     DrawText("Holala", 50, 50, 36, RED);
     self->_target->draw(self->_target);
     EndMode2D();
