@@ -11,7 +11,7 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
     self->position = *position;
     self->color = *color;
 
-    self->rectangle.width = (float)texture->get_width(texture) / 3;
+    self->rectangle.width = (float)texture->get_width(texture);
     self->rectangle.height = (float)texture->get_height(texture);
     self->rectangle.x = 0.0f;
     self->rectangle.y = 0.0f;
