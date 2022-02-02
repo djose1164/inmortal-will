@@ -84,7 +84,7 @@ static void screen_del(Screen *self)
         self->cleanup(self);
 
     if (self->background)
-        self->background->del(self->background);
+        self->background->del(self->background, true);
 
     self->object_super->del(self->object_super);
     self->title->del(self->title);
