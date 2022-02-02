@@ -4,6 +4,7 @@
 #include "core/string.h"
 #include "graphics/frame.h"
 #include "utils/utils.h"
+#include "characters/player_vars.h"
 #include <raylib.h>
 
 struct Update
@@ -35,7 +36,7 @@ struct Screen
     Camera2D camera;    /* Screen's camera. */
     const Frame *frames; /* Array of frames to render. */
     unsigned frame_len; /* Frame total to render. */
-    Frame *_target; /* Target for camera. */
+    void *_target; /* Target for camera. */
     struct Update *update_struct;
     struct Cleanup *cleanup_struct;
 
@@ -54,7 +55,7 @@ struct Screen
  * @param frames Array.
  * @return Screen* Pointer to new screen.
  */
-Screen *screen_init(String *title, Frame *target, Frame *background, const Frame *frames,
+Screen *screen_init(String *title, void *target, Frame *background, const Frame *frames,
                     const struct Update *_update, const struct Cleanup *_cleanup);
 
 static void screen_init_camera2D(Screen *const self);
