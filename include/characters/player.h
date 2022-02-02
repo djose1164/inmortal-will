@@ -11,7 +11,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "characters/living.h"
+#include "characters/base.h"
 #include "item/weapon.h"
 // #include "core/physics.h"
 #include "utils/utils.h"
@@ -22,7 +22,7 @@
 typedef struct Player Player;
 struct Player
 {
-    Living *living_super;
+    Living *base_super;
     char *profession;
     Laser laser;
     bool attacking;

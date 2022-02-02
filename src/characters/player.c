@@ -34,7 +34,7 @@ Player *player_init(const Living *living)
     Player *self = memory_allocate(sizeof *self);
     const unsigned frame_height = living->frame->get_texture_height(living->frame);
     living->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
-    self->living_super = living;
+    self->base_super = living;
     self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
     self->attacking = false;
     player_bindfuncs(self);
@@ -45,7 +45,7 @@ Player *player_init(const Living *living)
 void player_del(Player *self)
 {
     puts("Deleting player...");
-    self->living_super->del(self->living_super);
+    self->base_super->del(self->base_super);
     memory_release(self);
     puts("Deleting player... Done");
 }
@@ -54,12 +54,12 @@ void player_set_name(Player *const self, const char *name)
 {
     //if (!Str_is_valid(name))
     //    memory_die("Introduce a valid name!");
-    self->living_super->name = (char *)name;
+    self->base_super->name = (char *)name;
 }
 
 static void player_draw(const Player *self)
 {
-    self->living_super->draw(self->living_super);
+    self->base_super->draw(self->base_super);
     weapon_draw_lasers(self->laser);
 }
 
@@ -76,7 +76,7 @@ static void player_update(Player *const self)
 
 void player_set_texture(Player *self, IW_Texture *texture)
 {
-    self->living_super->frame->bind_texture(self->living_super->frame, texture);
+    self->base_super->frame->bind_texture(self->base_super->frame, texture);
     puts("Skin loaded!");
 }
 
@@ -93,7 +93,7 @@ static void player_bindfuncs(Player *const self)
 static void player_handle_input(Player *const self)
 {
     static int counter = 0, current_frame = 1;
-    Frame *frame = self->living_super->frame;
+    Frame *frame = self->base_super->frame;
     unsigned height = (float)frame->get_texture_height(frame);
     bool condition = IsKeyDown(KEY_A) || IsKeyDown(KEY_D) || IsKeyDown(KEY_W) || IsKeyDown(KEY_S);
     counter++;
@@ -138,8 +138,8 @@ static void player_attack(Player *self)
         return;
     laser->frame = frame_init(laser->skin, &laser->pos, &WHITE);
     laser->launched = true;
-    laser->pos.y = self->living_super->frame->position.y + 24.5f;
-    laser->pos.x = self->living_super->frame->rectangle.width + self->living_super->frame->position.x;
+    laser->pos.y = self->base_super->frame->position.y + 24.5f;
+    laser->pos.x = self->base_super->frame->rectangle.width + self->base_super->frame->position.x;
     self->attacking = true;
     puts("Launching laser... Done!");
 }

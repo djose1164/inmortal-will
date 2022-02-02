@@ -2,7 +2,7 @@
 
 static inline void screen_update_camera2D(Screen *const self)
 {
-    Frame *_target = ((Player *)self->_target)->living_super->frame;   
+    Frame *_target = ((Player *)self->_target)->base_super->frame;   
     self->camera.target = (Vector2){_target->position.x, 0};
 }
 
@@ -10,7 +10,7 @@ Screen *screen_init(String *title, void *target, Frame *background, const Frame 
                     const struct Update *_update, const struct Cleanup *_cleanup)
 {
     puts("Creating screen...");
-    Frame *_target = ((Player *)target)->living_super->frame;
+    Frame *_target = ((Player *)target)->base_super->frame;
     Screen *self = memory_allocate(sizeof *self);
     self->object_super = object_init("Screen", SCREEN);
     self->title = string_init(title);
@@ -36,9 +36,9 @@ static void screen_init_camera2D(Screen *const self)
 {
     puts("Init camera...");
     assert(self->_target);
-    assert(((Player *)self->_target)->living_super->frame);
+    assert(((Player *)self->_target)->base_super->frame);
     Player *temp = (Player *)self->_target;
-    Frame *_target = temp->living_super->frame;
+    Frame *_target = temp->base_super->frame;
     assert(_target);
     puts("## here");
     float x_offset = _target->get_texture_width(_target) / 2.f;
