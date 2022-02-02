@@ -1,15 +1,15 @@
-#include "characters/living.h"
+#include "characters/base.h"
 
 const static float multiplier = 4.0f;
 
-Living *living_init(const char *name, Type type, const Frame *frame)
+Living *base_init(const char *name, Type type, const Frame *frame)
 {
     puts("Creating living...");
     Living *self = memory_allocate(sizeof *self);
     Object *obj = object_init(name, type);
     self->object_super = obj;
     self->frame = frame;
-    living_bindfuncs(self);
+    base_bindfuncs(self);
     self->lvl = 1;
     self->magic = true;
     puts("Creating living... Done!");
@@ -21,24 +21,24 @@ Living *living_init(const char *name, Type type, const Frame *frame)
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-static void living_bindfuncs(Living *const self)
+static void base_bindfuncs(Living *const self)
 {
-    self->draw = living_draw;
-    self->del = living_del;
+    self->draw = base_draw;
+    self->del = base_del;
 }
 
-static void living_set_frame(Living *const self, const Frame *frame)
+static void base_set_frame(Living *const self, const Frame *frame)
 {
     self->frame = frame;
 }
 
 
-static void living_draw(const Living *self)
+static void base_draw(const Living *self)
 {
     self->frame->draw(self->frame);
 }
 
-static void living_del(Living *self)
+static void base_del(Living *self)
 {
     puts("Deleting living...");
     self->object_super->del(self->object_super);
