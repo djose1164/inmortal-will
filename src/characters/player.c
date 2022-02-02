@@ -18,21 +18,25 @@ struct Laser
     double speed;
     unsigned width;
     unsigned height;
+    IW_Texture *skin;
+    bool launched;
 };
 
 LinkedList player_list = {.head = NULL};
 static const unsigned multiplier = 4;
-static struct Laser laser = {0};
-#define NUMS_OF_FRAME 2
 
-Player *player_init(const Living *living, const IW_Texture *weapon)
+#define NUMS_OF_FRAME 2
+#define MAX_NUMS_OF_LASER 32
+#define LASER_SPEED .1f
+
+Player *player_init(const Living *living)
 {
     puts("Creating player...");
     Player *self = memory_allocate(sizeof *self);
     const unsigned frame_height = living->frame->get_texture_height(living->frame);
     living->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
     self->living_super = living;
-    self->weapon = weapon;
+    self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
     self->attacking = false;
     player_bindfuncs(self);
     puts("Creating player... Done!");
@@ -57,16 +61,14 @@ void player_set_name(Player *const self, const char *name)
 static void player_draw(const Player *self)
 {
     self->living_super->draw(self->living_super);
-    if (self->attacking)
-        DrawTexture(self->weapon->_texture2D, laser.pos.x, laser.pos.y, WHITE);
+    weapon_draw_lasers(self->laser);
 }
 
 static void player_update(Player *const self)
 {
     player_handle_input(self);
     if (self->attacking)
-        player_attack(self);
-        
+        weapon_update_lasers(self->laser);
 }
 
 /*****************************************************************************/
@@ -116,33 +118,88 @@ static void player_handle_input(Player *const self)
         frame->position.x -= multiplier;
     if (IsKeyDown(KEY_D))
         frame->position.x += multiplier;
-    if (IsKeyDown(KEY_J))
-        self->attacking = true;
+    if (IsKeyDown(KEY_W))
+        frame->position.y -= multiplier;
+    if (IsKeyDown(KEY_S))
+        frame->position.y += multiplier;
+    if (IsKeyReleased(KEY_J))
+        player_attack(self);
     /* Jump stuff. */
 }
 
 static void player_handle_laser(const Player *self)
 {
+    static Laser lasers = NULL;
 }
 
 static void player_attack(Player *self)
 {
     /*
+        Aqui se lanza los lasers.
         El Laser tiene velocidad. Debe ser lanzado dede su punta.
     */
-
-    
-    laser.height = self->weapon->get_height(self->weapon);
-    laser.width = self->weapon->get_width(self->weapon);
+    puts("Launching laser...");
+    Laser laser = weapon_next_laser(self->laser);
+    if (!laser)
+        return;
+    laser->launched = true;
+    laser->height = self->laser->skin->get_height(self->laser->skin);
+    laser->width = self->laser->skin->get_width(self->laser->skin);
     const float y = self->living_super->frame->position.y + 24.5f;
-    laser.pos = (Vector2){self->living_super->frame->position.x, y};
-    laser.speed = 80.f;
-    laser.pos.x = self->living_super->frame->rectangle.width + self->living_super->frame->position.x;
+    laser->pos = (Vector2){self->living_super->frame->position.x, y};
+    laser->pos.x = self->living_super->frame->rectangle.width + self->living_super->frame->position.x;
+    self->attacking = true;
+    puts("Launching laser... Done!");
+}
+
+Laser weapon_create_lasers(unsigned quantity)
+{
+    puts("Creating lasers...");
+    static struct Laser lasers[MAX_NUMS_OF_LASER] = {0};
+    static IW_Texture *skin = NULL;
+    if (!skin)
+        skin = texture_init("resources/laser.png");
+
+    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+    {
+        lasers[i].skin = skin;
+        puts("##Here!");
+        lasers[i].launched = false;
+        lasers[i].speed = LASER_SPEED;
+    }
+    puts("Creating lasers... Done!");
+    return &lasers;
+}
+
+Laser weapon_next_laser(Laser laser)
+{
+    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+        if (!laser[i].launched)
+            return &laser[i];
+    puts("No laser avaible!!!");
+    return NULL;
+}
+
+void weapon_update_lasers(Laser laser)
+{
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    
-    laser.pos.x += GetTime() * laser.speed;
-    if (laser.pos.x > GetScreenWidth())
-        self->attacking = false;
+    double time = GetTime();
+    size_t lasers_attacking = 0;
+    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+    {
+        if (laser[i].launched)
+            laser[i].pos.x += time * laser->speed;
+        if (laser[i].pos.x > GetScreenWidth() * 2.f)
+            laser[i].launched = false;
+
+    }//printf("laser->pos.x = %.3f\n", laser->pos.x);
+}
+
+void weapon_draw_lasers(Laser laser)
+{
+    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+        if (laser[i].launched)
+            DrawTexture(laser[i].skin->_texture2D, laser[i].pos.x, laser[i].pos.y, WHITE);
 }
