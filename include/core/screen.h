@@ -1,10 +1,10 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#include "characters/player.h"
 #include "core/string.h"
 #include "graphics/frame.h"
 #include "utils/utils.h"
-#include "characters/player_vars.h"
 #include <raylib.h>
 
 struct Update
