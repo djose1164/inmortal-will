@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
 {
     // Windows size.
     const unsigned screenWidth = 1080;
-    const unsigned screenHeight = 600;
+    const unsigned screenHeight = 500;
 
     // The first thing. Init the window.
     InitWindow(screenWidth, screenHeight, APP_NAME);
@@ -25,8 +25,7 @@ int main(int argc, char const *argv[])
 
     IW_Texture *texture = texture_init("resources/spaceship-draft.png");
     Frame *frame = frame_init(texture, &(Vector2){100, (float)screenWidth / 3.5f}, &WHITE);
-    IW_Texture *weapon = texture_init("resources/laser.png");
-    Player *player = player_init(living_init("djose1164", PLAYER, frame), weapon);
+    Player *player = player_init(living_init("djose1164", PLAYER, frame));
     struct Update update = {
         .num = 1,
         .objcs = &player,
@@ -37,8 +36,8 @@ int main(int argc, char const *argv[])
         .del_arr = &player->del,
     };
 
-    Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
-    background->draw = draw_background;
+    // Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
+    // background->draw = draw_background;
     Screen *current = screen_init(string_init("Testing"), player, NULL, NULL, &update, &cleanup);
 
     while (!WindowShouldClose())
@@ -52,7 +51,6 @@ int main(int argc, char const *argv[])
 
     current->del(current);
     CloseWindow();
-    weapon->del(weapon);
     memory_check_counter();
     return 0;
 }
