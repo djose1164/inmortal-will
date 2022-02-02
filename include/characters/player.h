@@ -11,12 +11,31 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "characters/player_vars.h"
 #include "characters/living.h"
+#include "item/weapon.h"
 // #include "core/physics.h"
 #include "utils/utils.h"
+#include "utils/list.h"
+#include <stddef.h>
+#include <raylib.h>
 
-Player *player_init(const Living *living, const IW_Texture *weapon);
+typedef struct Player Player;
+struct Player
+{
+    Living *living_super;
+    char *profession;
+    Laser laser;
+    bool attacking;
+
+    Player *(*init)(const char *name, const char *texture);
+    void (*set_texture)(Player *const self, const char *texture);
+    void (*set_name)(Player *const self, const char *name);
+    void (*update)(const Player *self);
+    void (*draw)(const Player *self);
+    void (*del)(Player *self);
+};
+
+Player *player_init(const Living *living);
 
 /**
  * @brief To eliminate an existing player.
@@ -26,11 +45,6 @@ Player *player_init(const Living *living, const IW_Texture *weapon);
 void player_del(Player *self);
 
 void player_set_name(Player *const self, const char *name);
-
-static inline char *player_get_name(Player *const self)
-{
-    return self->living_super->name;
-}
 
 void player_goto(Player *self);
 
