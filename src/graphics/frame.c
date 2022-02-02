@@ -80,9 +80,9 @@ static void frame_check_margins(const Frame *self)
     unsigned screen_height = GetScreenHeight();
 
     // Check x-axis.
-    if (*frame_x + width > screen_width)
+    /*if (*frame_x + width > screen_width)
         *frame_x = (float)screen_width - width;
-    else if (*frame_x < 1.0f)
+    else*/ if (*frame_x < 1.0f)
         *frame_x = 1.0f;
 
     // Check y-axis.
