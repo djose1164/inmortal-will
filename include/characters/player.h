@@ -16,7 +16,7 @@
 // #include "core/physics.h"
 #include "utils/utils.h"
 
-Player *player_init(const Living *living);
+Player *player_init(const Living *living, const IW_Texture *weapon);
 
 /**
  * @brief To eliminate an existing player.
@@ -54,5 +54,7 @@ static void player_update(Player *const self);
 static void player_draw(const Player *self);
 
 static void player_handle_input(Player *const self);
+
+static void player_attack(Player *self);
 
 #endif // PLAYER_H
