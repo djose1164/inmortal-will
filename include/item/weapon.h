@@ -1,7 +1,12 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
+#include "graphics/frame.h"
 typedef struct Laser *Laser;
+
+#define MAX_NUMS_OF_LASER 32
+#define LASER_SPEED 5.f
+#define T Laser
 
 /**
  * @brief Create an array of lasers.
@@ -9,12 +14,25 @@ typedef struct Laser *Laser;
  * @param quantity Number of lasers to create.
  * @return Laser Pointer to array of lasers.
  */
-Laser weapon_create_lasers(unsigned quantity);
+T weapon_create_lasers(unsigned quantity);
 
-Laser weapon_next_laser(Laser laser);
+T weapon_next_laser(T laser);
 
-void weapon_update_lasers(Laser laser);
+void weapon_update_lasers(T laser);
 
-void weapon_draw_lasers(Laser laser);
+void weapon_draw_lasers(T laser);
 
+void weapon_set_frame(T laser, Frame *frame);
+
+void weapon_set_lauched(T laser, bool launched);
+
+void weapon_set_pos(T laser, Vector2 *pos);
+
+void weapon_set_texture(T laser, IW_Texture texture);
+
+const IW_Texture *weapon_get_texture(T laser);
+
+Vector2 weapon_get_position(T Laser);
+
+#undef T
 #endif /* WEAPON_H */
