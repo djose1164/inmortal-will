@@ -12,14 +12,28 @@
 
 #include "characters/player.h"
 
+struct Laser
+{
+    Vector2 pos;
+    double speed;
+    unsigned width;
+    unsigned height;
+};
+
 LinkedList player_list = {.head = NULL};
 static const unsigned multiplier = 4;
+static struct Laser laser = {0};
+#define NUMS_OF_FRAME 2
 
-Player *player_init(const Living *living)
+Player *player_init(const Living *living, const IW_Texture *weapon)
 {
     puts("Creating player...");
     Player *self = memory_allocate(sizeof *self);
+    const unsigned frame_height = living->frame->get_texture_height(living->frame);
+    living->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
     self->living_super = living;
+    self->weapon = weapon;
+    self->attacking = false;
     player_bindfuncs(self);
     puts("Creating player... Done!");
     return self;
@@ -43,11 +57,16 @@ void player_set_name(Player *const self, const char *name)
 static void player_draw(const Player *self)
 {
     self->living_super->draw(self->living_super);
+    if (self->attacking)
+        DrawTexture(self->weapon->_texture2D, laser.pos.x, laser.pos.y, WHITE);
 }
 
 static void player_update(Player *const self)
 {
     player_handle_input(self);
+    if (self->attacking)
+        player_attack(self);
+        
 }
 
 /*****************************************************************************/
@@ -74,28 +93,56 @@ static void player_handle_input(Player *const self)
 {
     static int counter = 0, current_frame = 1;
     Frame *frame = self->living_super->frame;
-    unsigned width = (float)frame->get_texture_width(frame);
-    bool condition = IsKeyDown(KEY_A) || IsKeyDown(KEY_D) || IsKeyDown(KEY_W)
-                     || IsKeyDown(KEY_S);
+    unsigned height = (float)frame->get_texture_height(frame);
+    bool condition = IsKeyDown(KEY_A) || IsKeyDown(KEY_D) || IsKeyDown(KEY_W) || IsKeyDown(KEY_S);
     counter++;
     if (condition)
     {
-        if (counter >= GetFPS() / multiplier)
-        {
-            counter = 0;
-            current_frame++;
-            if (current_frame >= 3)
-                current_frame = 1;
+        // if (counter >= GetFPS() / multiplier)
+        // {
+        //     counter = 0;
+        //     current_frame++;
+        //     if (current_frame > 2)
+        //         current_frame = 1;
 
-            frame->rectangle.x = (float)current_frame * (width / 3);
-        }
+        //     frame->rectangle.y = (float)current_frame * (height / 2);
+        // }
+        frame->rectangle.y = (float)height / 2;
     }
     else
-        frame->rectangle.x = 0;
+        frame->rectangle.y = 0;
 
     if (IsKeyDown(KEY_A))
         frame->position.x -= multiplier;
     if (IsKeyDown(KEY_D))
         frame->position.x += multiplier;
+    if (IsKeyDown(KEY_J))
+        self->attacking = true;
     /* Jump stuff. */
+}
+
+static void player_handle_laser(const Player *self)
+{
+}
+
+static void player_attack(Player *self)
+{
+    /*
+        El Laser tiene velocidad. Debe ser lanzado dede su punta.
+    */
+
+    
+    laser.height = self->weapon->get_height(self->weapon);
+    laser.width = self->weapon->get_width(self->weapon);
+    const float y = self->living_super->frame->position.y + 24.5f;
+    laser.pos = (Vector2){self->living_super->frame->position.x, y};
+    laser.speed = 80.f;
+    laser.pos.x = self->living_super->frame->rectangle.width + self->living_super->frame->position.x;
+    /*
+        El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
+    */
+    
+    laser.pos.x += GetTime() * laser.speed;
+    if (laser.pos.x > GetScreenWidth())
+        self->attacking = false;
 }
