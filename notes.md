@@ -1,0 +1,1 @@
+The background must be drawn inside camera 2D.
