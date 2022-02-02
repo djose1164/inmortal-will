@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 /**
  * @brief Verify that the allocation was successful. If wasn't, the program
