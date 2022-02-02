@@ -27,7 +27,7 @@ static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2
 #define MAX_NUMS_OF_LASER 32
-#define LASER_SPEED .1f
+#define LASER_SPEED 5.f
 
 Player *player_init(const Living *living)
 {
@@ -163,7 +163,6 @@ Laser weapon_create_lasers(unsigned quantity)
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         lasers[i].skin = skin;
-        puts("##Here!");
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
     }
@@ -185,7 +184,8 @@ void weapon_update_lasers(Laser laser)
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    double time = GetTime();
+    double time = GetFPS() * (.035f/laser->speed);
+    printf("time: %f\n", time);
     size_t lasers_attacking = 0;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
