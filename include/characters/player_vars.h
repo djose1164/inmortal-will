@@ -18,6 +18,8 @@ struct Player
 {
     Living *living_super;
     char *profession;
+    IW_Texture *weapon;
+    bool attacking;
 
     Player *(*init)(const char *name, const char *texture);
     void (*set_texture)(Player *const self, const char *texture);
