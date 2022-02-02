@@ -10,7 +10,7 @@
 #ifndef WELCOME_H
 #define WELCOME_H
 
-#include "characters/player_vars.h"
+#include "characters/player.h"
 #include "gui/button.h"
 #include "gui/text_input.h"
 #include "utils/time.h"
