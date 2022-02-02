@@ -1,9 +1,24 @@
 #ifndef BASE_H
 #define BASE_H
 
-#include "common_atrrs.h"
-#include "characters/living_vars.h"
+#include "item/weapon.h"
+#include "core/type.h"
+#include "core/object.h"
+#include "graphics/frame.h"
 
+typedef struct Living Living;
+struct Living
+{
+    Object *object_super;
+    char *name; /* Name (the nicksame has to be saved here). */
+    Frame *frame;
+    /* Current level. */
+    unsigned lvl;
+    bool magic;
+
+    void (*del)(Living *self);
+    void (*draw)(const Living *self);
+};
 
 Living *base_init(const char *name, Type type, const Frame *frame);
 
