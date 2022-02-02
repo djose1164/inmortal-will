@@ -2,18 +2,20 @@
 
 static inline void screen_update_camera2D(Screen *const self)
 {
-    self->camera.target = (Vector2){self->_target->position.x, 0};
+    Frame *_target = ((Player *)self->_target)->living_super->frame;   
+    self->camera.target = (Vector2){_target->position.x, 0};
 }
 
-Screen *screen_init(String *title, Frame *target, Frame *background, const Frame *frames,
+Screen *screen_init(String *title, void *target, Frame *background, const Frame *frames,
                     const struct Update *_update, const struct Cleanup *_cleanup)
 {
     puts("Creating screen...");
+    Frame *_target = ((Player *)target)->living_super->frame;
     Screen *self = memory_allocate(sizeof *self);
     self->object_super = object_init("Screen", SCREEN);
     self->title = string_init(title);
+    self->_target = target;
 
-    screen_set_target(self, target);
     screen_init_camera2D(self);
 
     self->background = background;
@@ -33,9 +35,15 @@ Screen *screen_init(String *title, Frame *target, Frame *background, const Frame
 static void screen_init_camera2D(Screen *const self)
 {
     puts("Init camera...");
-    float x_offset = self->_target->get_texture_width(self->_target) / 2.f;
+    assert(self->_target);
+    assert(((Player *)self->_target)->living_super->frame);
+    Player *temp = (Player *)self->_target;
+    Frame *_target = temp->living_super->frame;
+    assert(_target);
+    puts("## here");
+    float x_offset = _target->get_texture_width(_target) / 2.f;
     //float y_offset = self->_target->get_texture_height(self->_target) / 2.f;
-    self->camera.target = self->_target->position;
+    self->camera.target = _target->position;
     self->camera.offset = (Vector2){x_offset, 0};
     self->camera.rotation = 0.f;
     self->camera.zoom = 1.f;
@@ -44,12 +52,12 @@ static void screen_init_camera2D(Screen *const self)
 
 static void screen_render(const Screen *self)
 {
-    if (self->background)
-        self->background->draw(self->background);
-        
+    Player *player = (Player *)self->_target;
     BeginMode2D(self->camera);
+    if (self->background)
+        self->background->draw(self->background);   
     DrawText("Holala", 50, 50, 36, RED);
-    self->_target->draw(self->_target);
+    player->draw(self->_target);
     EndMode2D();
 }
 
@@ -59,11 +67,6 @@ static void screen_update(const Screen *self)
     for (size_t i = 0; i < num; i++)
         self->update_struct->update_arr[i](self->update_struct->objcs[i]);
     screen_update_camera2D(self);
-}
-
-static void screen_set_target(Screen *const self, const Frame *_target)
-{
-    self->_target = _target;
 }
 
 static void screen_cleanup(Screen *self)
