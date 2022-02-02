@@ -42,7 +42,7 @@ static void living_del(Living *self)
 {
     puts("Deleting living...");
     self->object_super->del(self->object_super);
-    self->frame->del(self->frame);
+    self->frame->del(self->frame, true);
     memory_release(self);
     puts("Deleting living... Done!");
 }
