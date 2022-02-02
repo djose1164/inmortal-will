@@ -12,21 +12,10 @@
 
 #include "characters/player.h"
 
-struct Laser
-{
-    Vector2 pos;
-    double speed;
-    IW_Texture *skin;
-    Frame *frame;
-    bool launched;
-};
-
 LinkedList player_list = {.head = NULL};
 static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2
-#define MAX_NUMS_OF_LASER 32
-#define LASER_SPEED 5.f
 
 Player *player_init(const Living *living)
 {
@@ -136,68 +125,9 @@ static void player_attack(Player *self)
     Laser laser = weapon_next_laser(self->laser);
     if (!laser)
         return;
-    laser->frame = frame_init(laser->skin, &laser->pos, &WHITE);
-    laser->launched = true;
-    laser->pos.y = self->base_super->frame->position.y + 24.5f;
-    laser->pos.x = self->base_super->frame->rectangle.width + self->base_super->frame->position.x;
+    weapon_set_frame(laser, frame_init(weapon_get_texture(laser), &self->base_super->frame->position, &WHITE));
+    weapon_set_lauched(laser, true);
+    weapon_set_pos(laser, &(Vector2){self->base_super->frame->rectangle.width + self->base_super->frame->position.x, self->base_super->frame->position.y + 24.5f});
     self->attacking = true;
     puts("Launching laser... Done!");
-}
-
-Laser weapon_create_lasers(unsigned quantity)
-{
-    puts("Creating lasers...");
-    static struct Laser lasers[MAX_NUMS_OF_LASER] = {0};
-    static IW_Texture *skin = NULL;
-    if (!skin)
-        skin = texture_init("resources/laser.png");
-
-    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
-    {
-        lasers[i].skin = skin;
-        lasers[i].launched = false;
-        lasers[i].speed = LASER_SPEED;
-    }
-    puts("Creating lasers... Done!");
-    return &lasers;
-}
-
-Laser weapon_next_laser(Laser laser)
-{
-    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
-        if (!laser[i].launched)
-            return &laser[i];
-    puts("No laser avaible!!!");
-    return NULL;
-}
-
-void weapon_laser_destroy(Laser laser)
-{
-    laser->launched = false;
-    laser->frame->del(laser->frame, false);
-}
-
-void weapon_update_lasers(Laser laser)
-{
-    /*
-        El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
-    */
-    double time = 60 * (.035f / laser->speed);
-    size_t lasers_attacking = 0;
-    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
-    {
-        if (laser[i].launched)
-        {
-            laser[i].pos.x += time * laser->speed;
-            if (laser[i].pos.x > GetScreenWidth())
-                weapon_laser_destroy(&laser[i]);
-        }
-    } //printf("laser->pos.x = %.3f\n", laser->pos.x);
-}
-
-void weapon_draw_lasers(Laser laser)
-{
-    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
-        if (laser[i].launched)
-            DrawTextureRec(laser[i].skin->_texture2D, laser[i].frame->rectangle, laser[i].pos, WHITE);
 }
