@@ -36,9 +36,9 @@ int main(int argc, char const *argv[])
         .del_arr = &player->del,
     };
 
-    // Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
-    // background->draw = draw_background;
-    Screen *current = screen_init(string_init("Testing"), player, NULL, NULL, &update, &cleanup);
+    Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
+    background->draw = draw_background;
+    Screen *current = screen_init(string_init("Testing"), player, background, NULL, &update, &cleanup);
 
     while (!WindowShouldClose())
     {
