@@ -16,9 +16,8 @@ struct Laser
 {
     Vector2 pos;
     double speed;
-    unsigned width;
-    unsigned height;
     IW_Texture *skin;
+    Frame *frame;
     bool launched;
 };
 
@@ -127,11 +126,6 @@ static void player_handle_input(Player *const self)
     /* Jump stuff. */
 }
 
-static void player_handle_laser(const Player *self)
-{
-    static Laser lasers = NULL;
-}
-
 static void player_attack(Player *self)
 {
     /*
@@ -142,11 +136,9 @@ static void player_attack(Player *self)
     Laser laser = weapon_next_laser(self->laser);
     if (!laser)
         return;
+    laser->frame = frame_init(laser->skin, &laser->pos, &WHITE);
     laser->launched = true;
-    laser->height = self->laser->skin->get_height(self->laser->skin);
-    laser->width = self->laser->skin->get_width(self->laser->skin);
-    const float y = self->living_super->frame->position.y + 24.5f;
-    laser->pos = (Vector2){self->living_super->frame->position.x, y};
+    laser->pos.y = self->living_super->frame->position.y + 24.5f;
     laser->pos.x = self->living_super->frame->rectangle.width + self->living_super->frame->position.x;
     self->attacking = true;
     puts("Launching laser... Done!");
@@ -179,27 +171,33 @@ Laser weapon_next_laser(Laser laser)
     return NULL;
 }
 
+void weapon_laser_destroy(Laser laser)
+{
+    laser->launched = false;
+    laser->frame->del(laser->frame, false);
+}
+
 void weapon_update_lasers(Laser laser)
 {
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    double time = GetFPS() * (.035f/laser->speed);
-    printf("time: %f\n", time);
+    double time = 60 * (.035f / laser->speed);
     size_t lasers_attacking = 0;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
+        {
             laser[i].pos.x += time * laser->speed;
-        if (laser[i].pos.x > GetScreenWidth() * 2.f)
-            laser[i].launched = false;
-
-    }//printf("laser->pos.x = %.3f\n", laser->pos.x);
+            if (laser[i].pos.x > GetScreenWidth())
+                weapon_laser_destroy(&laser[i]);
+        }
+    } //printf("laser->pos.x = %.3f\n", laser->pos.x);
 }
 
 void weapon_draw_lasers(Laser laser)
 {
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
         if (laser[i].launched)
-            DrawTexture(laser[i].skin->_texture2D, laser[i].pos.x, laser[i].pos.y, WHITE);
+            DrawTextureRec(laser[i].skin->_texture2D, laser[i].frame->rectangle, laser[i].pos, WHITE);
 }
