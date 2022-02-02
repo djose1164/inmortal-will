@@ -29,11 +29,16 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
     return self;
 }
 
-static void frame_del(Frame *self)
+static void frame_del(Frame *self, bool del_texture)
 {
     puts("Deleting frame...");
+    assert(self);
+    if (!self)
+        return;
     self->object_super->del(self->object_super);
-    frame_del_texture(self);
+    if (del_texture)
+        frame_del_texture(self);
+    puts("## Here");
     memory_release(self);
     puts("Deleting frame... Done!");
 }
