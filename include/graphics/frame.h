@@ -29,14 +29,14 @@ struct Frame
     unsigned (*get_texture_height)(const Frame *self);
     void (*bind_texture)(Frame *const self, const IW_Texture *texture);
     void (*del_texture)(Frame *const self);
-    void (*del)(Frame *self);
+    void (*del)(Frame *self, bool del_texture);
     FrameReturn (*check_margins)(const Frame *self);
 };
 
 Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
                     Color *color);
 
-static void frame_del(Frame *self);
+static void frame_del(Frame *self, bool del_texture);
 
 static Texture2D *frame_get_texture(const Frame *self);
 
