@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
     Screen *current = screen_init(string_init("Testing"), player, background, frames, 2,&manager);
-    current->objcs = (void **){&player, &alien};
+
     while (!WindowShouldClose())
     {
         current->update(current);
