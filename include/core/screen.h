@@ -34,7 +34,7 @@ struct Screen
     String *title; /* Screen's title. */
     Frame *background; /* Screen's background. */
     Camera2D camera;    /* Screen's camera. */
-    const Frame *frames; /* Array of frames to render. */
+    const void *frames; /* Array of frames to render. */
     unsigned frame_len; /* Frame total to render. */
     void *_target; /* Target for camera. */
     struct Update *update_struct;
@@ -55,7 +55,7 @@ struct Screen
  * @param frames Array.
  * @return Screen* Pointer to new screen.
  */
-Screen *screen_init(String *title, void *target, Frame *background, const Frame *frames,
+Screen *screen_init(String *title, void *target, Frame *background, const void *frames,
                     const struct Update *_update, const struct Cleanup *_cleanup);
 
 static void screen_init_camera2D(Screen *const self);
