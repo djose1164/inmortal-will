@@ -7,18 +7,13 @@
 #include "utils/utils.h"
 #include <raylib.h>
 
-struct Update
-{
-    size_t num;
-    void **objcs;
-    void (**update_arr)(void *objcs);
-};
+typedef void (*fptrCallBack)(void *arg);
 
-struct Cleanup
+struct ScreenManager
 {
-    size_t num;
-    void **objcs;
-    void (**del_arr)(void *objcs);
+    fptrCallBack *draw;
+    fptrCallBack *update;
+    fptrCallBack *del;
 };
 
 typedef struct Screen Screen;
@@ -37,8 +32,8 @@ struct Screen
     const void *frames; /* Array of frames to render. */
     unsigned frame_len; /* Frame total to render. */
     void *_target; /* Target for camera. */
-    struct Update *update_struct;
-    struct Cleanup *cleanup_struct;
+    void *objcs;
+    struct ScreenManager *manager;
 
     void (*render)(const Screen *self);
     void (*update)(const Screen *self);
@@ -55,8 +50,8 @@ struct Screen
  * @param frames Array.
  * @return Screen* Pointer to new screen.
  */
-Screen *screen_init(String *title, void *target, Frame *background, const void *frames,
-                    const struct Update *_update, const struct Cleanup *_cleanup);
+Screen *screen_init(String *title, void *target, Frame *background, const void *frames, size_t nframes,
+                    const struct ScreenManager *manager);
 
 static void screen_init_camera2D(Screen *const self);
 
