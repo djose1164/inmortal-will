@@ -5,6 +5,7 @@
     "text_input.h": "c",
     "characters/player.h": "c",
     "*.tcc": "c",
-    "object.h": "c"
+    "object.h": "c",
+    "base.h": "c"
   }
 }
