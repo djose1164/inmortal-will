@@ -12,7 +12,6 @@
 #define PLAYER_H
 
 #include "characters/base.h"
-#include "item/weapon.h"
 // #include "core/physics.h"
 #include "utils/utils.h"
 #include "utils/list.h"
@@ -24,20 +23,12 @@ typedef Player Alien;
 
 struct Player
 {
-    Living *base_super;
-    char *profession;
-    Laser laser;
-    bool attacking;
+    Base *base_super;
 
-    Player *(*init)(const char *name, const char *texture);
-    void (*set_texture)(Player *const self, const char *texture);
-    void (*set_name)(Player *const self, const char *name);
-    void (*update)(const Player *self);
-    void (*draw)(const Player *self);
-    void (*del)(Player *self);
+    void (*update)(Player *const self);
 };
 
-Player *player_init(const Living *living);
+Player *player_init(const Base *living);
 
 /**
  * @brief To eliminate an existing player.

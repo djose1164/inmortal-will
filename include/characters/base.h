@@ -5,9 +5,10 @@
 #include "core/type.h"
 #include "core/object.h"
 #include "graphics/frame.h"
+#include "item/weapon.h"
 
-typedef struct Living Living;
-struct Living
+typedef struct Base Base;
+struct Base
 {
     Object *object_super;
     char *name; /* Name (the nicksame has to be saved here). */
@@ -16,22 +17,30 @@ struct Living
     unsigned lvl;
     bool magic;
 
-    void (*del)(Living *self);
-    void (*draw)(const Living *self);
+    Laser laser;
+    bool attacking;
+    void (*attack)(const Base *self);
+    void (*set_texture)(Base *const self, const char *texture);
+    void (*set_name)(Base *const self, const char *name);
+    void (*update)(const Base *self);
+    void (*del)(Base *self);
+    void (*draw)(const Base *self);
 };
 
-Living *base_init(const char *name, Type type, const Frame *frame);
+Base *base_init(const char *name, Type type, const Frame *frame);
 
 /****************************************************************************/
 /*                                   Private Functions.                     */
 /****************************************************************************/
 
-static void base_bindfuncs(Living *const self);
+static void base_bindfuncs(Base *const self);
 
-static void base_set_frame(Living *const self, const Frame *frame);
+static void base_set_frame(Base *const self, const Frame *frame);
 
-static void base_draw(const Living *self);
+static void base_update(const Base *self);
 
-static void base_del(Living *self);
+static void base_draw(const Base *self);
+
+static void base_del(Base *self);
 
 #endif //BASE_H

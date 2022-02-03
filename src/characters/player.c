@@ -17,7 +17,7 @@ static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2
 
-Player *player_init(const Living *living)
+Player *player_init(const Base *living)
 {
     puts("Creating player...");
     Player *self = memory_allocate(sizeof *self);
@@ -59,8 +59,8 @@ static void player_draw(const Player *self)
 static void player_update(Player *const self)
 {
     player_handle_input(self);
-    if (self->attacking)
-        weapon_update_lasers(self->laser);
+    if (self->base_super->attacking)
+        weapon_update_lasers(self->base_super->laser);
 }
 
 /*****************************************************************************/
@@ -117,21 +117,4 @@ static void player_handle_input(Player *const self)
     if (IsKeyReleased(KEY_J))
         player_attack(self);
     /* Jump stuff. */
-}
-
-static void player_attack(Player *self)
-{
-    /*
-        Aqui se lanza los lasers.
-        El Laser tiene velocidad. Debe ser lanzado dede su punta.
-    */
-    puts("Launching laser...");
-    Laser laser = weapon_next_laser(self->laser);
-    if (!laser)
-        return;
-    weapon_set_frame(laser, frame_init(weapon_get_texture(laser), &self->base_super->frame->position, &WHITE));
-    weapon_set_lauched(laser, true);
-    weapon_set_pos(laser, &(Vector2){self->base_super->frame->rectangle.width + self->base_super->frame->position.x, self->base_super->frame->position.y + 24.5f});
-    self->attacking = true;
-    puts("Launching laser... Done!");
 }

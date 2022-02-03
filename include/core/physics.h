@@ -12,7 +12,7 @@ struct World
 };
 
 
-static inline double physics_get_velocity(Living *being, const double time)
+static inline double physics_get_velocity(Base *being, const double time)
 {
     return (double)(being->str / being->weight) * time;
 }
