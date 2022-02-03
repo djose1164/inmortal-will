@@ -84,6 +84,7 @@ static void player_bindfuncs(Player *const self)
     self->update = player_update;
     self->draw = player_draw;
     self->del = player_del;
+    self->attack = player_attack;
 }
 
 static void player_handle_input(Player *const self)
@@ -124,5 +125,7 @@ static void player_handle_input(Player *const self)
 
 static void player_attack(Player *self)
 {
+    puts("Player attacking...");
     self->base_super->attack(self->base_super);
+    puts("Player attacking... Done!");
 }
