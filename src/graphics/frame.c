@@ -38,7 +38,6 @@ static void frame_del(Frame *self, bool del_texture)
     self->object_super->del(self->object_super);
     if (del_texture)
         frame_del_texture(self);
-    puts("## Here");
     memory_release(self);
     puts("Deleting frame... Done!");
 }
