@@ -25,20 +25,25 @@ int main(int argc, char const *argv[])
 
     IW_Texture *texture = texture_init("resources/spaceship-draft.png");
     Frame *frame = frame_init(texture, &(Vector2){100, (float)screenWidth / 3.5f}, &WHITE);
-    Player *player = player_init(living_init("djose1164", PLAYER, frame));
+    Player *player = player_init(base_init("djose1164", PLAYER, frame));
+    Alien *alien = player_init(base_init("Alien", MONSTER, frame_init(                 
+        texture_init("resources/enemy.png"), &(Vector2){screenWidth - 300, 100}, &WHITE
+    )));
     struct Update update = {
-        .num = 1,
-        .objcs = &player,
-        .update_arr = &player->update};
+        .num = 2,
+        .objcs = (void **){&player, &alien},
+        .update_arr = (void **){&player->update, &alien->update}
+        };
     struct Cleanup cleanup = {
-        .num = 1,
-        .objcs = &player,
-        .del_arr = &player->del,
+        .num = 2,
+        .objcs = (void **){&player, &alien},
+        .del_arr = (void **){&player->del, &alien->del},
     };
 
+    void *frames[] = {player, alien};
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    Screen *current = screen_init(string_init("Testing"), player, background, NULL, &update, &cleanup);
+    Screen *current = screen_init(string_init("Testing"), player, background, frames, &update, &cleanup);
 
     while (!WindowShouldClose())
     {
