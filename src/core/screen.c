@@ -6,7 +6,7 @@ static inline void screen_update_camera2D(Screen *const self)
     self->camera.target = (Vector2){_target->position.x, 0};
 }
 
-Screen *screen_init(String *title, void *target, Frame *background, const Frame *frames,
+Screen *screen_init(String *title, void *target, Frame *background, const void *frames,
                     const struct Update *_update, const struct Cleanup *_cleanup)
 {
     puts("Creating screen...");
@@ -15,6 +15,7 @@ Screen *screen_init(String *title, void *target, Frame *background, const Frame 
     self->object_super = object_init("Screen", SCREEN);
     self->title = string_init(title);
     self->_target = target;
+    self->frames = frames;
 
     screen_init_camera2D(self);
 
@@ -40,7 +41,6 @@ static void screen_init_camera2D(Screen *const self)
     Player *temp = (Player *)self->_target;
     Frame *_target = temp->base_super->frame;
     assert(_target);
-    puts("## here");
     float x_offset = _target->get_texture_width(_target) / 2.f;
     //float y_offset = self->_target->get_texture_height(self->_target) / 2.f;
     self->camera.target = _target->position;
@@ -52,13 +52,20 @@ static void screen_init_camera2D(Screen *const self)
 
 static void screen_render(const Screen *self)
 {
-    Player *player = (Player *)self->_target;
+    puts("Screen rendering...");
+    Player **frames = (Player *)self->frames;
     BeginMode2D(self->camera);
     if (self->background)
         self->background->draw(self->background);   
     DrawText("Holala", 50, 50, 36, RED);
-    player->draw(self->_target);
+    assert(frames);
+   /* for (size_t i = 0; i < 2; i++)
+        frames[i].draw(&frames[i]);*/
+    (*frames)->draw((*frames));
+    frames[1]->draw(frames[1]);
+    puts("Here!");
     EndMode2D();
+    puts("Screen rendering... Done!");
 }
 
 static void screen_update(const Screen *self)
