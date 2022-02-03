@@ -26,7 +26,6 @@ static void base_bindfuncs(Base *const self)
     self->draw = base_draw;
     self->del = base_del;
     self->attack = base_attack;
-    self->update = base_update
 }
 
 static void base_set_frame(Base *const self, const Frame *frame)
