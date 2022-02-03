@@ -19,16 +19,20 @@
 #include <raylib.h>
 
 typedef struct Player Player;
-typedef Player Alien;
 
 struct Player
 {
     Base *base_super;
 
+    void (*draw)(const Player *self);
     void (*update)(Player *const self);
+    void (*del)(Player *self);
+    void (*set_texture)(Player *const self, IW_Texture *texture);
+    void (*attack)(Player *const self);
+    void (*set_name)(Player *const self, const char*);
 };
 
-Player *player_init(const Base *living);
+Player *player_init(const IW_Texture*);
 
 /**
  * @brief To eliminate an existing player.
