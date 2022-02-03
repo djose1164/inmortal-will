@@ -5,7 +5,12 @@ struct Alien
     Base *super;
 };
 
-
+Alien alien_init(IW_Texture *skin)
+{
+    Alien self = memory_allocate(sizeof *self);
+    Frame *frame = frame_init(texture_init(skin), &(Vector2){50, 100}, &WHITE);
+    self->super = base_init("Alien", MONSTER, frame);
+}
 
 void alien_update(Alien self)
 {

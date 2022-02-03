@@ -7,7 +7,7 @@ typedef struct Alien *Alien;
 
 #define T Alien
 
-T alien_init(IW_Texture skin);
+T alien_init(IW_Texture *skin);
 
 void alien_update(T self);
 
