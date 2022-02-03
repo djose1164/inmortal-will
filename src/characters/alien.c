@@ -10,6 +10,8 @@ Alien alien_init(IW_Texture *skin)
     Alien self = memory_allocate(sizeof *self);
     Frame *frame = frame_init(texture_init(skin), &(Vector2){50, 100}, &WHITE);
     self->super = base_init("Alien", MONSTER, frame);
+
+    return self;
 }
 
 void alien_update(Alien self)
@@ -24,10 +26,19 @@ void alien_update(Alien self)
         *y++;
     else if (*y > GetScreenHeight()-200)
         *y--;
-    self->super->update(self->super);
 }
 
 void alien_draw(Alien self)
 {
-    self->super->draw(self->super);
+    assert(self);
+    puts("Alien drawing...");
+    Texture2D skin = *self->super->frame->get_texture(self->super->frame);
+    DrawTextureEx(skin, self->super->frame->position, 180.f, 1.f, WHITE);
+    puts("Alien drawing... Done!");
+}
+
+void alien_del(Alien self)
+{
+    self->super->del(self->super);
+    memory_release(self);
 }
