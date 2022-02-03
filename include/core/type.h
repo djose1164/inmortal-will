@@ -1,3 +1,5 @@
+#ifndef TYPE_H
+#define TYPE_H
 /**
  * @brief For passing to memory_allocate. If you don't care the type pass OBJECT.
  * Objects should be freed at exit.
@@ -15,3 +17,5 @@ extern enum Type
     TEXTURE,    /* Texture object. */
 };
 typedef enum Type Type;
+
+#endif /* TYPE_H */
