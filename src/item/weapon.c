@@ -67,3 +67,23 @@ void weapon_draw_lasers(Laser laser)
         if (laser[i].launched)
             DrawTextureRec(laser[i].skin->_texture2D, laser[i].frame->rectangle, laser[i].pos, WHITE);
 }
+
+const IW_Texture *weapon_get_texture(Laser laser)
+{
+    return laser->skin;
+}
+
+void weapon_set_frame(Laser laser, Frame *frame)
+{
+    laser->frame = frame;
+}
+
+void weapon_set_lauched(Laser laser, bool launched)
+{
+    laser->launched = launched;
+}
+
+void weapon_set_pos(Laser laser, Vector2 *pos)
+{
+    laser->pos = *pos;
+}
