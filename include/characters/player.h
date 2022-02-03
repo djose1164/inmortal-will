@@ -20,6 +20,8 @@
 #include <raylib.h>
 
 typedef struct Player Player;
+typedef Player Alien;
+
 struct Player
 {
     Living *base_super;
