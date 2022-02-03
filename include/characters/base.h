@@ -22,7 +22,6 @@ struct Base
     void (*attack)(const Base *self);
     void (*set_texture)(Base *const self, const char *texture);
     void (*set_name)(Base *const self, const char *name);
-    void (*update)(const Base *self);
     void (*del)(Base *self);
     void (*draw)(const Base *self);
 };
@@ -40,6 +39,8 @@ static void base_set_frame(Base *const self, const Frame *frame);
 static void base_update(const Base *self);
 
 static void base_draw(const Base *self);
+
+static void base_attack(Base *self);
 
 static void base_del(Base *self);
 
