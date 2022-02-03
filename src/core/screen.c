@@ -58,7 +58,6 @@ static void screen_render(const Screen *self)
         self->background->draw(self->background);   
     DrawText("Holala", 50, 50, 36, RED);
     assert(frames);
-    printf("frames_len: %zu\n", self->frame_len);
     for (size_t i = 0; i < self->frame_len; i++)
         self->manager->draw[i](frames[i]);
     EndMode2D();
