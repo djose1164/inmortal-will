@@ -48,8 +48,12 @@ void player_set_name(Player *const self, const char *name)
 
 static void player_draw(const Player *self)
 {
+    puts("Player drawing...");
+    assert(self);
     self->base_super->draw(self->base_super);
+    assert(self->laser);
     weapon_draw_lasers(self->laser);
+    puts("Player drawing... Done!");
 }
 
 static void player_update(Player *const self)
