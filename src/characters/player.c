@@ -17,15 +17,19 @@ static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2
 
-Player *player_init(const Base *living)
+Player *player_init(const IW_Texture *texture)
 {
     puts("Creating player...");
     Player *self = memory_allocate(sizeof *self);
-    const unsigned frame_height = living->frame->get_texture_height(living->frame);
-    living->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
-    self->base_super = living;
-    self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
-    self->attacking = false;
+    Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
+    
+    self->base_super = base_init("Player", PLAYER, frame);
+    self->base_super->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
+    self->base_super->attacking = false;
+
+    const unsigned frame_height = self->base_super->frame->get_texture_height(self->base_super->frame);
+    self->base_super->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
+
     player_bindfuncs(self);
     puts("Creating player... Done!");
     return self;
@@ -51,8 +55,8 @@ static void player_draw(const Player *self)
     puts("Player drawing...");
     assert(self);
     self->base_super->draw(self->base_super);
-    assert(self->laser);
-    weapon_draw_lasers(self->laser);
+    assert(self->base_super->laser);
+    weapon_draw_lasers(self->base_super->laser);
     puts("Player drawing... Done!");
 }
 
@@ -75,7 +79,6 @@ void player_set_texture(Player *self, IW_Texture *texture)
 
 static void player_bindfuncs(Player *const self)
 {
-    self->init = player_init;
     self->set_texture = player_set_texture;
     self->set_name = player_set_name;
     self->update = player_update;
@@ -115,6 +118,11 @@ static void player_handle_input(Player *const self)
     if (IsKeyDown(KEY_S))
         frame->position.y += multiplier;
     if (IsKeyReleased(KEY_J))
-        player_attack(self);
+        self->attack(self);
     /* Jump stuff. */
+}
+
+static void player_attack(Player *self)
+{
+    self->base_super->attack(self->base_super);
 }
