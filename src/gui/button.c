@@ -1,4 +1,5 @@
 #include "gui/button.h"
+#include "core/memory_p.h"
 
 static const unsigned NUM_FRAME = 3U;
 
@@ -72,7 +73,7 @@ void button_set_pos(Button *button, Vector2 *pos)
 
 static Button *button_new(Button *ptr)
 {
-    ptr = memory_allocate(ptr, sizeof(Button));
+    ptr = memory_allocate(sizeof *ptr);
     return ptr;
 }
 
