@@ -1,16 +1,16 @@
 #include "characters/base.h"
+#include "core/memory_p.h"
+#include <stdio.h>
 
 const static float multiplier = 4.0f;
 
 Base *base_init(const char *name, Type type, const Frame *frame)
 {
-    puts("Creating living...");
+    puts("Creating base...");
     Base *self = memory_allocate(sizeof *self);
-    Object *obj = object_init(name, type);
-    self->object_super = obj;
     self->frame = frame;
     base_bindfuncs(self);
-    puts("Creating living... Done!");
+    puts("Creating base... Done!");
 
     return self;
 }
@@ -39,11 +39,11 @@ static void base_draw(const Base *self)
 
 static void base_del(Base *self)
 {
-    puts("Deleting living...");
-    self->object_super->del(self->object_super);
+    puts("Deleting base...");
+    
     self->frame->del(self->frame, true);
     memory_release(self);
-    puts("Deleting living... Done!");
+    puts("Deleting base... Done!");
 }
 
 static void base_attack(Base *const self)

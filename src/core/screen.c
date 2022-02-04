@@ -1,4 +1,5 @@
 #include "core/screen.h"
+#include "core/memory_p.h"
 
 static inline void screen_update_camera2D(Screen *const self)
 {
@@ -12,7 +13,6 @@ Screen *screen_init(String *title, void *target, Frame *background, const void *
     puts("Creating screen...");
     Frame *_target = ((Player *)target)->base_super->frame;
     Screen *self = memory_allocate(sizeof *self);
-    self->object_super = object_init("Screen", SCREEN);
     self->title = string_init(title);
     
     self->_target = target;
@@ -93,7 +93,6 @@ static void screen_del(Screen *self)
     if (self->background)
         self->background->del(self->background, true);
 
-    self->object_super->del(self->object_super);
     self->title->del(self->title);
 
     memory_release(self);
