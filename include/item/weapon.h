@@ -30,9 +30,17 @@ void weapon_set_pos(T laser, Vector2 *pos);
 
 void weapon_set_texture(T laser, IW_Texture texture);
 
+void weapon_destroy_all(T laser);
+
 const IW_Texture *weapon_get_texture(T laser);
 
 Vector2 weapon_get_pos(T Laser);
+
+/****************************************************************************/
+/*                            Private Functions.                            */
+/****************************************************************************/
+
+static void weapon_laser_destroy(Laser laser, bool del_texture);
 
 #undef T
 #endif /* WEAPON_H */
