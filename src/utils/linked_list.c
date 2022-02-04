@@ -10,6 +10,10 @@
  */
 
 #include "utils/linked_list.h"
+#include "utils/utils.h"
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 // TODO: Check implemention of indirect for push.
 
