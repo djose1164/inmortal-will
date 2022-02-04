@@ -30,25 +30,26 @@ int main(int argc, char const *argv[])
     Player *player = player_init(texture_init("resources/spaceship-draft.png"));
     enemy = alien_init(texture_init("resources/enemy.png"));            
         
-    void *update_arr[] = {player->update, alien_update};
-    void *del_arr[] = {player->del, alien_del};
-    void *draw_arr[] = {player->draw, alien_draw};
+    void *update_arr[] = {alien_update, player->update, };
+    void *del_arr[] = {alien_del, player->del, };
+    void *draw_arr[] = {alien_draw, player->draw,};
     struct ScreenManager manager = {
         .update = update_arr,
         .del = del_arr,
         .draw = draw_arr,
     };
-    void *frames[] = {player, enemy};
+    void *frames[] = {enemy, player};
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    Screen *current = screen_init(string_init("Testing"), player, background, frames, 2,&manager);
+    String *str = string_init("Testing");
+    Screen *current = screen_init(str, player, background, frames, 2,&manager);
 
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
+        current->update(current);
         if (alien_get_destroyed(enemy))
             break;
-        current->update(current);
         BeginDrawing();
         ClearBackground(BLACK);
         current->render(current);
