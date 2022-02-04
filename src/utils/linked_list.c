@@ -54,7 +54,9 @@ List *linkedList_find_by_value(LinkedList *l, void *value)
 
 void linkedList_detroy(LinkedList *l)
 {
+    puts("Deleting list...");
     list_delete_all(l->head);
+    puts("Deleting list... Done!");
 }
 
 /*****************************************************************************/
@@ -95,9 +97,9 @@ static void list_set_head(LinkedList *l, void *object)
 
 static List *list_init(List *new, void *item)
 {
-    new = memory_allocate(sizeof *new);
+    new = malloc(sizeof *new);
     new->item = item;
-    new->delete = false;
+    new->deleted = false;
     new->next = NULL;
 
     return new;

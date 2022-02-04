@@ -7,7 +7,7 @@ struct List
 {
     void *item;
     struct List *next;
-    bool delete;
+    bool deleted;
 };
 typedef struct List List;
 
