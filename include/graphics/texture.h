@@ -1,13 +1,12 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "core/object.h"
+#include <stddef.h>
 #include <raylib.h>
 
 typedef struct IW_Texture IW_Texture;
 struct IW_Texture
 {
-    Object *obj_super;
     Texture2D _texture2D;
     const char *rpath;
 
@@ -17,6 +16,8 @@ struct IW_Texture
     unsigned (*get_width)(const IW_Texture *self);
     unsigned (*get_height)(const IW_Texture *self);
 };
+
+void texture_memstats(void);
 
 IW_Texture *texture_init(const char *rpath);
 
