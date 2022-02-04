@@ -29,10 +29,13 @@ Laser weapon_create_lasers(unsigned quantity)
 
 void weapon_check_impact(Laser laser)
 {
-    bool collision = CheckCollisionRecs(laser->frame->rectangle, alien_get_rec(enemy));
+    assert(laser);
+    assert(laser->frame);
+    Rectangle rec = laser->frame->rectangle;
+    bool collision = CheckCollisionRecs(rec, alien_get_rec(enemy));
     if (collision)
     {
-        weapon_set_lauched(laser, false);
+        // weapon_set_lauched(laser, false);
         alien_set_destroy(laser, true);
     }
 }
@@ -41,11 +44,17 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
 {
     Laser current = NULL;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+    {
         if (!laser[i].launched)
+        {
             current = &laser[i];
+            printf("---->i: %zu<-----\n", i);
+            break;
+        }
+    }
     if (current)
     {
-        current->frame = frame_init(weapon_get_texture(current), pos, &WHITE);
+        current->frame = frame_init(current->skin, pos, &WHITE);
         current->launched = true;
         return current;
     }
@@ -64,34 +73,28 @@ void weapon_update_lasers(Laser laser)
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    puts("Updating lasers...");
-    weapon_check_impact(laser);
-    puts("## Here");
-    double time = 60 * (.035f / laser->speed);
+    // weapon_check_impact(laser);
+    assert(laser);
+    volatile double time = 60 * (.035f / laser->speed);
+    printf("laser's speed: %.3f\n", laser->speed);
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
         {
             laser[i].frame->pos.x += time * laser->speed;
-            if (laser[i].frame->pos.x > GetScreenWidth())
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5)
                 weapon_laser_destroy(&laser[i]);
         }
-    } // printf("laser->pos.x = %.3f\n", laser->pos.x);
-    puts("Updating lasers... Done!");
+    }
+    printf("laser->pos.y = %.3f\n", laser->frame->pos.y);
 }
 
 void weapon_draw_lasers(Laser laser)
 {
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
-    {
         if (laser[i].launched)
-        {
-            puts("Drawing lasers...");
             DrawTextureRec(laser[i].skin->_texture2D, laser[i].frame->rectangle,
-                           laser->frame->pos, WHITE);
-            puts("Drawing lasers... Done!");
-        }
-    }
+                           laser[i].frame->pos, WHITE);
 }
 
 const IW_Texture *weapon_get_texture(Laser laser)
