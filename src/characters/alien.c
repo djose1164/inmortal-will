@@ -5,7 +5,11 @@
 
 #define TIME(v) 60 * (1.f / (v))
 #define ALIEN_SPEED 2.5f
-typedef enum {GO_DOWN, GO_UP} Goto;
+typedef enum
+{
+    GO_DOWN,
+    GO_UP
+} Goto;
 
 Alien enemy = NULL;
 struct Alien
@@ -18,7 +22,7 @@ struct Alien
 Alien alien_init(IW_Texture *skin)
 {
     Alien self = memory_allocate(sizeof *self);
-    Frame *frame = frame_init(skin, &(Vector2){GetScreenWidth()-256, 100}, &WHITE);
+    Frame *frame = frame_init(skin, &(Vector2){GetScreenWidth() - 256, 100}, &WHITE);
     self->super = base_init("Alien", MONSTER, frame);
     self->speed = ALIEN_SPEED;
     self->destroyed = false;
@@ -33,9 +37,9 @@ void alien_update(Alien self)
     unsigned height = self->super->frame->get_texture_height(self->super->frame);
     if (*y < 1.f)
         _goto = GO_UP;
-    if (*y > GetScreenHeight()-height)
+    if (*y > GetScreenHeight() - height)
         _goto = GO_DOWN;
-    
+
     switch (_goto)
     {
     case GO_UP:
@@ -53,10 +57,12 @@ void alien_update(Alien self)
 
 void alien_draw(Alien self)
 {
-    assert(self);
     DrawText("Alien", 500, 350, 36, RED);
-    Texture2D skin = *self->super->frame->get_texture(self->super->frame);
-    DrawTextureRec(skin, self->super->frame->rectangle, self->super->frame->pos, WHITE);
+    if (!self->destroyed)
+    {
+        Texture2D skin = *self->super->frame->get_texture(self->super->frame);
+        DrawTextureRec(skin, self->super->frame->rectangle, self->super->frame->pos, WHITE);
+    }
 }
 
 void alien_del(Alien self)
