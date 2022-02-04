@@ -1,13 +1,24 @@
 #include "graphics/frame.h"
+#include "core/memory_p.h"
+#include <assert.h>
+#include <stdio.h>
+
+static size_t allocated_frames, deallocated_frames;
+
+void frame_memstats(void)
+{
+    if (allocated_frames == deallocated_frames)
+        puts("Everything on frames is Ok.");
+    else
+        printf("Problem on frame...\nAllocated: %zu \t Deallocate: %zu", allocated_frames, deallocated_frames);
+}
 
 Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                   Color *color)
 {
     puts("Creating frame...");
     assert(texture);
-    Object *obj = object_init("Frame", FRAME);
     Frame *self = memory_allocate(sizeof *self);
-    self->object_super = obj;
     self->_texture = texture;
     self->pos = *pos;
     self->color = *color;
@@ -26,7 +37,7 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
     self->draw = frame_draw;
     self->check_margins = frame_check_margins;
     puts("Creating frame... Done!");
-
+    allocated_frames++;
     return self;
 }
 
@@ -36,10 +47,11 @@ static void frame_del(Frame *self, bool del_texture)
     assert(self);
     if (!self)
         return;
-    self->object_super->del(self->object_super);
+    
     if (del_texture)
-        frame_del_texture(self);
+        self->_texture->del(self->_texture);
     memory_release(self);
+    deallocated_frames++;
     puts("Deleting frame... Done!");
 }
 

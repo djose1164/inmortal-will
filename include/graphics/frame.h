@@ -1,7 +1,6 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include "core/object.h"
 #include "graphics/texture.h"
 
 enum FrameReturn
@@ -17,7 +16,7 @@ typedef enum FrameReturn FrameReturn;
 typedef struct Frame Frame;
 struct Frame
 {
-    Object *object_super;
+    
     Rectangle rectangle;
     IW_Texture *_texture;
     Vector2 pos;
@@ -32,6 +31,8 @@ struct Frame
     void (*del)(Frame *self, bool del_texture);
     FrameReturn (*check_margins)(const Frame *self);
 };
+
+void frame_memstats(void);
 
 Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                     Color *color);
