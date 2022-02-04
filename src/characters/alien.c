@@ -1,4 +1,7 @@
 #include "characters/alien.h"
+#include "core/memory_p.h"
+#include <assert.h>
+#include <stdio.h>
 
 #define TIME(v) 60 * (1.f / (v))
 #define ALIEN_SPEED 2.5f
@@ -26,8 +29,6 @@ Alien alien_init(IW_Texture *skin)
 void alien_update(Alien self)
 {
     static Goto _goto;
-    if (self->destroyed)
-        alien_del(self);
     float *y = &self->super->frame->pos.y;
     unsigned height = self->super->frame->get_texture_height(self->super->frame);
     if (*y < 1.f)
@@ -60,8 +61,10 @@ void alien_draw(Alien self)
 
 void alien_del(Alien self)
 {
+    puts("Deleting alien...");
     self->super->del(self->super);
     memory_release(self);
+    puts("Deleting alien... Done!");
 }
 
 void alien_set_destroy(Alien self, bool status)
@@ -69,7 +72,7 @@ void alien_set_destroy(Alien self, bool status)
     self->destroyed = status;
 }
 
-bool alien_get_destroy(Alien self)
+bool alien_get_destroyed(Alien self)
 {
     return self->destroyed;
 }
