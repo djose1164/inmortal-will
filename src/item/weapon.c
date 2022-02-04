@@ -32,7 +32,7 @@ void weapon_check_impact(Laser laser)
     assert(laser);
     assert(laser->frame);
     Rectangle reclaser = {
-        .height = laser->frame->rectangle.height,
+        .height = laser->frame->rectangle.height-10,
         .width = laser->frame->rectangle.width,
         .x = laser->frame->pos.x,
         .y = laser->frame->pos.y,
