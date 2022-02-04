@@ -27,8 +27,7 @@ int main(int argc, char const *argv[])
     Music music = LoadMusicStream("resources/eon.mp3");
     PlayMusicStream(music);
 
-    IW_Texture *texture = texture_init("resources/spaceship-draft.png");
-    Player *player = player_init(texture);
+    Player *player = player_init(texture_init("resources/spaceship-draft.png"));
     enemy = alien_init(texture_init("resources/enemy.png"));            
         
     void *update_arr[] = {player->update, alien_update};
@@ -47,7 +46,7 @@ int main(int argc, char const *argv[])
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
-        if (alien_get_destroy(enemy))
+        if (alien_get_destroyed(enemy))
             break;
         current->update(current);
         BeginDrawing();
@@ -59,6 +58,9 @@ int main(int argc, char const *argv[])
     current->del(current);
     UnloadMusicStream(music);
     CloseWindow();
+    texture_memstats();
+    frame_memstats();
     memory_check_counter();
+
     return 0;
 }
