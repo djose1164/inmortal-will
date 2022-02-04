@@ -11,6 +11,7 @@
 #ifndef MEMORY_P_H
 #define MEMORY_P_H
 
+#include "core/garbage.h"
 #include "utils/list.h"
 #include "utils/utils.h"
 #include "utils/terminal_colors.h"
@@ -18,17 +19,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
-
-/**
- * @brief Verify that the allocation was successful. If wasn't, the program
- * will die.
- * 
- */
-#define memory_check_allocation(ptr) (             \
-    {                                              \
-        if (!ptr)                                  \
-            memory_die("Couldn't assign memory."); \
-    })
 
 /**
  * @brief Kill the program and shows the reasion.
@@ -67,20 +57,6 @@ extern size_t memory_get_released_counter(void);
  */
 void *memory_allocate(unsigned size);
 
-/**
- * @brief Check if the memory pointed to is free or not. If yes, cannot be 
- * freed.
- * 
- * @param ptr Pointer to some memory.
- * @return true Points to some allocated memory. Can be released.
- * @return false Points to nothing. Cannot be released.
- */
-static inline bool memory_is_free(void *ptr)
-{
-    if (ptr)
-        return true;
-    return false;
-}
 
 /**
  * @brief Free memory. If the memory is already freed the program's gonna die.
