@@ -16,7 +16,7 @@ typedef struct Laser *Laser;
  */
 T weapon_create_lasers(unsigned quantity);
 
-T weapon_next_laser(T laser);
+T weapon_next_laser(T laser, Vector2 *pos);
 
 void weapon_update_lasers(T laser);
 
@@ -32,7 +32,7 @@ void weapon_set_texture(T laser, IW_Texture texture);
 
 const IW_Texture *weapon_get_texture(T laser);
 
-Vector2 weapon_get_position(T Laser);
+Vector2 weapon_get_pos(T Laser);
 
 #undef T
 #endif /* WEAPON_H */

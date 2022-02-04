@@ -59,8 +59,8 @@ static inline bool textInput_check_bound(const TextInput *text_input)
  * @param text_input The pointer to the struct.
  * @param width The rectangle's width.
  * @param height The rectangle's height.
- * @param x The rectangle position on x axis.
- * @param y The rectangle position on y axis.
+ * @param x The rectangle pos on x axis.
+ * @param y The rectangle pos on y axis.
  * @param msg Save the getted input. 
  */
 void textInput_init(TextInput *text_input, const Rectangle *rec, size_t max_char,

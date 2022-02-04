@@ -52,12 +52,10 @@ void player_set_name(Player *const self, const char *name)
 
 static void player_draw(const Player *self)
 {
-    puts("Player drawing...");
     assert(self);
     self->base_super->draw(self->base_super);
     assert(self->base_super->laser);
     weapon_draw_lasers(self->base_super->laser);
-    puts("Player drawing... Done!");
 }
 
 static void player_update(Player *const self)
@@ -111,13 +109,13 @@ static void player_handle_input(Player *const self)
         frame->rectangle.y = 0;
 
     if (IsKeyDown(KEY_A))
-        frame->position.x -= multiplier;
+        frame->pos.x -= multiplier;
     if (IsKeyDown(KEY_D))
-        frame->position.x += multiplier;
+        frame->pos.x += multiplier;
     if (IsKeyDown(KEY_W))
-        frame->position.y -= multiplier;
+        frame->pos.y -= multiplier;
     if (IsKeyDown(KEY_S))
-        frame->position.y += multiplier;
+        frame->pos.y += multiplier;
     if (IsKeyReleased(KEY_J))
         self->attack(self);
     /* Jump stuff. */
@@ -125,7 +123,5 @@ static void player_handle_input(Player *const self)
 
 static void player_attack(Player *self)
 {
-    puts("Player attacking...");
     self->base_super->attack(self->base_super);
-    puts("Player attacking... Done!");
 }

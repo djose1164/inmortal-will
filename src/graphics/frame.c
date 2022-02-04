@@ -1,6 +1,6 @@
 #include "graphics/frame.h"
 
-Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
+Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                   Color *color)
 {
     puts("Creating frame...");
@@ -8,7 +8,7 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
     Frame *self = memory_allocate(sizeof *self);
     self->object_super = obj;
     self->_texture = texture;
-    self->position = *position;
+    self->pos = *pos;
     self->color = *color;
 
     self->rectangle.width = (float)texture->get_width(texture);
@@ -57,7 +57,7 @@ static void frame_del_texture(Frame *const self)
 static void frame_draw(const Frame *self)
 {
     frame_check_margins(self);
-    DrawTextureRec(*self->get_texture(self), self->rectangle, self->position, self->color);
+    DrawTextureRec(*self->get_texture(self), self->rectangle, self->pos, self->color);
 }
 
 static Texture2D *frame_get_texture(const Frame *self)
@@ -77,8 +77,8 @@ static unsigned frame_get_texture_height(const Frame *self)
 static void frame_check_margins(const Frame *self)
 {
     // TODO: update after screen implementation.
-    float *frame_x = &self->position.x;
-    float *frame_y = &self->position.y;
+    float *frame_x = &self->pos.x;
+    float *frame_y = &self->pos.y;
     const unsigned width = self->get_texture_width(self) / 4;
     unsigned screen_width = GetScreenWidth();
     unsigned screen_height = GetScreenHeight();

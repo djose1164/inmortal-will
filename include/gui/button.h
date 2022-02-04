@@ -19,7 +19,7 @@ struct Button
     Sound sound;            /* The sound to play. */
     Texture2D texture;      /* The image to set. */
     Rectangle source;       /* The container for the texture. */
-    Vector2 pos;            /* The position fo the container. */
+    Vector2 pos;            /* The pos fo the container. */
     Color color;            /* The button's color. */
     bool play_sound;        /* Wheather should play sound or not. */
 

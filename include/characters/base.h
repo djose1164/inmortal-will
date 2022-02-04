@@ -13,9 +13,6 @@ struct Base
     Object *object_super;
     char *name; /* Name (the nicksame has to be saved here). */
     Frame *frame;
-    /* Current level. */
-    unsigned lvl;
-    bool magic;
 
     Laser laser;
     bool attacking;

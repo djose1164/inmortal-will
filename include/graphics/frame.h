@@ -20,7 +20,7 @@ struct Frame
     Object *object_super;
     Rectangle rectangle;
     IW_Texture *_texture;
-    Vector2 position;
+    Vector2 pos;
     Color color;
 
     void (*draw)(const Frame *self);
@@ -33,7 +33,7 @@ struct Frame
     FrameReturn (*check_margins)(const Frame *self);
 };
 
-Frame *frame_init(const IW_Texture *texture, const Vector2 *position,
+Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                     Color *color);
 
 static void frame_del(Frame *self, bool del_texture);

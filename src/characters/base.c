@@ -10,8 +10,6 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     self->object_super = obj;
     self->frame = frame;
     base_bindfuncs(self);
-    self->lvl = 1;
-    self->magic = true;
     puts("Creating living... Done!");
 
     return self;
@@ -55,12 +53,11 @@ static void base_attack(Base *const self)
         El Laser tiene velocidad. Debe ser lanzado dede su punta.
     */
     puts("Launching laser...");
-    Laser laser = weapon_next_laser(self->laser);
+    Vector2 pos = {self->frame->pos.x + self->frame->rectangle.width, self->frame->pos.y 
+                   + self->frame->rectangle.height + 24.5f};
+    Laser laser = weapon_next_laser(self->laser, &pos);
     if (!laser)
         return;
-    weapon_set_frame(laser, frame_init(weapon_get_texture(laser), &self->frame->position, &WHITE));
-    weapon_set_lauched(laser, true);
-    weapon_set_pos(laser, &(Vector2){self->frame->rectangle.width + self->frame->position.x, self->frame->position.y + 24.5f});
     self->attacking = true;
     puts("Launching laser... Done!");
 }
