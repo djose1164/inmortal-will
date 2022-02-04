@@ -71,5 +71,10 @@ void alien_set_destroy(Alien self, bool status)
 
 Rectangle alien_get_rec(Alien self)
 {
-    return self->super->frame->rectangle;
+    return (Rectangle){
+        .height = self->super->frame->rectangle.height,
+        .width = self->super->frame->rectangle.width,
+        .x = self->super->frame->pos.x,
+        .y = self->super->frame->pos.y,
+    };
 }
