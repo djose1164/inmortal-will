@@ -25,7 +25,6 @@ typedef struct Screen Screen;
  */
 struct Screen
 {
-    Object *object_super; /* Super. */
     String *title; /* Screen's title. */
     Frame *background; /* Screen's background. */
     Camera2D camera;    /* Screen's camera. */

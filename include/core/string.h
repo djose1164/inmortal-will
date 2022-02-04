@@ -1,7 +1,6 @@
 #ifndef string_H
 #define string_H
 
-#include "core/object.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
@@ -12,7 +11,7 @@
 typedef struct String String;
 struct String
 {
-    Object *object_super;
+    
     const char *str;
     unsigned len;
 

@@ -3,14 +3,13 @@
 
 #include "item/weapon.h"
 #include "core/type.h"
-#include "core/object.h"
 #include "graphics/frame.h"
 #include "item/weapon.h"
 
 typedef struct Base Base;
 struct Base
 {
-    Object *object_super;
+    
     char *name; /* Name (the nicksame has to be saved here). */
     Frame *frame;
 
