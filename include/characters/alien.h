@@ -21,5 +21,7 @@ Rectangle alien_get_rec(T self);
 
 void alien_set_destroy(T self, bool status);
 
+bool alien_get_destroy(T self);
+
 #undef T
 #endif //ALIEN_H
