@@ -1,16 +1,16 @@
 #include "core/string.h"
+#include "core/memory_p.h"
 
 String *string_init(const char *str)
 {
     String *self = memory_allocate(sizeof *self);
     memset(self, 0, sizeof *self);
-    self->object_super = object_init("String", STRING);
     assert(self);
-    
+
     self->len = TextLength(str);
     self->str = memory_allocate(sizeof *self->str * self->len);
     assert(self->str);
-    TextCopy(self->str, str); 
+    TextCopy(self->str, str);
 
     string_bindfuncs(self);
     return self;
@@ -42,7 +42,7 @@ static bool string_is_equal(const String *self, const String *str)
 static String *string_to_upper(const String *self)
 {
     return TextToUpper(self->str);
-}    
+}
 
 static String *string_to_lower(const String *self)
 {
@@ -50,10 +50,9 @@ static String *string_to_lower(const String *self)
     return string_init(str);
 }
 
-static string_del(String *self)
+static void string_del(String *self)
 {
     puts("Deleting string...");
-    self->object_super->del(self->object_super);
     memory_release(self->str);
     memory_release(self);
     puts("Deleting string... Done!");
@@ -76,9 +75,9 @@ const char *string_fmt(const char *_s, ...)
 
     const char *buf = NULL;
     int n = vsnprintf(NULL, 0, _s, args);
-    
+
     va_end(args);
-    
+
     if (n >= 0)
     {
         va_start(args, _s);
@@ -87,6 +86,6 @@ const char *string_fmt(const char *_s, ...)
             vsnprintf(buf, n + 1, _s, args);
         va_end(args);
     }
-    
+
     return buf;
 }
