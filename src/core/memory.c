@@ -1,12 +1,16 @@
 #include "core/memory_p.h"
+#include <stdlib.h>
 
 static size_t memory_allocated_counter;
 static size_t memory_release_counter;
 
 void *memory_allocate(unsigned size)
 {
+    if (size < 1)
+        memory_die("Invalid size at memory_allocate()");
+
     void *ptr = malloc(size);
-    memory_check_allocation(ptr);
+    assert(ptr);
     memset(ptr, 0, sizeof *ptr);
     ++memory_allocated_counter;
     return ptr;
@@ -14,7 +18,7 @@ void *memory_allocate(unsigned size)
 
 void memory_release(void *ptr)
 {
-    if (memory_is_free(ptr))
+    if (ptr)
     {
         free(ptr);
         ptr = NULL;
