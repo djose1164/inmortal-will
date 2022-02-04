@@ -5,9 +5,9 @@
  * must be here.
  * @version 0.1
  * @date 2021-06-15
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #include "characters/player.h"
@@ -24,7 +24,7 @@ Player *player_init(const IW_Texture *texture)
     puts("Creating player...");
     Player *self = memory_allocate(sizeof *self);
     Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
-    
+
     self->base_super = base_init("Player", PLAYER, frame);
     self->base_super->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
     self->base_super->attacking = false;
@@ -40,17 +40,19 @@ Player *player_init(const IW_Texture *texture)
 void player_del(Player *self)
 {
     puts("Deleting player...");
-    self->base_super->del(self->base_super);
-    if (self->base_super->laser)
+
+    if (self->base_super->laser || weapon_is_laser_attacking(self->base_super->laser))
         weapon_destroy_all(self->base_super->laser);
+
+    self->base_super->del(self->base_super);
     memory_release(self);
     puts("Deleting player... Done");
 }
 
 void player_set_name(Player *const self, const char *name)
 {
-    //if (!Str_is_valid(name))
-    //    memory_die("Introduce a valid name!");
+    // if (!Str_is_valid(name))
+    //     memory_die("Introduce a valid name!");
     self->base_super->name = (char *)name;
 }
 
@@ -65,7 +67,7 @@ static void player_draw(const Player *self)
 static void player_update(Player *const self)
 {
     player_handle_input(self);
-    if (self->base_super->attacking) 
+    if (self->base_super->attacking)
         weapon_update_lasers(self->base_super->laser);
 }
 
