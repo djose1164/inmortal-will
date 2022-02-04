@@ -8,6 +8,7 @@ static size_t allocated, deallocated;
 
 void texture_memstats(void)
 {
+    printf("%s():%d\n", __FUNCTION__, __LINE__);
     if (allocated == deallocated)
         puts("Everything on textures is Ok.");
     else
@@ -21,7 +22,6 @@ IW_Texture *texture_init(const char *rpath)
         ERROR_DIE("file does not exist.");
         
     IW_Texture *self = memory_allocate(sizeof *self);
-    assert(self->rpath);
     self->rpath = rpath;
     self->_texture2D = LoadTexture(rpath);
     self->get_height = texture_get_height;
