@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
-        if (!(frames && frames[1]))
+        if (alien_get_destroy(enemy))
             break;
         current->update(current);
         BeginDrawing();
