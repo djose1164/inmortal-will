@@ -60,9 +60,11 @@ static void player_draw(const Player *self)
 
 static void player_update(Player *const self)
 {
+    puts("player updating...");
     player_handle_input(self);
-    if (self->base_super->attacking)
+    if (self->base_super->attacking) 
         weapon_update_lasers(self->base_super->laser);
+    puts("player updating... Done!");
 }
 
 /*****************************************************************************/

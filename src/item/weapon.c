@@ -31,12 +31,18 @@ void weapon_check_impact(Laser laser)
 {
     assert(laser);
     assert(laser->frame);
-    Rectangle rec = laser->frame->rectangle;
-    bool collision = CheckCollisionRecs(rec, alien_get_rec(enemy));
+    Rectangle reclaser = {
+        .height = laser->frame->rectangle.height,
+        .width = laser->frame->rectangle.width,
+        .x = laser->frame->pos.x,
+        .y = laser->frame->pos.y,
+    };
+
+    bool collision = CheckCollisionRecs(reclaser, alien_get_rec(enemy));
     if (collision)
     {
-        // weapon_set_lauched(laser, false);
-        alien_set_destroy(laser, true);
+        laser->launched = false;
+        alien_set_destroy(enemy, true);
     }
 }
 
@@ -73,7 +79,7 @@ void weapon_update_lasers(Laser laser)
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    // weapon_check_impact(laser);
+    weapon_check_impact(laser);
     assert(laser);
     volatile double time = 60 * (.035f / laser->speed);
     printf("laser's speed: %.3f\n", laser->speed);

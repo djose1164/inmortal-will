@@ -4,6 +4,7 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                   Color *color)
 {
     puts("Creating frame...");
+    assert(texture);
     Object *obj = object_init("Frame", FRAME);
     Frame *self = memory_allocate(sizeof *self);
     self->object_super = obj;

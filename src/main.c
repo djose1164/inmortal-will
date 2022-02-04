@@ -47,6 +47,8 @@ int main(int argc, char const *argv[])
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
+        if (!(frames && frames[1]))
+            break;
         current->update(current);
         BeginDrawing();
         ClearBackground(BLACK);
