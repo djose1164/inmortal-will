@@ -4,12 +4,9 @@
 String *string_init(const char *str)
 {
     String *self = memory_allocate(sizeof *self);
-    memset(self, 0, sizeof *self);
-    assert(self);
-
     self->len = TextLength(str);
     self->str = memory_allocate(sizeof *self->str * self->len);
-    assert(self->str);
+    printf("*-*-*-*-*size string: %zu*-*-*-*-*\n", sizeof *self->str * self->len);
     TextCopy(self->str, str);
 
     string_bindfuncs(self);
