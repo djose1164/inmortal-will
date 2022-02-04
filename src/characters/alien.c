@@ -27,12 +27,12 @@ void alien_update(Alien self)
 {
     static Goto _goto;
     if (self->destroyed)
-        return alien_del(self);
+        alien_del(self);
     float *y = &self->super->frame->pos.y;
     unsigned height = self->super->frame->get_texture_height(self->super->frame);
-    if (*y + 85 < 1.f)
+    if (*y < 1.f)
         _goto = GO_UP;
-    if (*y + 86 > GetScreenHeight()-86)
+    if (*y > GetScreenHeight()-height)
         _goto = GO_DOWN;
     
     switch (_goto)
@@ -67,6 +67,11 @@ void alien_del(Alien self)
 void alien_set_destroy(Alien self, bool status)
 {
     self->destroyed = status;
+}
+
+bool alien_get_destroy(Alien self)
+{
+    return self->destroyed;
 }
 
 Rectangle alien_get_rec(Alien self)
