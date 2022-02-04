@@ -2,7 +2,6 @@
 #define LINKED_LIST_H
 
 #include "utils/list.h"
-#include "core/object.h"
 
 /**
  * @brief Add a new list to the end of linked list.
