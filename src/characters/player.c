@@ -11,6 +11,8 @@
  */
 
 #include "characters/player.h"
+#include "core/memory_p.h"
+#include <assert.h>
 
 LinkedList player_list = {.head = NULL};
 static const unsigned multiplier = 4;
@@ -39,6 +41,8 @@ void player_del(Player *self)
 {
     puts("Deleting player...");
     self->base_super->del(self->base_super);
+    if (self->base_super->laser)
+        weapon_destroy_all(self->base_super->laser);
     memory_release(self);
     puts("Deleting player... Done");
 }
@@ -60,11 +64,9 @@ static void player_draw(const Player *self)
 
 static void player_update(Player *const self)
 {
-    puts("player updating...");
     player_handle_input(self);
     if (self->base_super->attacking) 
         weapon_update_lasers(self->base_super->laser);
-    puts("player updating... Done!");
 }
 
 /*****************************************************************************/
