@@ -67,11 +67,19 @@ static void screen_init_camera2D(Screen *const self)
 static void screen_render(const Screen *self)
 {
     BeginMode2D(self->camera);
+    puts("Rendenring screen...");
     // Background must be drawn first.
     if (self->background)
         self->background->draw(self->background);
+    unsigned t = (GetScreenWidth() - self->title->len);
+    unsigned font_size = 64;
+    float spacing = 4.5f;
+    Vector2 text_pos = MeasureTextEx(GetFontDefault(), self->title->str, font_size, spacing);
+    text_pos.x = (GetScreenWidth() - text_pos.x) / 2;
+    text_pos.y = (GetScreenHeight() - text_pos.y) / 2;
 
-    DrawText(self->title->str, 50, 50, 36, RED);
+    DrawTextEx(GetFontDefault(), self->title->str, text_pos, font_size, spacing, RED);
+    // DrawText(self->title->str, (GetScreenWidth()/2)-self->title->len, 50, font_size, RED);
     if (self->frame_len)
     {
         void **frames = (void **)self->frames;
@@ -80,6 +88,7 @@ static void screen_render(const Screen *self)
                 self->manager->draw[i](frames[i]);
     }
     EndMode2D();
+    puts("Rendenring screen... Done!");
 }
 
 static void screen_update(const Screen *self)
