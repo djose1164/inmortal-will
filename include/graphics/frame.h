@@ -21,7 +21,7 @@ struct Frame
     IW_Texture *_texture;
     Vector2 pos;
     Color color;
-
+    
     void (*draw)(const Frame *self);
     Texture2D *(*get_texture)(const Frame *self);
     unsigned (*get_texture_width)(const Frame *self);
@@ -37,7 +37,7 @@ void frame_memstats(void);
 Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                     Color *color);
 
-static void frame_del(Frame *self, bool del_texture);
+static void frame_del(Frame **self, bool del_texture);
 
 static Texture2D *frame_get_texture(const Frame *self);
 

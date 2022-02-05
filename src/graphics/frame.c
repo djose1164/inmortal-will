@@ -41,16 +41,12 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
     return self;
 }
 
-static void frame_del(Frame *self, bool del_texture)
+static void frame_del(Frame **self, bool del_texture)
 {
     puts("Deleting frame...");
-    assert(self);
-    if (!self)
-        return;
-    
     if (del_texture)
-        self->_texture->del(self->_texture);
-    memory_release(self);
+        (*self)->_texture->del((*self)->_texture);
+    memory_release(*self);
     deallocated_frames++;
     puts("Deleting frame... Done!");
 }
