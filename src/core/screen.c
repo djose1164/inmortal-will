@@ -3,8 +3,15 @@
 
 static inline void screen_update_camera2D(Screen *const self)
 {
-    Frame *_target = ((Player *)self->_target)->base_super->frame;
-    self->camera.target = (Vector2){_target->pos.x, 0};
+    Vector2 pos;
+    if (self->_target)
+    {
+        Frame *_target = ((Player *)self->_target)->base_super->frame;
+        pos = (Vector2){_target->pos.x, 0};
+    }
+    else
+        pos = (Vector2){GetScreenWidth() / 2, 0};
+    self->camera.target = pos;
 }
 
 Screen *screen_init(String *title, void *target, Frame *background, const void *frames, size_t nframes,
@@ -59,15 +66,19 @@ static void screen_init_camera2D(Screen *const self)
 
 static void screen_render(const Screen *self)
 {
-    void **frames = (void **)self->frames;
     BeginMode2D(self->camera);
+    // Background must be drawn first.
     if (self->background)
         self->background->draw(self->background);
-    DrawText("Holala", 50, 50, 36, RED);
-    assert(frames);
-    for (size_t i = 0; i < self->frame_len; i++)
-        if (frames[i])
-            self->manager->draw[i](frames[i]);
+
+    DrawText(self->title->str, 50, 50, 36, RED);
+    if (self->frame_len)
+    {
+        void **frames = (void **)self->frames;
+        for (size_t i = 0; i < self->frame_len; i++)
+            if (frames[i])
+                self->manager->draw[i](frames[i]);
+    }
     EndMode2D();
 }
 
@@ -75,13 +86,14 @@ static void screen_update(const Screen *self)
 {
     if (self->frames)
     {
+        puts("## Holala");
         void **targets = (void **)self->frames;
         size_t num = self->frame_len;
         for (size_t i = 0; i < num; i++)
             self->manager->update[i](targets[i]);
         // self->manager->update[1](targets[1])
-        screen_update_camera2D(self);
     }
+    screen_update_camera2D(self);
 }
 
 static void screen_cleanup(Screen *self)

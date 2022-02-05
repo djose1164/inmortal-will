@@ -1,5 +1,12 @@
 #include "main.h"
 
+typedef enum
+{
+    TESTING,
+    GAMEOVER,
+    _SCREEN_MANAGER_MAX
+} ScreenManager;
+
 void draw_background(const Frame *self)
 {
     static float scrolling = 0.f;
@@ -9,8 +16,7 @@ void draw_background(const Frame *self)
         scrolling = 0;
     DrawTextureEx(*self->get_texture(self), (Vector2){scrolling, self->pos.y},
                   0.f, 4.5f, WHITE);
-    DrawTextureEx(*self->get_texture(self), (Vector2){self->get_texture_width(self) * 4.5f 
-                  + scrolling, self->pos.y}, 0.f, 4.5f, WHITE);
+    DrawTextureEx(*self->get_texture(self), (Vector2){self->get_texture_width(self) * 4.5f + scrolling, self->pos.y}, 0.f, 4.5f, WHITE);
 }
 
 int main(int argc, char const *argv[])
@@ -27,36 +33,52 @@ int main(int argc, char const *argv[])
     Music music = LoadMusicStream("resources/eon.mp3");
     PlayMusicStream(music);
 
-    Player *player = player_init(texture_init("resources/spaceship-draft.png"));
-    enemy = alien_init(texture_init("resources/enemy.png"));            
-        
-    void *update_arr[] = {alien_update, player->update, };
-    void *del_arr[] = {alien_del, player->del, };
-    void *draw_arr[] = {alien_draw, player->draw,};
+    /*Player *player = player_init(texture_init("resources/spaceship-draft.png"));
+    enemy = alien_init(texture_init("resources/enemy.png"));
+
+    void *update_arr[] = {
+        alien_update,
+        player->update,
+    };
+    void *del_arr[] = {
+        alien_del,
+        player->del,
+    };
+    void *draw_arr[] = {
+        alien_draw,
+        player->draw,
+    };
     struct ScreenManager manager = {
         .update = update_arr,
         .del = del_arr,
         .draw = draw_arr,
     };
-    void *frames[] = {enemy, player};
+    void *frames[] = {enemy, player};*/
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    String *str = string_init("Testing");
-    Screen *current = screen_init(str, player, background, frames, 2,&manager);
-
+    /*String *str = string_init("Testing");
+    Screen *testing = screen_init(str, player, background, frames, 2, &manager);*/
+    Screen *gameover = screen_init(string_init("Game Over"), NULL, NULL, NULL, 0, NULL);
+   /* Screen *screens[_SCREEN_MANAGER_MAX] = {
+        [TESTING] = testing,
+        [GAMEOVER] = gameover,
+    };*/
+    Screen *current = gameover;
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
         current->update(current);
-        if (alien_get_destroyed(enemy))
-            break;
+       /* if (alien_get_destroyed(enemy))
+            current = screens[GAMEOVER];*/
+        
         BeginDrawing();
         ClearBackground(BLACK);
         current->render(current);
         EndDrawing();
     }
 
-    current->del(current);
+    //current->del(current);
+    gameover->del(gameover);
     UnloadMusicStream(music);
     CloseWindow();
     texture_memstats();
