@@ -63,7 +63,7 @@ void *memory_allocate(unsigned size);
  * 
  * @param ptr Pointer to somewhere memory.
  */
-void memory_release(void *ptr);
+void memory_release(void **ptr);
 
 /**
  * @brief Must be executed atexit. Will check if the management of memory was

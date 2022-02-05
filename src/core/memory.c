@@ -16,12 +16,12 @@ void *memory_allocate(unsigned size)
     return ptr;
 }
 
-void memory_release(void *ptr)
+void memory_release(void **ptr)
 {
-    if (ptr)
+    if (*ptr)
     {
-        free(ptr);
-        ptr = NULL;
+        free(*ptr);
+        *ptr = NULL;
         ++memory_release_counter;
     }
 }
