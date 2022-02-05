@@ -32,7 +32,8 @@ struct Screen
     unsigned frame_len; /* Frame total to render. */
     void *_target; /* Target for camera. */
     struct ScreenManager *manager;
-
+    bool end;
+    
     void (*render)(const Screen *self);
     void (*update)(const Screen *self);
     void (*set_target)(Screen *const self, const Frame *target);
