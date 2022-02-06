@@ -15,7 +15,7 @@ void alien_update(T self);
 
 void alien_draw(T self);
 
-void alien_del(T self);
+void alien_del(T *self);
 
 Rectangle alien_get_rec(T self);
 

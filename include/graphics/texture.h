@@ -25,6 +25,6 @@ static unsigned texture_get_width(const IW_Texture *self);
 
 static unsigned texture_get_height(const IW_Texture *self);
 
-static void texture_del(IW_Texture *self);
+static void texture_del(IW_Texture **self);
 
 #endif //TEXTURE_H

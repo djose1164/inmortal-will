@@ -38,6 +38,6 @@ static void base_draw(const Base *self);
 
 static void base_attack(Base *self);
 
-static void base_del(Base *self);
+static void base_del(Base **self);
 
 #endif //BASE_H

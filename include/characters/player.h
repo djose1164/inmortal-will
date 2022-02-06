@@ -39,7 +39,7 @@ Player *player_init(const IW_Texture*);
  * 
  * @param self The player to remove.
  */
-void player_del(Player *self);
+void player_del(Player **self);
 
 void player_set_name(Player *const self, const char *name);
 

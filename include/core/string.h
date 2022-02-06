@@ -41,7 +41,7 @@ static String *string_to_upper(const String *self);
 
 static String *string_to_lower(const String *self);
 
-static void string_del(String *self);
+static void string_del(String **self);
 
 static bool string_starts_with_space(const char *_s);
 
