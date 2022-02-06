@@ -57,7 +57,6 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
         if (!laser[i].launched)
         {
             current = &laser[i];
-            printf("---->i: %zu<-----\n", i);
             break;
         }
     }
@@ -75,13 +74,14 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
 static void weapon_laser_destroy(Laser laser)
 {
     laser->launched = false;
-    laser->frame->del(laser->frame, false);
+    frame_del_without_texture(&laser->frame);
     deallocated_lasers++;
 }
 
 void weapon_destroy_all(Laser laser)
 {
-    laser->skin->del(laser->skin);
+    if (laser->skin)
+        laser->skin->del(&laser->skin);
     while (weapon_is_laser_attacking(laser))
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
