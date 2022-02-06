@@ -9,13 +9,15 @@
 typedef struct Base Base;
 struct Base
 {
-    
+
     char *name; /* Name (the nicksame has to be saved here). */
     Frame *frame;
 
     Laser laser;
     bool attacking;
     void (*attack)(const Base *self);
+    void (*update_lasers)(const Base *self);
+    void (*draw_lasers)(const Base *self);
     void (*set_texture)(Base *const self, const char *texture);
     void (*set_name)(Base *const self, const char *name);
     void (*del)(Base *self);
@@ -38,6 +40,10 @@ static void base_draw(const Base *self);
 
 static void base_attack(Base *self);
 
+static void base_update_lasers(const Base * self);
+
+static void base_draw_lasers(const Base * self);
+
 static void base_del(Base **self);
 
-#endif //BASE_H
+#endif // BASE_H

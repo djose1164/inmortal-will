@@ -40,11 +40,6 @@ Player *player_init(const IW_Texture *texture)
 void player_del(Player **self)
 {
     puts("Deleting player...");
-
-    puts("## Here");
-    if ((*self)->base_super->laser || weapon_is_laser_attacking((*self)->base_super->laser))
-        weapon_destroy_all((*self)->base_super->laser);
-
     (*self)->base_super->del(&(*self)->base_super);
     memory_release(self);
     puts("Deleting player... Done");
@@ -62,14 +57,14 @@ static void player_draw(const Player *self)
     assert(self);
     self->base_super->draw(self->base_super);
     assert(self->base_super->laser);
-    weapon_draw_lasers(self->base_super->laser);
+    self->base_super->draw_lasers(self->base_super);
 }
 
 static void player_update(Player *const self)
 {
     player_handle_input(self);
     if (self->base_super->attacking)
-        weapon_update_lasers(self->base_super->laser);
+        self->base_super->update_lasers(self->base_super);
 }
 
 /*****************************************************************************/

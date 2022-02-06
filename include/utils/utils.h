@@ -42,7 +42,7 @@ static inline void utils_clear_terminal(void)
     system("clear||cls");
 }
 
-static inline void utils_append_cwd(char *restrict buf, const char *restrict rpath, size_t size)
+static inline void utils_append_cwd(char * buf, const char * rpath, size_t size)
 {
     getcwd(buf, size);
     strncat(buf, rpath, size);
