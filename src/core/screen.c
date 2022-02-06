@@ -28,14 +28,14 @@ Screen *screen_init(String *title, void *target, Frame *background, const void *
     self->title = title;
     self->frames = frames;
     self->frame_len = nframes;
-
+    
     self->background = background;
     self->manager = manager;
     self->update = screen_update;
     self->render = screen_render;
     self->del = screen_del;
     self->cleanup = screen_cleanup;
-    puts("Creating screen... Done!");
+    printf("Creating [Screen]%s... Created!\n", self->title->str);
 
     return self;
 }
@@ -67,10 +67,9 @@ static void screen_init_camera2D(Screen *const self)
 static void screen_render(const Screen *self)
 {
     BeginMode2D(self->camera);
-    puts("Rendenring screen...");
     // Background must be drawn first.
     if (self->background)
-        self->background->draw(self->background);
+        (*self->background)->draw((*self->background));
     unsigned t = (GetScreenWidth() - self->title->len);
     unsigned font_size = 64;
     float spacing = 4.5f;
@@ -88,14 +87,12 @@ static void screen_render(const Screen *self)
                 self->manager->draw[i](frames[i]);
     }
     EndMode2D();
-    puts("Rendenring screen... Done!");
 }
 
 static void screen_update(const Screen *self)
 {
     if (self->frames)
     {
-        puts("## Holala");
         void **targets = (void **)self->frames;
         size_t num = self->frame_len;
         for (size_t i = 0; i < num; i++)
@@ -110,22 +107,23 @@ static void screen_cleanup(Screen *self)
     void **targets = (void **)self->frames;
     puts("Screen cleaning up...");
     for (size_t i = 0; i < self->frame_len; i++)
-        self->manager->del[i](targets[i]);
+        self->manager->del[i](&targets[i]);
     puts("Screen cleaning up... Done");
 }
 
-static void screen_del(Screen *self)
+static void screen_del(Screen **self)
 {
-    puts("Deleting screen...");
-    if (self->manager)
-        self->cleanup(self);
-    if (self->background)
-        self->background->del(self->background, true);
-    // if (self->title && strcmp(self->title, APP) != 0)
+    printf("Deleting [Screen]%s...\n", (*self)->title->str);
+    if ((*self)->manager)
+        (*self)->cleanup((*self));
+    if (*(*self)->background)
     {
-        self->title->del(self->title);
-        puts("*-*-*-Screen string deleted*-*-*-");
+            printf("## *-*-*-*Actually deleting: %s*-*-*-*-\n"
+                   "self->background at %p\n", (*self)->title->str, (*self)->background);
+        (*(*self)->background)->del((*self)->background);
     }
+    (*self)->title->del(&(*self)->title);
+
     memory_release(self);
     puts("Deleting screen... Done!");
 }
