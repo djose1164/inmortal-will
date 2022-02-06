@@ -37,14 +37,15 @@ Player *player_init(const IW_Texture *texture)
     return self;
 }
 
-void player_del(Player *self)
+void player_del(Player **self)
 {
     puts("Deleting player...");
 
-    if (self->base_super->laser || weapon_is_laser_attacking(self->base_super->laser))
-        weapon_destroy_all(self->base_super->laser);
+    puts("## Here");
+    if ((*self)->base_super->laser || weapon_is_laser_attacking((*self)->base_super->laser))
+        weapon_destroy_all((*self)->base_super->laser);
 
-    self->base_super->del(self->base_super);
+    (*self)->base_super->del(&(*self)->base_super);
     memory_release(self);
     puts("Deleting player... Done");
 }
