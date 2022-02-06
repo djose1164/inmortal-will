@@ -42,10 +42,12 @@ static unsigned texture_get_height(const IW_Texture *self)
     return self->_texture2D.height;
 }
 
-static void texture_del(IW_Texture *self)
+static void texture_del(IW_Texture **self)
 {
     puts("Deleting texture...");
-    UnloadTexture(self->_texture2D);
+    assert(self);
+    assert(*self);
+    UnloadTexture((*self)->_texture2D);
     memory_release(self);
     deallocated++;
     puts("Deleting texture... Done!");
