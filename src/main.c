@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
     Music music = LoadMusicStream("resources/eon.mp3");
     PlayMusicStream(music);
 
-    /*Player *player = player_init(texture_init("resources/spaceship-draft.png"));
+    Player *player = player_init(texture_init("resources/spaceship-draft.png"));
     enemy = alien_init(texture_init("resources/enemy.png"));
 
     void *update_arr[] = {
@@ -53,36 +53,38 @@ int main(int argc, char const *argv[])
         .del = del_arr,
         .draw = draw_arr,
     };
-    void *frames[] = {enemy, player};*/
+    void *frames[] = {enemy, player};
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    /*String *str = string_init("Testing");
-    Screen *testing = screen_init(str, player, background, frames, 2, &manager);*/
-    Screen *gameover = screen_init(string_init("Game Over"), NULL, NULL, NULL, 0, NULL);
-   /* Screen *screens[_SCREEN_MANAGER_MAX] = {
+    String *str = string_init("Testing");
+    Screen *testing = screen_init(str, player, &background, frames, 2, &manager);
+    Screen *gameover = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
+    Screen *screens[_SCREEN_MANAGER_MAX] = {
         [TESTING] = testing,
         [GAMEOVER] = gameover,
-    };*/
-    Screen *current = gameover;
+    };
+    Screen *current = screens[TESTING];
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
         current->update(current);
-       /* if (alien_get_destroyed(enemy))
-            current = screens[GAMEOVER];*/
-        
+        if (alien_get_destroyed(enemy))
+            current = screens[GAMEOVER];
+
         BeginDrawing();
         ClearBackground(BLACK);
         current->render(current);
         EndDrawing();
     }
 
-    //current->del(current);
-    gameover->del(gameover);
+    //gameover->background = NULL;
+    for (size_t i = 0; i < _SCREEN_MANAGER_MAX; i++)
+        screens[i]->del(&screens[i]);
+    
     UnloadMusicStream(music);
     CloseWindow();
-    texture_memstats();
-    frame_memstats();
+    //texture_memstats();
+    //frame_memstats();
     memory_check_counter();
 
     return 0;
