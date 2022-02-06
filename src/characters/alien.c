@@ -65,10 +65,12 @@ void alien_draw(Alien self)
     }
 }
 
-void alien_del(Alien self)
+void alien_del(Alien *self)
 {
     puts("Deleting alien...");
-    self->super->del(self->super);
+    assert(self);
+    assert(*self);
+    (*self)->super->del(&(*self)->super);
     memory_release(self);
     puts("Deleting alien... Done!");
 }

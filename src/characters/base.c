@@ -37,11 +37,12 @@ static void base_draw(const Base *self)
     self->frame->draw(self->frame);
 }
 
-static void base_del(Base *self)
+static void base_del(Base **self)
 {
     puts("Deleting base...");
-    
-    self->frame->del(self->frame, true);
+    assert(self);
+    assert(*self);
+    (*self)->frame->del(&(*self)->frame);
     memory_release(self);
     puts("Deleting base... Done!");
 }
