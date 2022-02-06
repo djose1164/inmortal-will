@@ -28,7 +28,7 @@ struct Frame
     unsigned (*get_texture_height)(const Frame *self);
     void (*bind_texture)(Frame *const self, const IW_Texture *texture);
     void (*del_texture)(Frame *const self);
-    void (*del)(Frame *self, bool del_texture);
+    void (*del)(Frame *self);
     FrameReturn (*check_margins)(const Frame *self);
 };
 
@@ -37,7 +37,7 @@ void frame_memstats(void);
 Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
                     Color *color);
 
-static void frame_del(Frame **self, bool del_texture);
+static void frame_del(Frame **self);
 
 static Texture2D *frame_get_texture(const Frame *self);
 
@@ -54,6 +54,8 @@ static unsigned frame_get_texture_height(const Frame *self);
 static void frame_bind_texture(Frame *const self, const IW_Texture *texture);
 
 static void frame_del_texture(Frame *const self);
+
+void frame_del_without_texture(Frame **self);
 
 static void frame_draw(const Frame *self);
 

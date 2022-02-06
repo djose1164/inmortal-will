@@ -41,12 +41,13 @@ Frame *frame_init(const IW_Texture *texture, const Vector2 *pos,
     return self;
 }
 
-static void frame_del(Frame **self, bool del_texture)
-{
+static void frame_del(Frame **self){
     puts("Deleting frame...");
-    if (del_texture)
-        (*self)->_texture->del((*self)->_texture);
-    memory_release(*self);
+    assert(self);
+    assert(*self);
+    if ((*self)->_texture)
+        (*self)->_texture->del(&(*self)->_texture);
+    memory_release(self);
     deallocated_frames++;
     puts("Deleting frame... Done!");
 }
@@ -103,4 +104,10 @@ static void frame_check_margins(const Frame *self)
         *frame_y = (float)screen_height - self->get_texture_height(self);
     else if (*frame_y < 1)
         *frame_y = 1.0f;
+}
+
+void frame_del_without_texture(Frame **self)
+{
+    (*self)->_texture = NULL;
+    frame_del(self);
 }
