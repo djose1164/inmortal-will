@@ -18,22 +18,22 @@ struct ScreenManager
 
 typedef struct Screen Screen;
 /**
- * @brief Screen is a container for whatever you want to keep or do in 
+ * @brief Screen is a container for whatever you want to keep or do in
  * this stage. Usings screen as a container make the thinds easier to render
  * just pass the screen to the screen manager and that's it.
- * 
+ *
  */
 struct Screen
 {
-    String *title; /* Screen's title. */
-    Frame *background; /* Screen's background. */
-    Camera2D camera;    /* Screen's camera. */
+    String *title;       /* Screen's title. */
+    Frame **background;   /* Screen's background. */
+    Camera2D camera;     /* Screen's camera. */
     const void *frames; /* Array of frames to render. */
-    unsigned frame_len; /* Frame total to render. */
-    void *_target; /* Target for camera. */
+    unsigned frame_len;  /* Frame total to render. */
+    void *_target;       /* Target for camera. */
     struct ScreenManager *manager;
     bool end;
-    
+
     void (*render)(const Screen *self);
     void (*update)(const Screen *self);
     void (*set_target)(Screen *const self, const Frame *target);
@@ -43,7 +43,7 @@ struct Screen
 
 /**
  * @brief Create a new screen.
- * 
+ *
  * @param title Screen title.
  * @param background If NULL, lightgay will be draw.
  * @param frames Array.
@@ -60,7 +60,7 @@ static void screen_update(const Screen *self);
 
 static void screen_cleanup(Screen *self);
 
-static void screen_del(Screen *self);
+static void screen_del(Screen **self);
 
 static void screen_set_target(Screen *const self, const Frame *target);
-#endif //SCREEN_H
+#endif // SCREEN_H
