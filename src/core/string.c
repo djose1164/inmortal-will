@@ -47,10 +47,12 @@ static String *string_to_lower(const String *self)
     return string_init(str);
 }
 
-static void string_del(String *self)
+static void string_del(String **self)
 {
     puts("Deleting string...");
-    memory_release(self->str);
+    assert(self);
+    assert(*self);
+    memory_release(&(*self)->str);
     memory_release(self);
     puts("Deleting string... Done!");
 }
