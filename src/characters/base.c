@@ -9,6 +9,7 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     puts("Creating base...");
     Base *self = memory_allocate(sizeof *self);
     self->frame = frame;
+    self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
     base_bindfuncs(self);
     puts("Creating base... Done!");
 
