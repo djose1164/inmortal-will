@@ -13,7 +13,7 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     if (type == PLAYER)
         self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_FORWARD);
     else
-        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_FORWARD);
+        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_BACKWARD);
     self->attacking = false;
 
     base_bindfuncs(self);
