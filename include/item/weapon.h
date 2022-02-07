@@ -10,7 +10,7 @@ typedef struct Laser *Laser;
 
 typedef enum
 {
-    WEAPON_LASER_FOWARD,
+    WEAPON_LASER_FORWARD,
     WEAPON_LASER_BACKWARD,
 } LaserDirection;
 
