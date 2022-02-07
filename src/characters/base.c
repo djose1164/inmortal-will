@@ -1,4 +1,5 @@
 #include "characters/base.h"
+#include "item/weapon.h"
 #include "core/memory_p.h"
 #include <stdio.h>
 
@@ -9,7 +10,10 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     puts("Creating base...");
     Base *self = memory_allocate(sizeof *self);
     self->frame = frame;
-    self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
+    if (type == PLAYER)
+        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_FORWARD);
+    else
+        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_FORWARD);
     self->attacking = false;
 
     base_bindfuncs(self);
