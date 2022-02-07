@@ -8,9 +8,15 @@ typedef struct Laser *Laser;
 #define LASER_SPEED 5.f
 #define T Laser
 
+typedef enum
+{
+    WEAPON_LASER_FOWARD,
+    WEAPON_LASER_BACKWARD,
+} LaserDirection;
+
 /**
  * @brief Create an array of lasers.
- * 
+ *
  * @param quantity Number of lasers to create.
  * @return Laser Pointer to array of lasers.
  */
