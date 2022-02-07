@@ -17,13 +17,13 @@ struct Alien
     Base *super;
     float speed;
     bool destroyed;
-    Laser *lasers;
 };
 
 static inline void alien_attack(restrict Alien self)
 {
-    if ((long)GetTime() % 5 == 0)
-        weapon_next_laser(*self->lasers, &self->super->frame->pos);
+    long time = (long)GetTime();
+    if (time %  360 == 0)
+        self->super->attack(self->super);
 }
 
 Alien alien_init(IW_Texture *skin)
@@ -33,8 +33,6 @@ Alien alien_init(IW_Texture *skin)
     self->super = base_init("Alien", MONSTER, frame);
     self->speed = ALIEN_SPEED;
     self->destroyed = false;
-    (*self->lasers) = weapon_create_lasers(MAX_NUMS_OF_LASER);
-
     return self;
 }
 
@@ -63,7 +61,8 @@ void alien_update(Alien self)
     }
 
     alien_attack(self);
-    weapon_update_lasers(*self->lasers);
+    TraceLog(LOG_INFO, "At %s():%d", __FUNCTION__, __LINE__);
+    self->super->update_lasers(self->super);
 }
 
 void alien_draw(Alien self)
@@ -82,7 +81,6 @@ void alien_del(Alien *self)
     puts("Deleting alien...");
     assert(self);
     assert(*self);
-    weapon_destroy_all(*(*self)->lasers);
     (*self)->super->del(&(*self)->super);
     memory_release(self);
     puts("Deleting alien... Done!");
