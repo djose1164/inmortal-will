@@ -26,7 +26,6 @@ Player *player_init(const IW_Texture *texture)
     Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
 
     self->base_super = base_init("Player", PLAYER, frame);
-    self->base_super->laser = weapon_create_lasers(MAX_NUMS_OF_LASER);
     self->base_super->attacking = false;
 
     const unsigned frame_height = self->base_super->frame->get_texture_height(self->base_super->frame);
