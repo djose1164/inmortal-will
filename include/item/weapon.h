@@ -20,7 +20,7 @@ typedef enum
  * @param quantity Number of lasers to create.
  * @return Laser Pointer to array of lasers.
  */
-T weapon_create_lasers(unsigned quantity);
+T weapon_create_lasers(unsigned quantity, LaserDirection direction);
 
 T weapon_next_laser(T laser, Vector2 *pos);
 

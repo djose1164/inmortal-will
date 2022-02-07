@@ -9,12 +9,13 @@ struct Laser
     IW_Texture *skin;
     Frame *frame;
     bool launched;
+    LaserDirection direction;
 };
 
 static size_t created_lasers;
 static size_t deallocated_lasers;
 
-Laser weapon_create_lasers(unsigned quantity)
+Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
 {
     puts("Creating lasers...");
     static struct Laser lasers[MAX_NUMS_OF_LASER] = {0};
@@ -27,6 +28,7 @@ Laser weapon_create_lasers(unsigned quantity)
         lasers[i].skin = skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
+        lasers[i].direction = direction;
     }
     puts("Creating lasers... Done!");
     return &lasers;
