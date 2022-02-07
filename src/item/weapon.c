@@ -107,7 +107,7 @@ void weapon_update_lasers(Laser laser)
     {
         if (laser[i].launched)
         {
-            if (laser[i].direction == WEAPON_LASER_FOWARD)
+            if (laser[i].direction == WEAPON_LASER_FORWARD)
                 laser[i].frame->pos.x += time * laser->speed;
             else
                 laser[i].frame->pos.x -= time * laser->speed;
