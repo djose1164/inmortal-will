@@ -48,7 +48,6 @@ void weapon_check_impact(Laser laser)
     bool collision = CheckCollisionRecs(reclaser, alien_get_rec(enemy));
     if (collision)
         alien_set_destroy(enemy, true);
-    
 }
 
 Laser weapon_next_laser(Laser laser, Vector2 *pos)
@@ -88,8 +87,7 @@ void weapon_destroy_all(Laser laser)
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
                 weapon_laser_destroy(&laser[i]);
-        
-    
+
     if (deallocated_lasers == created_lasers)
         puts("Mem in lasers is Ok!");
     else
@@ -109,8 +107,12 @@ void weapon_update_lasers(Laser laser)
     {
         if (laser[i].launched)
         {
-            laser[i].frame->pos.x += time * laser->speed;
-            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5)
+            if (laser[i].direction == WEAPON_LASER_FOWARD)
+                laser[i].frame->pos.x += time * laser->speed;
+            else
+                laser[i].frame->pos.x -= time * laser->speed;
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 
+                || laser[i].frame->pos.x < GetScreenWidth() * 1.5)
                 weapon_laser_destroy(&laser[i]);
         }
     }
