@@ -101,12 +101,12 @@ void weapon_update_lasers(Laser laser)
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    weapon_check_impact(laser);
     volatile double time = 60 * (.035f / laser->speed);
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
         {
+            weapon_check_impact(&laser[i]);
             if (laser[i].direction == WEAPON_LASER_FORWARD)
                 laser[i].frame->pos.x += time * laser->speed;
             else
