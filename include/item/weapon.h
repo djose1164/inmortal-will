@@ -5,7 +5,7 @@
 typedef struct Laser *Laser;
 
 #define MAX_NUMS_OF_LASER 32
-#define LASER_SPEED 5.f
+#define LASER_SPEED 120.f
 #define T Laser
 
 typedef enum
