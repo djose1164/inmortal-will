@@ -1,5 +1,6 @@
 #include "item/weapon.h"
 #include "characters/alien.h"
+#include "core/memory_p.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -18,20 +19,21 @@ static size_t deallocated_lasers;
 Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
 {
     puts("Creating lasers...");
-    static struct Laser lasers[MAX_NUMS_OF_LASER] = {0};
+    struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
     static IW_Texture *skin = NULL;
     if (!skin)
         skin = texture_init("resources/laser.png");
 
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
+        printf("## Here\ti:%zu\n", i);
         lasers[i].skin = skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
         lasers[i].direction = direction;
     }
     puts("Creating lasers... Done!");
-    return &lasers;
+    return lasers;
 }
 
 void weapon_check_impact(Laser laser)
