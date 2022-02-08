@@ -109,12 +109,23 @@ void weapon_update_lasers(Laser laser)
         if (laser[i].launched)
         {
             weapon_check_impact(&laser[i]);
-            if (laser[i].direction == WEAPON_LASER_FORWARD)
+            switch (laser[i].direction)
+            {
+            case WEAPON_LASER_FORWARD:
                 laser[i].frame->pos.x += time * laser->speed;
-            else
+                TraceLog(LOG_INFO, "Player's x: %.f", laser[i].frame->pos.x);
+                break;
+
+            case WEAPON_LASER_BACKWARD:
                 laser[i].frame->pos.x -= time * laser->speed;
-            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 
-                || laser[i].frame->pos.x < GetScreenWidth() * 1.5)
+                TraceLog(LOG_INFO, "Alien's x: %.f", laser[i].frame->pos.x);
+                break;
+
+            default:
+                TraceLog(LOG_ERROR, "At %s(): Unknown direction!");
+                break;
+            }
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5)
                 weapon_laser_destroy(&laser[i]);
         }
     }
