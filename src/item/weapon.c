@@ -120,8 +120,7 @@ void weapon_update_lasers(Laser laser)
                 TraceLog(LOG_INFO, "Alien's laser's x: %.f", laser[i].frame->pos.x);
                 break;
             }
-            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5
-                || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 weapon_laser_destroy(&laser[i]);
         }
     }
@@ -129,10 +128,15 @@ void weapon_update_lasers(Laser laser)
 
 void weapon_draw_lasers(Laser laser)
 {
+    float degrees = 0;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
         if (laser[i].launched)
-            DrawTextureRec(laser[i].skin->_texture2D, laser[i].frame->rectangle,
-                           laser[i].frame->pos, WHITE);
+        {
+            if (laser[i].direction == WEAPON_LASER_BACKWARD)
+                degrees = 180.f;
+            DrawTextureEx(laser[i].skin->_texture2D, laser[i].frame->pos,
+                          degrees, 1.f, WHITE);
+        }
 }
 
 const IW_Texture *weapon_get_texture(Laser laser)
