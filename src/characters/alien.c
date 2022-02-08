@@ -21,16 +21,20 @@ struct Alien
 
 static inline void alien_attack(restrict Alien self)
 {
-    long time = (long)GetTime();
-    if (time %  360 == 0)
+    static long time;
+    if (time > 300)
+    {
+        time = 0;
         self->super->attack(self->super);
+        puts("Alien attacking!!!");
+    }
+    time++;
 }
 
 Alien alien_init(IW_Texture *skin)
 {
     Alien self = memory_allocate(sizeof *self);
-    Frame *frame = frame_init(skin, &(Vector2){GetScreenWidth() - 256, 100}, &WHITE);
-    self->super = base_init("Alien", MONSTER, frame);
+    self->super = base_init("Alien", MONSTER, frame_init(skin, &(Vector2){GetScreenWidth() - 256, 100}, &WHITE));
     self->speed = ALIEN_SPEED;
     self->destroyed = false;
     return self;
@@ -61,7 +65,6 @@ void alien_update(Alien self)
     }
 
     alien_attack(self);
-    TraceLog(LOG_INFO, "At %s():%d", __FUNCTION__, __LINE__);
     self->super->update_lasers(self->super);
 }
 
