@@ -102,29 +102,26 @@ void weapon_update_lasers(Laser laser)
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
-    volatile double time = 60 * (.035f / laser->speed);
+    volatile double time = GetFrameTime();
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
         {
-            weapon_check_impact(&laser[i]);
+            // weapon_check_impact(&laser[i]);
             switch (laser[i].direction)
             {
             case WEAPON_LASER_FORWARD:
                 laser[i].frame->pos.x += time * laser->speed;
-                TraceLog(LOG_INFO, "Player's x: %.f", laser[i].frame->pos.x);
+                TraceLog(LOG_INFO, "Player's laser's x: %.f", laser[i].frame->pos.x);
                 break;
 
             case WEAPON_LASER_BACKWARD:
                 laser[i].frame->pos.x -= time * laser->speed;
-                TraceLog(LOG_INFO, "Alien's x: %.f", laser[i].frame->pos.x);
-                break;
-
-            default:
-                TraceLog(LOG_ERROR, "At %s(): Unknown direction!");
+                TraceLog(LOG_INFO, "Alien's laser's x: %.f", laser[i].frame->pos.x);
                 break;
             }
-            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5)
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5
+                || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 weapon_laser_destroy(&laser[i]);
         }
     }
