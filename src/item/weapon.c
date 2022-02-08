@@ -26,7 +26,6 @@ Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
 
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
-        printf("## Here\ti:%zu\n", i);
         lasers[i].skin = skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
