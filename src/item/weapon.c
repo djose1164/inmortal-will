@@ -112,12 +112,16 @@ void weapon_update_lasers(Laser laser)
             {
             case WEAPON_LASER_FORWARD:
                 laser[i].frame->pos.x += time * laser->speed;
+                #ifdef DEBUG
                 TraceLog(LOG_INFO, "Player's laser's x: %.f", laser[i].frame->pos.x);
+                #endif // DEBUG
                 break;
 
             case WEAPON_LASER_BACKWARD:
                 laser[i].frame->pos.x -= time * laser->speed;
+                #ifdef DEBUG
                 TraceLog(LOG_INFO, "Alien's laser's x: %.f", laser[i].frame->pos.x);
+                #endif // DEBUG
                 break;
             }
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
