@@ -7,7 +7,7 @@
 struct Laser
 {
     double speed;
-    IW_Texture *skin;
+    IW_Texture **skin;
     Frame *frame;
     bool launched;
     LaserDirection direction;
@@ -26,7 +26,7 @@ Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
 
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
-        lasers[i].skin = skin;
+        lasers[i].skin = &skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
         lasers[i].direction = direction;
@@ -64,7 +64,7 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
     }
     if (current)
     {
-        current->frame = frame_init(current->skin, pos, &WHITE);
+        current->frame = frame_init(*current->skin, pos, &WHITE);
         current->launched = true;
         created_lasers++;
         return current;
@@ -82,8 +82,8 @@ static void weapon_laser_destroy(Laser laser)
 
 void weapon_destroy_all(Laser laser)
 {
-    if (laser->skin)
-        laser->skin->del(&laser->skin);
+    if (*laser->skin)
+        (*laser->skin)->del(laser->skin);
     while (weapon_is_laser_attacking(laser))
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
@@ -138,14 +138,14 @@ void weapon_draw_lasers(Laser laser)
         {
             if (laser[i].direction == WEAPON_LASER_BACKWARD)
                 degrees = 180.f;
-            DrawTextureEx(laser[i].skin->_texture2D, laser[i].frame->pos,
+            DrawTextureEx((*laser[i].skin)->_texture2D, laser[i].frame->pos,
                           degrees, 1.f, WHITE);
         }
 }
 
 const IW_Texture *weapon_get_texture(Laser laser)
 {
-    return laser->skin;
+    return *laser->skin;
 }
 
 void weapon_set_frame(Laser laser, Frame *frame)

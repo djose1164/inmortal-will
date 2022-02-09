@@ -45,7 +45,7 @@ static void base_draw(const Base *self)
     self->frame->draw(self->frame);
 }
 
-static void base_del_lasers(Laser *laser)
+static void base_del_lasers(Laser laser)
 {
     TraceLog(LOG_INFO, "At %s(): deleting...", __FUNCTION__);
     if (laser || weapon_is_laser_attacking(laser))
@@ -58,7 +58,7 @@ static void base_del(Base **self)
     puts("Deleting base...");
     assert(self);
     assert(*self);
-    base_del_lasers(*self);
+    base_del_lasers((*self)->laser);
     (*self)->frame->del(&(*self)->frame);
     memory_release(self);
     puts("Deleting base... Done!");
