@@ -83,8 +83,8 @@ int main(int argc, char const *argv[])
     
     UnloadMusicStream(music);
     CloseWindow();
-    //texture_memstats();
-    //frame_memstats();
+    texture_memstats();
+    frame_memstats();
     memory_check_counter();
 
     return 0;
