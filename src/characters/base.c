@@ -60,6 +60,7 @@ static void base_del(Base **self)
     assert(*self);
     base_del_lasers((*self)->laser);
     (*self)->frame->del(&(*self)->frame);
+    memory_release(&(*self)->laser);
     memory_release(self);
     puts("Deleting base... Done!");
 }
