@@ -2,6 +2,7 @@
 #define WEAPON_H
 
 #include "graphics/frame.h"
+#include "core/type.h"
 typedef struct Laser *Laser;
 
 #define MAX_NUMS_OF_LASER 32
