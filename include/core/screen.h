@@ -1,16 +1,25 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "characters/player.h"
+#include "core/screen_p.h"
 #include "core/string.h"
+#include "characters/player.h"
 #include "graphics/frame.h"
 #include "utils/utils.h"
 #include <raylib.h>
 
 typedef void (*fptrCallBack)(void *arg);
+typedef struct Screen Screen;
+typedef enum
+{
+    TESTING,
+    GAMEOVER,
+    _SCREEN_MANAGER_MAX
+} ScreenIndex;
 typedef Screen *ScreenManager;
 
 /* Global variables. */
+extern Screen **screens;
 extern ScreenManager screen_manager; /* For switching screen. */
 
 struct ScreenHandler
@@ -20,7 +29,6 @@ struct ScreenHandler
     fptrCallBack *del;
 };
 
-typedef struct Screen Screen;
 /**
  * @brief Screen is a container for whatever you want to keep or do in
  * this stage. Usings screen as a container make the thinds easier to render
