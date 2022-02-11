@@ -1,5 +1,9 @@
 #include "core/screen.h"
 #include "core/memory_p.h"
+#include "core/screen_manager.h"
+
+Screen **screens = NULL;
+ScreenManager screen_manager = NULL;
 
 static inline void screen_update_camera2D(Screen *const self)
 {
@@ -15,7 +19,7 @@ static inline void screen_update_camera2D(Screen *const self)
 }
 
 Screen *screen_init(String *title, void *target, Frame *background, const void *frames, size_t nframes,
-                    const struct ScreenManager *manager)
+                    const struct ScreenHandler *manager)
 {
     puts("Creating screen...");
     Screen *self = memory_allocate(sizeof *self);
