@@ -8,11 +8,7 @@ typedef struct Laser *Laser;
 #define LASER_SPEED 120.f
 #define T Laser
 
-typedef enum
-{
-    WEAPON_LASER_FORWARD,
-    WEAPON_LASER_BACKWARD,
-} LaserDirection;
+typedef Type Owner;
 
 /**
  * @brief Create an array of lasers.
@@ -20,7 +16,7 @@ typedef enum
  * @param quantity Number of lasers to create.
  * @return Laser Pointer to array of lasers.
  */
-T weapon_create_lasers(unsigned quantity, LaserDirection direction);
+T weapon_create_lasers(unsigned quantity, Owner direction);
 
 T weapon_next_laser(T laser, Vector2 *pos);
 
