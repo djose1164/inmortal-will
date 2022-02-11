@@ -26,6 +26,7 @@ int main(int argc, char const *argv[])
 
     Music music = LoadMusicStream("resources/eon.mp3");
     PlayMusicStream(music);
+    SetMusicVolume(music, .6f);
 
     Player *player = player_init(texture_init("resources/spaceship-draft.png"));
     global_player = player;
