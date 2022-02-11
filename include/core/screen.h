@@ -10,6 +10,9 @@
 typedef void (*fptrCallBack)(void *arg);
 typedef Screen *ScreenManager;
 
+/* Global variables. */
+extern ScreenManager screen_manager; /* For switching screen. */
+
 struct ScreenHandler
 {
     fptrCallBack *draw;
