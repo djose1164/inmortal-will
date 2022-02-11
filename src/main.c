@@ -7,6 +7,7 @@ typedef enum
     _SCREEN_MANAGER_MAX
 } ScreenHandler;
 
+// TODO: This function definition must be hidden.
 void draw_background(const Frame *self)
 {
     static float scrolling = 0.f;
