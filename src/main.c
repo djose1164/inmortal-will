@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
         alien_draw,
         player->draw,
     };
-    struct ScreenHandler manager = {
+    struct ScreenHandler handler = {
         .update = update_arr,
         .del = del_arr,
         .draw = draw_arr,
