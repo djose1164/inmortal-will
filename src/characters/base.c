@@ -11,9 +11,9 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     Base *self = memory_allocate(sizeof *self);
     self->frame = frame;
     if (type == PLAYER)
-        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_FORWARD);
+        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, PLAYER);
     else
-        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, WEAPON_LASER_BACKWARD);
+        self->laser = weapon_create_lasers(MAX_NUMS_OF_LASER, MONSTER);
     self->attacking = false;
 
     base_bindfuncs(self);
