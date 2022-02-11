@@ -1,7 +1,6 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "core/screen_p.h"
 #include "core/string.h"
 #include "characters/player.h"
 #include "graphics/frame.h"
