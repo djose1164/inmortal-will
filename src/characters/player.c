@@ -15,6 +15,7 @@
 #include <assert.h>
 
 LinkedList player_list = {.head = NULL};
+Player *global_player = NULL;
 static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2

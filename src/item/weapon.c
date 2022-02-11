@@ -1,9 +1,9 @@
 #include "item/weapon.h"
 #include "characters/alien.h"
 #include "core/memory_p.h"
+#include "core/screen.h"
 #include <stdio.h>
 #include <assert.h>
-
 
 struct Laser
 {
@@ -40,16 +40,27 @@ void weapon_check_impact(Laser laser)
 {
     assert(laser);
     assert(laser->frame);
-    Rectangle reclaser = {
+    Rectangle rec = {
         .height = laser->frame->rectangle.height - 10,
         .width = laser->frame->rectangle.width,
         .x = laser->frame->pos.x,
         .y = laser->frame->pos.y,
     };
 
-    bool collision = CheckCollisionRecs(reclaser, alien_get_rec(enemy));
-    if (collision)
-        alien_set_destroy(enemy, true);
+    bool player_hit = CheckCollisionRecs(rec, alien_get_rec(enemy)) && laser->owner == PLAYER;
+    bool alien_hit = CheckCollisionRecs(rec, global_player->base_super->frame->rectangle) && laser->owner == MONSTER;
+
+    if (player_hit)
+    {
+        puts("/-/-/-/-/-/-/Player hit!/-/-/-/-/-/-/-/-");
+        *screen_manager = screens[SCREEN_WIN];
+    }
+    if (alien_hit)
+    {
+        puts("/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
+        screen_manager = &screens[GAMEOVER];
+        //    alien_set_destroy(enemy, true);
+    }
 }
 
 Laser weapon_next_laser(Laser laser, Vector2 *pos)
@@ -125,8 +136,7 @@ void weapon_update_lasers(Laser laser)
 #endif // DEBUG
                 break;
             }
-            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 
-                || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
+            if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 weapon_laser_destroy(&laser[i]);
         }
     }

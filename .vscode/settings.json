@@ -6,6 +6,7 @@
     "characters/player.h": "c",
     "*.tcc": "c",
     "base.h": "c",
-    "error.h": "c"
+    "error.h": "c",
+    "screen_manager.h": "c"
   }
 }

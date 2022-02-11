@@ -1,12 +1,5 @@
 #include "main.h"
 
-typedef enum
-{
-    TESTING,
-    GAMEOVER,
-    _SCREEN_MANAGER_MAX
-} ScreenHandler;
-
 // TODO: This function definition must be hidden.
 void draw_background(const Frame *self)
 {
@@ -35,6 +28,7 @@ int main(int argc, char const *argv[])
     PlayMusicStream(music);
 
     Player *player = player_init(texture_init("resources/spaceship-draft.png"));
+    global_player = player;
     enemy = alien_init(texture_init("resources/enemy.png"));
 
     void *update_arr[] = {
@@ -58,21 +52,24 @@ int main(int argc, char const *argv[])
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
     String *str = string_init("Testing");
-    Screen *testing = screen_init(str, player, &background, frames, 2, &manager);
+    Screen *testing = screen_init(str, player, &background, frames, 2, &handler);
     Screen *gameover = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
-    Screen *screens[_SCREEN_MANAGER_MAX] = {
+    Screen *win_screen = screen_init(string_init("You win!"), NULL, &background, NULL, 0, NULL);
+    Screen *_screens[_SCREEN_MANAGER_MAX] = {
         [TESTING] = testing,
+        [SCREEN_WIN] = win_screen,
         [GAMEOVER] = gameover,
     };
-    Screen *current = screens[TESTING];
+    screens = _screens;
+    *screen_manager = screens[TESTING];
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
-        current->update(current);
+        (*screen_manager)->update(*screen_manager);
 
         BeginDrawing();
         ClearBackground(BLACK);
-        current->render(current);
+        (*screen_manager)->render(*screen_manager);
         EndDrawing();
     }
 

@@ -20,6 +20,8 @@
 
 typedef struct Player Player;
 
+extern Player *global_player;
+
 struct Player
 {
     Base *base_super;

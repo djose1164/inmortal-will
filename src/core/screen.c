@@ -2,7 +2,8 @@
 #include "core/memory_p.h"
 
 Screen **screens = NULL;
-ScreenManager screen_manager = NULL;
+static ScreenManager *_screen_manager_private;
+ScreenManager screen_manager = &_screen_manager_private;
 
 static inline void screen_update_camera2D(Screen *const self)
 {

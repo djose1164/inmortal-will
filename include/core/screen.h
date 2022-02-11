@@ -13,9 +13,10 @@ typedef enum
 {
     TESTING,
     GAMEOVER,
+    SCREEN_WIN,
     _SCREEN_MANAGER_MAX
 } ScreenIndex;
-typedef Screen *ScreenManager;
+typedef Screen **ScreenManager;
 
 /* Global variables. */
 extern Screen **screens;
