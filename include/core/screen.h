@@ -8,6 +8,7 @@
 #include <raylib.h>
 
 typedef void (*fptrCallBack)(void *arg);
+typedef Screen *ScreenManager;
 
 struct ScreenHandler
 {
