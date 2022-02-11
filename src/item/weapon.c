@@ -47,8 +47,16 @@ void weapon_check_impact(Laser laser)
         .y = laser->frame->pos.y,
     };
 
+    Frame _ = *global_player->base_super->frame;
+    Rectangle prec = {
+        .height = _.rectangle.height,
+        .width = _.rectangle.width,
+        .x = _.pos.x,
+        .y = _.pos.y,
+    };
+
     bool player_hit = CheckCollisionRecs(rec, alien_get_rec(enemy)) && laser->owner == PLAYER;
-    bool alien_hit = CheckCollisionRecs(rec, global_player->base_super->frame->rectangle) && laser->owner == MONSTER;
+    bool alien_hit = CheckCollisionRecs(rec, prec) && laser->owner == MONSTER;
 
     if (player_hit)
     {
@@ -58,7 +66,7 @@ void weapon_check_impact(Laser laser)
     if (alien_hit)
     {
         puts("/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
-        screen_manager = &screens[GAMEOVER];
+        *screen_manager = screens[GAMEOVER];
         //    alien_set_destroy(enemy, true);
     }
 }
