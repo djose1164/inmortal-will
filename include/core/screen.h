@@ -9,7 +9,7 @@
 
 typedef void (*fptrCallBack)(void *arg);
 
-struct ScreenManager
+struct ScreenHandler
 {
     fptrCallBack *draw;
     fptrCallBack *update;
@@ -31,7 +31,7 @@ struct Screen
     const void *frames; /* Array of frames to render. */
     unsigned frame_len;  /* Frame total to render. */
     void *_target;       /* Target for camera. */
-    struct ScreenManager *manager;
+    struct ScreenHandler *manager;
     bool end;
 
     void (*render)(const Screen *self);
@@ -50,7 +50,7 @@ struct Screen
  * @return Screen* Pointer to new screen.
  */
 Screen *screen_init(String *title, void *target, Frame *background, const void *frames, size_t nframes,
-                    const struct ScreenManager *manager);
+                    const struct ScreenHandler *manager);
 
 static void screen_init_camera2D(Screen *const self);
 
