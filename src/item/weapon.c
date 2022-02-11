@@ -4,19 +4,20 @@
 #include <stdio.h>
 #include <assert.h>
 
+
 struct Laser
 {
     double speed;
     IW_Texture **skin;
     Frame *frame;
     bool launched;
-    LaserDirection direction;
+    Owner owner;
 };
 
 static size_t created_lasers;
 static size_t deallocated_lasers;
 
-Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
+Laser weapon_create_lasers(unsigned quantity, Owner owner)
 {
     puts("Creating lasers...");
     struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
@@ -29,7 +30,7 @@ Laser weapon_create_lasers(unsigned quantity, LaserDirection direction)
         lasers[i].skin = &skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
-        lasers[i].direction = direction;
+        lasers[i].owner = owner;
     }
     puts("Creating lasers... Done!");
     return lasers;
@@ -107,17 +108,17 @@ void weapon_update_lasers(Laser laser)
     {
         if (laser[i].launched)
         {
-            // weapon_check_impact(&laser[i]);
-            switch (laser[i].direction)
+            weapon_check_impact(&laser[i]);
+            switch (laser[i].owner)
             {
-            case WEAPON_LASER_FORWARD:
+            case PLAYER:
                 laser[i].frame->pos.x += time * laser->speed;
 #ifdef DEBUG
                 TraceLog(LOG_INFO, "Player's laser's x: %.f", laser[i].frame->pos.x);
 #endif // DEBUG
                 break;
 
-            case WEAPON_LASER_BACKWARD:
+            case MONSTER:
                 laser[i].frame->pos.x -= time * laser->speed;
 #ifdef DEBUG
                 TraceLog(LOG_INFO, "Alien's laser's x: %.f", laser[i].frame->pos.x);
@@ -137,7 +138,7 @@ void weapon_draw_lasers(Laser laser)
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
         if (laser[i].launched)
         {
-            if (laser[i].direction == WEAPON_LASER_BACKWARD)
+            if (laser[i].owner == MONSTER)
                 degrees = 180.f;
             DrawTextureEx((*laser[i].skin)->_texture2D, laser[i].frame->pos,
                           degrees, 1.f, WHITE);
