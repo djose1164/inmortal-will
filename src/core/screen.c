@@ -1,6 +1,5 @@
 #include "core/screen.h"
 #include "core/memory_p.h"
-#include "core/screen_manager.h"
 
 Screen **screens = NULL;
 ScreenManager screen_manager = NULL;
