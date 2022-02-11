@@ -1,4 +1,5 @@
 #include "characters/alien.h"
+#include "core/screen.h"
 #include "core/memory_p.h"
 #include <assert.h>
 #include <stdio.h>
@@ -66,6 +67,8 @@ void alien_update(Alien self)
 
     alien_attack(self);
     self->super->update_lasers(self->super);
+    if (self->destroyed)
+        screen_manager = screens[GAMEOVER];
 }
 
 void alien_draw(Alien self)
