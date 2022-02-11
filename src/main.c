@@ -5,7 +5,7 @@ typedef enum
     TESTING,
     GAMEOVER,
     _SCREEN_MANAGER_MAX
-} ScreenManager;
+} ScreenHandler;
 
 void draw_background(const Frame *self)
 {
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
         alien_draw,
         player->draw,
     };
-    struct ScreenManager manager = {
+    struct ScreenHandler manager = {
         .update = update_arr,
         .del = del_arr,
         .draw = draw_arr,
@@ -68,8 +68,6 @@ int main(int argc, char const *argv[])
     {
         UpdateMusicStream(music);
         current->update(current);
-        if (alien_get_destroyed(enemy))
-            current = screens[GAMEOVER];
 
         BeginDrawing();
         ClearBackground(BLACK);
