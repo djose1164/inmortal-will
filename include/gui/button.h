@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include "core/memory_p.h"
+#include "graphics/frame.h"
 #include "utils/terminal_colors.h"
 #include "utils/utils.h"
 #include <raylib.h>
