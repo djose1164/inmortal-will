@@ -9,7 +9,7 @@ void button_draw(const Button *button)
     button_update(button);
 }
 
-Button  *button_init(const char *str_sound, const char *texture, void (*on_click)(void))
+Button  *button_init_texture(const char *str_sound, const char *texture, void (*on_click)(void))
 {
     Button *self = memory_allocate(sizeof *self);
     button_bindfuncs(self, on_click);
@@ -30,6 +30,15 @@ Button  *button_init(const char *str_sound, const char *texture, void (*on_click
 
     printf("File: %s Function: %s\n", __FILE__, __FUNCTION__);
     return self
+}
+
+Button *button_init(const char *text, Rectangle *rec, Color color,void (*on_click)(void *arg))
+{
+    Button *self = memory_allocate(sizeof *self);
+    self->pos = (Vector2){rec->x, rec->y};
+    self->frame.rectangle = *rec;
+    self->color = color;
+    return self;
 }
 
 void button_set_audio(Button *button, const char *sound_url)
