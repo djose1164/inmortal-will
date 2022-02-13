@@ -38,7 +38,7 @@ void button_draw(const Button *button);
  * @param texture Path to texture.
  * @param rec Pointer to the rectangle area.
  */
-void button_init(Button *button, const char *str_sound, const char *texture, void (*on_click)(void));
+void button_init(const char *str_sound, const char *texture, void (*on_click)(void));
 
 /**
  * @brief Set the audio for a button. The sound will be played when the button
