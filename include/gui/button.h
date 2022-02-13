@@ -64,13 +64,6 @@ void button_set_pos(Button *button, Vector2 *pos);
 /*****************************************************************************/
 
 /**
- * @brief Allocate memory for a new button.
- * 
- * @param ptr The pointer asking for memory.
- */
-static Button *button_new(Button *ptr);
-
-/**
  * @brief Update the button.
  * 
  * @param ptr Pointer to the button.

@@ -71,12 +71,6 @@ void button_set_pos(Button *button, Vector2 *pos)
 /*                                  Private functions:                       */
 /*****************************************************************************/
 
-static Button *button_new(Button *ptr)
-{
-    ptr = memory_allocate(sizeof *ptr);
-    return ptr;
-}
-
 static void button_update(Button *button)
 {
     // Choose what button draw.
