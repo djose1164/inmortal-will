@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "memory.h"
+#include "core/memory_p.h"
 #include "utils/terminal_colors.h"
 #include "utils/utils.h"
 #include <raylib.h>
