@@ -11,23 +11,25 @@ void button_draw(const Button *button)
 
 void button_init(const char *str_sound, const char *texture, void (*on_click)(void))
 {
-    button_bindfuncs(button, on_click);
+    Button *self = memory_allocate(sizeof *self);
+    button_bindfuncs(self, on_click);
     puts("Setting audio to button...");
-    button->set_audio(button, str_sound);
+    self->set_audio(self, str_sound);
     puts("Setting audio to button... Done!");
 
     puts("Setting texture to button...");
-    button->set_texture(button, texture);
+    self->set_texture(self, texture);
     puts("Setting texture to button... Done");
 
     puts("Setting posittion to button...");
     Vector2 current_pos = {(float)(GetScreenWidth() / 2), 
                            (float)(GetScreenHeight() / 2)};
-    button->set_pos(button, &current_pos);
+    self->set_pos(self, &current_pos);
     puts("Setting posittion to button... Done!");
-    button->color = WHITE;
+    self->color = WHITE;
 
     printf("File: %s Function: %s\n", __FILE__, __FUNCTION__);
+    return self
 }
 
 void button_set_audio(Button *button, const char *sound_url)
