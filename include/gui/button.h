@@ -23,6 +23,7 @@ struct Button
     Color color;            /* The button's color. */
     bool play_sound;        /* Wheather should play sound or not. */
     Frame frame;
+    const char *text;
 
     void (*set_audio)(Button *self, const char *url);
     void (*set_texture)(Button *self, const char *url);
