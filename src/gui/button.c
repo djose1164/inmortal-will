@@ -9,7 +9,7 @@ void button_draw(const Button *button)
     button_update(button);
 }
 
-void button_init(const char *str_sound, const char *texture, void (*on_click)(void))
+Button  *button_init(const char *str_sound, const char *texture, void (*on_click)(void))
 {
     Button *self = memory_allocate(sizeof *self);
     button_bindfuncs(self, on_click);
