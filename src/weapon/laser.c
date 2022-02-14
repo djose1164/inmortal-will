@@ -28,6 +28,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     {
         skin = texture_init("resources/laser-beam.png");
         sound = LoadSound("resources/laser_sound.ogg");
+        SetSoundVolume(sound, .6f);
     }
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
