@@ -46,10 +46,10 @@ static void base_draw(const Base *self)
 
 static void base_del_lasers(Laser laser)
 {
-    TraceLog(LOG_INFO, "At %s(): deleting...", __FUNCTION__);
+    TraceLog(LOG_INFO, "At %s(): deleting...", __func__);
     if (laser || laser_is_laser_attacking(laser))
         laser_destroy_all(laser);
-    TraceLog(LOG_INFO, "At %s(): deleting... Done!", __FUNCTION__);
+    TraceLog(LOG_INFO, "At %s(): deleting... Done!", __func__);
 }
 
 static void base_del(Base **self)

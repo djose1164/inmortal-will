@@ -8,7 +8,7 @@ static size_t allocated, deallocated;
 
 void texture_memstats(void)
 {
-    printf("%s():%d\n", __FUNCTION__, __LINE__);
+    printf("%s():%d\n", __func__, __LINE__);
     if (allocated == deallocated)
         puts("Everything on textures is Ok.");
     else

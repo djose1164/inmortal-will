@@ -21,7 +21,7 @@ enum Error
 extern enum Error current_error;
 
 #define ERROR_DIE(msg) \
-    error_die(msg, __FUNCTION__, __LINE__)
+    error_die(msg, __func__, __LINE__)
 
 void error_die(const char *msg, const char *func, unsigned line);
 

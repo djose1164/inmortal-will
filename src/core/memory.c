@@ -43,7 +43,7 @@ void memory_check_counter(void)
         "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n"
         "|Function: %-20s\t\tFrom: %-20s|"
         "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n",
-        __FUNCTION__, __FILE__);
+        __func__, __FILE__);
 
     if (memory_allocated_counter == memory_release_counter)
     {

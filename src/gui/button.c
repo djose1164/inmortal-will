@@ -28,7 +28,7 @@ Button  *button_init_texture(const char *str_sound, const char *texture, void (*
     puts("Setting posittion to button... Done!");
     self->color = WHITE;
 
-    printf("File: %s Function: %s\n", __FILE__, __FUNCTION__);
+    printf("File: %s Function: %s\n", __FILE__, __func__);
     return self
 }
 
