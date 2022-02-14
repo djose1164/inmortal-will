@@ -1,6 +1,10 @@
 #ifndef BASE_H
 #define BASE_H
 
+#if !defined(__GNUC__)
+#error "Must use GCC to compile!"
+#endif /* !define(__GNUC__) */
+
 #include "weapon/laser.h"
 #include "core/type.h"
 #include "graphics/frame.h"
