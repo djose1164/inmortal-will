@@ -23,7 +23,7 @@ Laser weapon_create_lasers(unsigned quantity, Owner owner)
     struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
     static IW_Texture *skin = NULL;
     if (!skin)
-        skin = texture_init("resources/laser.png");
+        skin = texture_init("resources/laser-beam.png");
 
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
@@ -85,6 +85,7 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
     if (current)
     {
         current->frame = frame_init(*current->skin, pos, &WHITE);
+        current->frame->rectangle.height /= 2;
         current->launched = true;
         created_lasers++;
         return current;
@@ -123,10 +124,18 @@ void weapon_update_lasers(Laser laser)
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
     volatile double time = GetFrameTime();
+    static unsigned frame_counter, current_frame;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
         {
+            if (frame_counter >= (60 / LASER_SPEED))
+            {
+                frame_counter = 0;
+                current_frame++;
+                if (current_frame > 1)
+                    laser[i].frame->rectangle.y = (float)current_frame * (float)laser->frame->rectangle.height;
+            }
             weapon_check_impact(&laser[i]);
             switch (laser[i].owner)
             {
@@ -147,6 +156,7 @@ void weapon_update_lasers(Laser laser)
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 weapon_laser_destroy(&laser[i]);
         }
+    frame_counter++;
     }
 }
 
@@ -158,8 +168,17 @@ void weapon_draw_lasers(Laser laser)
         {
             if (laser[i].owner == MONSTER)
                 degrees = 180.f;
-            DrawTextureEx((*laser[i].skin)->_texture2D, laser[i].frame->pos,
-                          degrees, 1.f, WHITE);
+            DrawTexturePro((*laser[i].skin)->_texture2D,
+                           laser[i].frame->rectangle,
+                           (Rectangle){
+                               .x = laser[i].frame->pos.x,
+                               .y = laser[i].frame->pos.y,
+                               .height = laser[i].frame->rectangle.height,
+                               .width = laser[i].frame->rectangle.width,
+                           },
+                           (Vector2){
+                               0.0, 0.0},
+                           degrees, WHITE);
         }
 }
 
