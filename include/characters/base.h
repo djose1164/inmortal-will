@@ -1,10 +1,9 @@
 #ifndef BASE_H
 #define BASE_H
 
-#include "item/weapon.h"
+#include "weapon/laser.h"
 #include "core/type.h"
 #include "graphics/frame.h"
-#include "item/weapon.h"
 
 typedef struct Base Base;
 struct Base

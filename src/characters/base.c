@@ -1,5 +1,4 @@
 #include "characters/base.h"
-#include "item/weapon.h"
 #include "core/memory_p.h"
 #include <stdio.h>
 
