@@ -12,6 +12,7 @@ struct Laser
     Frame *frame;
     bool launched;
     Owner owner;
+    Sound *sound;
 };
 
 static size_t created_lasers;
@@ -22,15 +23,19 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     puts("Creating lasers...");
     struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
     static IW_Texture *skin = NULL;
+    static Sound sound;
     if (!skin)
+    {
         skin = texture_init("resources/laser-beam.png");
-
+        sound = LoadSound("resources/laser_sound.ogg");
+    }
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         lasers[i].skin = &skin;
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
         lasers[i].owner = owner;
+        lasers[i].sound = &sound;
     }
     puts("Creating lasers... Done!");
     return lasers;
@@ -87,6 +92,7 @@ Laser laser_next_laser(Laser laser, Vector2 *pos)
         current->frame = frame_init(*current->skin, pos, &WHITE);
         current->frame->rectangle.height;
         current->launched = true;
+        PlaySound(*current->sound);
         created_lasers++;
         return current;
     }
@@ -104,7 +110,10 @@ static void laser_destroy(Laser laser)
 void laser_destroy_all(Laser laser)
 {
     if (*laser->skin)
+    {
         (*laser->skin)->del(laser->skin);
+        UnloadSound(*laser->sound);
+    }
     while (laser_is_attacking(laser))
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
@@ -165,8 +174,7 @@ void laser_draw_lasers(Laser laser)
                 laser[i].frame->pos,
                 degrees,
                 1.f,
-                WHITE
-            );
+                WHITE);
         }
     }
 }
