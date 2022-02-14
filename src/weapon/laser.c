@@ -17,7 +17,7 @@ struct Laser
 static size_t created_lasers;
 static size_t deallocated_lasers;
 
-Laser weapon_create_lasers(unsigned quantity, Owner owner)
+Laser laser_create_lasers(unsigned quantity, Owner owner)
 {
     puts("Creating lasers...");
     struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
@@ -36,7 +36,7 @@ Laser weapon_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-void weapon_check_impact(Laser laser)
+void laser_check_impact(Laser laser)
 {
     assert(laser);
     assert(laser->frame);
@@ -71,7 +71,7 @@ void weapon_check_impact(Laser laser)
     }
 }
 
-Laser weapon_next_laser(Laser laser, Vector2 *pos)
+Laser laser_next_laser(Laser laser, Vector2 *pos)
 {
     Laser current = NULL;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
@@ -94,21 +94,21 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
     return NULL;
 }
 
-static void weapon_laser_destroy(Laser laser)
+static void laser_laser_destroy(Laser laser)
 {
     laser->launched = false;
     frame_del_without_texture(&laser->frame);
     deallocated_lasers++;
 }
 
-void weapon_destroy_all(Laser laser)
+void laser_destroy_all(Laser laser)
 {
     if (*laser->skin)
         (*laser->skin)->del(laser->skin);
-    while (weapon_is_laser_attacking(laser))
+    while (laser_is_laser_attacking(laser))
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
-                weapon_laser_destroy(&laser[i]);
+                laser_laser_destroy(&laser[i]);
 
     if (deallocated_lasers == created_lasers)
         puts("Mem in lasers is Ok!");
@@ -118,7 +118,7 @@ void weapon_destroy_all(Laser laser)
                created_lasers, deallocated_lasers);
 }
 
-void weapon_update_lasers(Laser laser)
+void laser_update_lasers(Laser laser)
 {
     /*
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
@@ -128,7 +128,7 @@ void weapon_update_lasers(Laser laser)
     {
         if (laser[i].launched)
         {
-            weapon_check_impact(&laser[i]);
+            laser_check_impact(&laser[i]);
             switch (laser[i].owner)
             {
             case PLAYER:
@@ -146,12 +146,12 @@ void weapon_update_lasers(Laser laser)
                 break;
             }
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
-                weapon_laser_destroy(&laser[i]);
+                laser_laser_destroy(&laser[i]);
         }
     }
 }
 
-void weapon_draw_lasers(Laser laser)
+void laser_draw_lasers(Laser laser)
 {
     float degrees = 0;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
@@ -171,28 +171,28 @@ void weapon_draw_lasers(Laser laser)
     }
 }
 
-const IW_Texture *weapon_get_texture(Laser laser)
+const IW_Texture *laser_get_texture(Laser laser)
 {
     return *laser->skin;
 }
 
-void weapon_set_frame(Laser laser, Frame *frame)
+void laser_set_frame(Laser laser, Frame *frame)
 {
     laser->frame = frame;
 }
 
-void weapon_set_lauched(Laser laser, bool launched)
+void laser_set_lauched(Laser laser, bool launched)
 {
     laser->launched = launched;
 }
 
-void weapon_set_pos(Laser laser, Vector2 *pos)
+void laser_set_pos(Laser laser, Vector2 *pos)
 {
     laser->frame->rectangle.x = pos->x;
     laser->frame->rectangle.y = pos->y;
 }
 
-bool weapon_is_laser_attacking(Laser laser)
+bool laser_is_laser_attacking(Laser laser)
 {
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
