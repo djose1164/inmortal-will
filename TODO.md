@@ -1,11 +1,9 @@
 # Todo
 
 - [ ] Improve error management.
-  - [ ] Move memory error details to error management.
 - [ ] Design a better memory management.
-  - [ ] Finish garbage implementation.
 - [ ] Design a better error management.
-- [ ] Finish player and monster linked list implementation.
+- [ ] Finish monster linked list implementation.
   - [ ] Analyze better the algorithm.
 - [x] Finish welcome screen.
 - [ ] Implementation gui.
@@ -15,7 +13,7 @@
     - [ ] Improve button module.
 
 - [ ] Planear el siguiente ecenario.
-- [ ] Crear el personaje.
+- [x] Crear el personaje.
 - [ ] Creacion del modo multiplayer.
 
 ## LinkedList
