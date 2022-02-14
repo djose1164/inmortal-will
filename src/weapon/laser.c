@@ -91,6 +91,7 @@ Laser laser_next_laser(Laser laser, Vector2 *pos)
     if (current)
     {
         current->frame = frame_init(*current->skin, pos, &WHITE);
+        current->frame->pos.y += (*current->skin)->get_width((*current->skin))/1.5;
         current->frame->rectangle.height;
         current->launched = true;
         PlaySound(*current->sound);
