@@ -94,7 +94,7 @@ Laser laser_next_laser(Laser laser, Vector2 *pos)
     return NULL;
 }
 
-static void laser_laser_destroy(Laser laser)
+static void laser_destroy(Laser laser)
 {
     laser->launched = false;
     frame_del_without_texture(&laser->frame);
@@ -105,10 +105,10 @@ void laser_destroy_all(Laser laser)
 {
     if (*laser->skin)
         (*laser->skin)->del(laser->skin);
-    while (laser_is_laser_attacking(laser))
+    while (laser_is_attacking(laser))
         for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
             if (laser[i].launched)
-                laser_laser_destroy(&laser[i]);
+                laser_destroy(&laser[i]);
 
     if (deallocated_lasers == created_lasers)
         puts("Mem in lasers is Ok!");
@@ -146,7 +146,7 @@ void laser_update_lasers(Laser laser)
                 break;
             }
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
-                laser_laser_destroy(&laser[i]);
+                laser_destroy(&laser[i]);
         }
     }
 }
@@ -192,7 +192,7 @@ void laser_set_pos(Laser laser, Vector2 *pos)
     laser->frame->rectangle.y = pos->y;
 }
 
-bool laser_is_laser_attacking(Laser laser)
+bool laser_is_attacking(Laser laser)
 {
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
