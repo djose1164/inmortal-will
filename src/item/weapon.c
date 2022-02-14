@@ -85,7 +85,7 @@ Laser weapon_next_laser(Laser laser, Vector2 *pos)
     if (current)
     {
         current->frame = frame_init(*current->skin, pos, &WHITE);
-        current->frame->rectangle.height /= 2;
+        current->frame->rectangle.height;
         current->launched = true;
         created_lasers++;
         return current;
@@ -124,18 +124,10 @@ void weapon_update_lasers(Laser laser)
         El cuando un rayo laser sea tirado y este haya ido mas alla de los limites sera eliminado.
     */
     volatile double time = GetFrameTime();
-    static unsigned frame_counter, current_frame;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
         if (laser[i].launched)
         {
-            if (frame_counter >= (60 / LASER_SPEED))
-            {
-                frame_counter = 0;
-                current_frame++;
-                if (current_frame > 1)
-                    laser[i].frame->rectangle.y = (float)current_frame * (float)laser->frame->rectangle.height;
-            }
             weapon_check_impact(&laser[i]);
             switch (laser[i].owner)
             {
@@ -156,7 +148,6 @@ void weapon_update_lasers(Laser laser)
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 weapon_laser_destroy(&laser[i]);
         }
-    frame_counter++;
     }
 }
 
@@ -164,22 +155,20 @@ void weapon_draw_lasers(Laser laser)
 {
     float degrees = 0;
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
+    {
         if (laser[i].launched)
         {
             if (laser[i].owner == MONSTER)
                 degrees = 180.f;
-            DrawTexturePro((*laser[i].skin)->_texture2D,
-                           laser[i].frame->rectangle,
-                           (Rectangle){
-                               .x = laser[i].frame->pos.x,
-                               .y = laser[i].frame->pos.y,
-                               .height = laser[i].frame->rectangle.height,
-                               .width = laser[i].frame->rectangle.width,
-                           },
-                           (Vector2){
-                               0.0, 0.0},
-                           degrees, WHITE);
+            DrawTextureEx(
+                (*laser[i].skin)->_texture2D,
+                laser[i].frame->pos,
+                degrees,
+                1.f,
+                WHITE
+            );
         }
+    }
 }
 
 const IW_Texture *weapon_get_texture(Laser laser)
