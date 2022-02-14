@@ -71,7 +71,7 @@ static void base_attack(Base *const self)
         El Laser tiene velocidad. Debe ser lanzado dede su punta.
     */
     puts("Launching laser...");
-    Vector2 pos = {self->frame->pos.x + self->frame->rectangle.width, self->frame->pos.y + 24.5f};
+    Vector2 pos = {self->frame->pos.x + self->frame->rectangle.width, self->frame->pos.y};
     if (!laser_next_laser(self->laser, &pos))
         return;
     self->attacking = true;
