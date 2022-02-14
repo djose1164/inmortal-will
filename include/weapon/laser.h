@@ -119,7 +119,7 @@ bool laser_is_attacking(T laser);
 /*                            Private Functions.                            */
 /****************************************************************************/
 
-static void laser_laser_destroy(Laser laser);
+static void laser_destroy(Laser laser);
 
 #undef T
 #endif /* WEAPON_H */
