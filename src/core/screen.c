@@ -32,7 +32,7 @@ Screen *screen_init(String *title, void *target, Frame *background, const void *
     self->title = title;
     self->frames = frames;
     self->frame_len = nframes;
-    
+
     self->background = background;
     self->manager = manager;
     self->update = screen_update;
@@ -88,7 +88,8 @@ static void screen_render(const Screen *self)
         void **frames = (void **)self->frames;
         for (size_t i = 0; i < self->frame_len; i++)
             if (frames[i])
-                self->manager->draw[i](frames[i]);
+                if (self->manager->draw)
+                    self->manager->draw[i](frames[i]);
     }
     EndMode2D();
 }
@@ -100,7 +101,8 @@ static void screen_update(const Screen *self)
         void **targets = (void **)self->frames;
         size_t num = self->frame_len;
         for (size_t i = 0; i < num; i++)
-            self->manager->update[i](targets[i]);
+            if (self->manager->update)
+                self->manager->update[i](targets[i]);
         // self->manager->update[1](targets[1])
     }
     screen_update_camera2D(self);
@@ -111,7 +113,8 @@ static void screen_cleanup(Screen *self)
     void **targets = (void **)self->frames;
     puts("Screen cleaning up...");
     for (size_t i = 0; i < self->frame_len; i++)
-        self->manager->del[i](&targets[i]);
+        if (self->manager->del)
+            self->manager->del[i](&targets[i]);
     puts("Screen cleaning up... Done");
 }
 
@@ -122,8 +125,9 @@ static void screen_del(Screen **self)
         (*self)->cleanup((*self));
     if (*(*self)->background)
     {
-            printf("## *-*-*-*Actually deleting: %s*-*-*-*-\n"
-                   "self->background at %p\n", (*self)->title->str, (*self)->background);
+        printf("## *-*-*-*Actually deleting: %s*-*-*-*-\n"
+               "self->background at %p\n",
+               (*self)->title->str, (*self)->background);
         (*(*self)->background)->del((*self)->background);
     }
     (*self)->title->del(&(*self)->title);
