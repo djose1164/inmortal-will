@@ -22,6 +22,7 @@ int main(int argc, char const *argv[])
     // The first thing. Init the window.
     InitWindow(screenWidth, screenHeight, APP_NAME);
     InitAudioDevice();
+    // SetTraceLogLevel(LOG_DEBUG);
     SetTargetFPS(60);
 
     Music music = LoadMusicStream("resources/eon.mp3");
