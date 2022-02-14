@@ -66,12 +66,12 @@ void laser_check_impact(Laser laser)
 
     if (player_hit)
     {
-        puts("/-/-/-/-/-/-/Player hit!/-/-/-/-/-/-/-/-");
+        TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Player hit!/-/-/-/-/-/-/-/-");
         *screen_manager = screens[SCREEN_WIN];
     }
     if (alien_hit)
     {
-        puts("/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
+        TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
         *screen_manager = screens[GAMEOVER];
         //    alien_set_destroy(enemy, true);
     }
@@ -143,16 +143,12 @@ void laser_update_lasers(Laser laser)
             {
             case PLAYER:
                 laser[i].frame->pos.x += time * laser->speed;
-#ifdef DEBUG
-                TraceLog(LOG_INFO, "Player's laser's x: %.f", laser[i].frame->pos.x);
-#endif // DEBUG
+                TraceLog(LOG_DEBUG, "Player's laser's x: %.f", laser[i].frame->pos.x);
                 break;
 
             case MONSTER:
                 laser[i].frame->pos.x -= time * laser->speed;
-#ifdef DEBUG
-                TraceLog(LOG_INFO, "Alien's laser's x: %.f", laser[i].frame->pos.x);
-#endif // DEBUG
+                TraceLog(LOG_DEBUG, "Alien's laser's x: %.f", laser[i].frame->pos.x);
                 break;
             }
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
