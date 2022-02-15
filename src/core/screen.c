@@ -81,6 +81,28 @@ static void screen_render(const Screen *self)
     text_pos.x = (GetScreenWidth() - text_pos.x) / 2;
     text_pos.y = (GetScreenHeight() - text_pos.y) / 2;
 
+    if (*screen_manager == screens[GAMEOVER])
+    {
+        text_pos.y = (GetScreenHeight() - text_pos.y) / 4;
+        unsigned font_size = 30;
+        static bool restart_game = false;
+        if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
+            restart_game = false;
+        else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT))
+            restart_game = true;
+        Rectangle rec = {
+            .x = restart_game ? text_pos.x + 100 + 25 : text_pos.x + 50,
+            .y = text_pos.y * 2 + 30 + font_size,
+            .width = restart_game ? 55 : 37,
+            .height = font_size,
+        };
+        DrawRectangleRec(rec, LIGHTGRAY);
+        DrawText("Want to tray again?", text_pos.x, text_pos.y * 2 + 20, font_size, RED);
+        DrawText("No\t\tYes", text_pos.x + 50, text_pos.y * 2 + 30 + font_size, font_size, RED);
+        if (IsKeyPressed(KEY_ENTER))
+            if (!restart_game)
+                exit(0);
+    }
     DrawTextEx(GetFontDefault(), self->title->str, text_pos, font_size, spacing, RED);
     // DrawText(self->title->str, (GetScreenWidth()/2)-self->title->len, 50, font_size, RED);
     if (self->frame_len)
@@ -91,6 +113,7 @@ static void screen_render(const Screen *self)
                 if (self->manager->draw)
                     self->manager->draw[i](frames[i]);
     }
+
     EndMode2D();
 }
 
