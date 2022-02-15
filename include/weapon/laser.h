@@ -87,8 +87,9 @@ void laser_set_texture(T laser, IW_Texture texture);
  * @brief Destroy all lasers.
  * 
  * @param laser Whom to delete.
+ * @param restart Should delete texture and sound.
  */
-void laser_destroy_all(T laser);
+void laser_destroy_all(T laser, bool restart);
 
 /**
  * @brief Get laser's texture.

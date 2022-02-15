@@ -102,6 +102,9 @@ static void screen_render(const Screen *self)
         if (IsKeyPressed(KEY_ENTER))
             if (!restart_game)
                 exit(0);
+            /*else
+            Me quede en la implementacion para el reset cuando el jugador pierde.
+            */
     }
     DrawTextEx(GetFontDefault(), self->title->str, text_pos, font_size, spacing, RED);
     // DrawText(self->title->str, (GetScreenWidth()/2)-self->title->len, 50, font_size, RED);

@@ -109,9 +109,9 @@ static void laser_destroy(Laser laser)
     deallocated_lasers++;
 }
 
-void laser_destroy_all(Laser laser)
+void laser_destroy_all(Laser laser, bool restart)
 {
-    if (*laser->skin)
+    if (*laser->skin && !restart)
     {
         (*laser->skin)->del(laser->skin);
         UnloadSound(*laser->sound);

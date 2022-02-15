@@ -44,12 +44,18 @@ static void base_draw(const Base *self)
     self->frame->draw(self->frame);
 }
 
-static void base_del_lasers(Laser laser)
+static void base_del_lasers(Laser laser, bool restart)
 {
     TraceLog(LOG_INFO, "At %s(): deleting...", __func__);
     if (laser || laser_is_attacking(laser))
-        laser_destroy_all(laser);
+        laser_destroy_all(laser, restart);
     TraceLog(LOG_INFO, "At %s(): deleting... Done!", __func__);
+}
+
+void base_restart(Base *self, Vector2 pos)
+{
+    self->frame->pos = pos;
+    base_del_lasers(self->laser, true);
 }
 
 static void base_del(Base **self)
@@ -57,7 +63,7 @@ static void base_del(Base **self)
     puts("Deleting base...");
     assert(self);
     assert(*self);
-    base_del_lasers((*self)->laser);
+    base_del_lasers((*self)->laser, false);
     (*self)->frame->del(&(*self)->frame);
     memory_release(&(*self)->laser);
     memory_release(self);
