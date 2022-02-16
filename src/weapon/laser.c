@@ -42,17 +42,18 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-void laser_check_impact(Laser laser)
+void laser_check_impact(Laser laser, Rectangle target)
 {
     assert(laser);
     assert(laser->frame);
     Rectangle rec = {
-        .height = laser->frame->rectangle.height - 10,
+        .height = laser->frame->rectangle.height,
         .width = laser->frame->rectangle.width,
         .x = laser->frame->pos.x,
         .y = laser->frame->pos.y,
     };
-
+    return CheckCollisionRecs(rec, target);
+/*
     Frame _ = *global_player->base_super->frame;
     Rectangle prec = {
         .height = _.rectangle.height,
@@ -74,7 +75,7 @@ void laser_check_impact(Laser laser)
         TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
         *screen_manager = screens[SCREEN_GAMEOVER];
         //    alien_set_destroy(enemy, true);
-    }
+    }*/
 }
 
 Laser laser_next_laser(Laser laser, Vector2 *pos)
