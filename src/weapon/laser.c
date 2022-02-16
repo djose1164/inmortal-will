@@ -42,7 +42,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-void laser_check_impact(Laser laser, Rectangle target)
+void laser_check_impact(Laser laser, Rectangle *target)
 {
     assert(laser);
     assert(laser->frame);
@@ -52,7 +52,7 @@ void laser_check_impact(Laser laser, Rectangle target)
         .x = laser->frame->pos.x,
         .y = laser->frame->pos.y,
     };
-    return CheckCollisionRecs(rec, target);
+    return CheckCollisionRecs(rec, *target);
 /*
     Frame _ = *global_player->base_super->frame;
     Rectangle prec = {
