@@ -82,7 +82,7 @@ static void screen_render(const Screen *self)
     text_pos.x = (GetScreenWidth() - text_pos.x) / 2;
     text_pos.y = (GetScreenHeight() - text_pos.y) / 2;
 
-    if (*screen_manager == screens[GAMEOVER])
+    if (*screen_manager == screens[SCREEN_GAMEOVER])
     {
         text_pos.y = (GetScreenHeight() - text_pos.y) / 4;
         unsigned font_size = 30;

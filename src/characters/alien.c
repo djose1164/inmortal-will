@@ -68,7 +68,7 @@ void alien_update(Alien self)
     alien_attack(self);
     self->super->update_lasers(self->super);
     if (self->destroyed)
-        screen_manager = screens[GAMEOVER];
+        screen_manager = screens[SCREEN_GAMEOVER];
 }
 
 void alien_draw(Alien self)

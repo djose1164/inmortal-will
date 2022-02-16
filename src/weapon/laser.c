@@ -72,7 +72,7 @@ void laser_check_impact(Laser laser)
     if (alien_hit)
     {
         TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
-        *screen_manager = screens[GAMEOVER];
+        *screen_manager = screens[SCREEN_GAMEOVER];
         //    alien_set_destroy(enemy, true);
     }
 }

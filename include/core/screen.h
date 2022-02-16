@@ -12,7 +12,7 @@ typedef struct Screen Screen;
 typedef enum
 {
     TESTING,
-    GAMEOVER,
+    SCREEN_GAMEOVER,
     SCREEN_WIN,
     _SCREEN_MANAGER_MAX
 } ScreenIndex;

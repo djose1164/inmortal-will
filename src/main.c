@@ -55,12 +55,12 @@ int main(int argc, char const *argv[])
     background->draw = draw_background;
     String *str = string_init("Testing");
     Screen *testing = screen_init(str, player, &background, frames, 2, &handler);
-    Screen *gameover = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
+    Screen *SCREEN_GAMEOVER = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
     Screen *win_screen = screen_init(string_init("You win!"), NULL, &background, NULL, 0, NULL);
     Screen *_screens[_SCREEN_MANAGER_MAX] = {
         [TESTING] = testing,
         [SCREEN_WIN] = win_screen,
-        [GAMEOVER] = gameover,
+        [SCREEN_GAMEOVER] = SCREEN_GAMEOVER,
     };
     screens = _screens;
     *screen_manager = screens[TESTING];
@@ -78,7 +78,7 @@ int main(int argc, char const *argv[])
     }
 
 game_cleanup:
-    // gameover->background = NULL;
+    // SCREEN_GAMEOVER->background = NULL;
     for (size_t i = 0; i < _SCREEN_MANAGER_MAX; i++)
         screens[i]->del(&screens[i]);
 
