@@ -42,7 +42,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-void laser_check_impact(Laser laser, Rectangle *target)
+void laser_check_impact(Laser laser, const Rectangle *target)
 {
     assert(laser);
     assert(laser->frame);
