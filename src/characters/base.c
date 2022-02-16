@@ -93,3 +93,8 @@ static void base_draw_lasers(const Base *self)
 {
     laser_draw_lasers(self->laser);
 }
+
+static bool base_is_killed(Base *self)
+{
+    return self->killed;
+}
