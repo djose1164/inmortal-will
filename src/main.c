@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     // Windows size.
     const unsigned screenWidth = 1080;
     const unsigned screenHeight = 500;
-
+    
     // The first thing. Init the window.
     InitWindow(screenWidth, screenHeight, APP_NAME);
     InitAudioDevice();
@@ -66,6 +66,8 @@ int main(int argc, char const *argv[])
     *screen_manager = screens[TESTING];
     while (!WindowShouldClose())
     {
+        if (game_should_end)
+            goto game_cleanup;
         UpdateMusicStream(music);
         (*screen_manager)->update(*screen_manager);
 
@@ -75,10 +77,11 @@ int main(int argc, char const *argv[])
         EndDrawing();
     }
 
-    //gameover->background = NULL;
+game_cleanup:
+    // gameover->background = NULL;
     for (size_t i = 0; i < _SCREEN_MANAGER_MAX; i++)
         screens[i]->del(&screens[i]);
-    
+
     UnloadMusicStream(music);
     CloseWindow();
     texture_memstats();

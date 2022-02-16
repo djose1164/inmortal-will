@@ -21,6 +21,7 @@ typedef Screen **ScreenManager;
 /* Global variables. */
 extern Screen **screens;
 extern ScreenManager screen_manager; /* For switching screen. */
+extern bool game_should_end;
 
 struct ScreenHandler
 {
