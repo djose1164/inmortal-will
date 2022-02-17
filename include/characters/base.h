@@ -55,4 +55,6 @@ static bool base_is_destroyed(Base *self);
 static void base_del(Base **self);
 
 static Rectangle base_get_rec(const Base *self);
+
+static bool base_hit(const Base *self, Base *target);
 #endif // BASE_H
