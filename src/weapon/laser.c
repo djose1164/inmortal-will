@@ -42,7 +42,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-bool laser_crash_was_success(Laser laser, const Rectangle *target, Type attacker)
+bool laser_crash_was_success(Laser laser, const Rectangle *target)
 {
     assert(laser);
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
@@ -56,7 +56,7 @@ bool laser_crash_was_success(Laser laser, const Rectangle *target, Type attacker
                 .x = laser[i].frame->pos.x,
                 .y = laser[i].frame->pos.y,
             };
-            if (CheckCollisionRecs(rec, *target) && laser->owner != attacker)
+            if (CheckCollisionRecs(rec, *target))
                 return true;
         }
     }
