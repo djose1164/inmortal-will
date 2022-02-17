@@ -92,8 +92,12 @@ static void base_attack(Base *const self)
 static void base_update(Base *self)
 {
     laser_update_lasers(self->laser);
-    Rectangle self_rec = self->get_rec(self);
-    if (laser_crash_was_success(self->laser, &self_rec, self->type))
+    Rectangle target;
+    if (self->type == PLAYER)
+        target = alien_get_rec(enemy);
+    else
+        target = base_get_rec(global_player->super);
+    if (laser_crash_was_success(self->laser, &target))
     {
         TraceLog(LOG_INFO, "%s", "Received a shot!");
         self->destroyed = true;
