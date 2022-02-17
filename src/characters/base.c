@@ -95,6 +95,16 @@ static void base_draw_lasers(const Base *self)
     laser_draw_lasers(self->laser);
 }
 
+static Rectangle base_get_rec(const Base *self)
+{
+    return (Rectangle){
+        .height = self->frame->rectangle.height,
+        .width = self->frame->rectangle.width,
+        .x = self->frame->pos.x,
+        .y = self->frame->pos.y,
+    };
+}
+
 static bool base_is_killed(Base *self)
 {
     return self->killed;
