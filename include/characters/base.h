@@ -28,6 +28,7 @@ struct Base
     void (*set_name)(Base *const self, const char *name);
     void (*del)(Base *self);
     void (*draw)(const Base *self);
+    bool (*hit)(const Base *self, Base *target);
     Rectangle (*get_rec)(const Base *self);
 };
 

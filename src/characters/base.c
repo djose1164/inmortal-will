@@ -39,6 +39,7 @@ static void base_bindfuncs(Base *const self)
     self->update = base_update;
     self->draw_lasers = base_draw_lasers;
     self->get_rec = base_get_rec;
+    self->hit = base_hit;
 }
 
 static void base_set_frame(Base *const self, const Frame *frame)
@@ -89,16 +90,16 @@ static void base_restart(Base *self)
 {
     assert(self);
     assert(self->frame);
-   TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
-   /* base_del_lasers(self->laser, true);
-    alien_set_destroy(enemy, false);
-    global_player->super->destroyed = false;
-    if (self->type == PLAYER)
-        self->frame->pos = (Vector2){100, (float)GetScreenWidth() / 3.5f};
-    else
-        self->frame->pos = (Vector2){GetScreenWidth() - 256, 100};
-    game_should_restart = false;
-    */
+    TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
+    /* base_del_lasers(self->laser, true);
+     alien_set_destroy(enemy, false);
+     global_player->super->destroyed = false;
+     if (self->type == PLAYER)
+         self->frame->pos = (Vector2){100, (float)GetScreenWidth() / 3.5f};
+     else
+         self->frame->pos = (Vector2){GetScreenWidth() - 256, 100};
+     game_should_restart = false;
+     */
     TraceLog(LOG_INFO, "At %s(): restarting... Done!", __func__);
 }
 
@@ -107,21 +108,6 @@ static void base_update(Base *self)
     assert(self);
     assert(self->frame);
     laser_update_lasers(self->laser);
-    /*Rectangle target;
-    if (self->type == PLAYER)
-        target = alien_get_rec(enemy);
-    else
-        target = base_get_rec(global_player->super);
-    if (laser_crash_was_success(self->laser, &target))
-    {
-        TraceLog(LOG_INFO, "%s", "Received a shot!");
-        if (self->type == MONSTER)
-            global_player->super->destroyed = true;
-        else
-            alien_set_destroy(enemy, true);
-    }*/
-   /* if (game_should_restart)
-        base_restart(self);*/
 }
 
 static void base_draw_lasers(const Base *self)
@@ -129,6 +115,24 @@ static void base_draw_lasers(const Base *self)
     assert(self);
     assert(self->laser);
     laser_draw_lasers(self->laser);
+}
+
+bool base_hit(const Base *self, Base *target)
+{
+    Rectangle target_rec = {
+        .x = target->frame->pos.x,
+        .y = target->frame->pos.y,
+        .height = target->frame->get_texture_height(target->frame),
+        .width = target->frame->get_texture_width(target->frame),
+    };
+
+    if (laser_crash_was_success(self->laser, &target_rec))
+    {
+        TraceLog(LOG_INFO, "%s", "Target received a shot!");
+        target->destroyed = true;
+        return true;
+    }
+    return false;
 }
 
 static Rectangle base_get_rec(const Base *self)
