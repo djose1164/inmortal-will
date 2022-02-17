@@ -16,7 +16,6 @@ Alien enemy = NULL;
 struct Alien
 {
     Base *super;
-    float speed;
 };
 
 static inline void alien_attack(restrict Alien self)
