@@ -74,6 +74,7 @@ void alien_update(Alien self)
 
     alien_attack(self);
     self->super->update(self->super);
+    puts("## Inside");
     if (self->super->destroyed)
         *screen_manager = screens[SCREEN_WIN];
 }

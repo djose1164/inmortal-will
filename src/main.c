@@ -30,50 +30,32 @@ int main(int argc, char const *argv[])
     SetMusicVolume(music, .0f);
 
     Player *player = player_init(texture_init("resources/spaceship-draft.png"));
-    global_player = player;
-    enemy = alien_init(texture_init("resources/enemy.png"));
 
-    void *update_arr[] = {
-        alien_update,
-        player->update,
-    };
-    void *del_arr[] = {
-        alien_del,
-        player->del,
-    };
-    void *draw_arr[] = {
-        alien_draw,
-        player->draw,
-    };
-    struct ScreenHandler handler = {
-        .update = update_arr,
-        .del = del_arr,
-        .draw = draw_arr,
-    };
-    void *frames[] = {enemy, player};
+    IW_Texture *enemy_skin = texture_init("resources/enemy.png"); 
+    Alien enemies[5];
+    for (size_t i = 0; i < 5; i++)
+        enemies[i] = alien_init(enemy_skin);
+    
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    String *str = string_init("Battlespace");
-    Screen *battlespace = screen_init(str, player, &background, frames, 2, &handler);
-    Screen *gameover_screen = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
-    Screen *win_screen = screen_init(string_init("You win!"), NULL, &background, NULL, 0, NULL);
-    Screen *_screens[_SCREEN_MANAGER_MAX] = {
-        [SCREEN_BATTLESPACE] = battlespace,
-        [SCREEN_WIN] = win_screen,
-        [SCREEN_GAMEOVER] = gameover_screen,
-    };
-    screens = _screens;
-    *screen_manager = screens[SCREEN_BATTLESPACE];
+
     while (!WindowShouldClose())
     {
         if (game_should_end)
             goto game_cleanup;
         UpdateMusicStream(music);
-        (*screen_manager)->update(*screen_manager);
+        player->update(player);
+        for (size_t i = 0; i < 5; i++)
+            alien_update(enemies[i]);
+    puts("## Here");
+        
 
         BeginDrawing();
         ClearBackground(BLACK);
-        (*screen_manager)->render(*screen_manager);
+        background->draw(background);
+        player->draw(player);
+        for (size_t i = 0; i < 5; i++)
+            alien_draw(enemies[i]);
         EndDrawing();
     }
 
