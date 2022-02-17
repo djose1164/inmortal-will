@@ -12,7 +12,7 @@ typedef enum
     GO_UP
 } Goto;
 
-Alien enemy = NULL;
+static Alien *_aliens = NULL; 
 struct Alien
 {
     Base *super;
@@ -48,6 +48,7 @@ Alien alien_init(IW_Texture *skin)
 Alien alien_create(IW_Texture *skin)
 {
     Alien *aliens = memory_allocate(sizeof *aliens * ALIEN_MAX_NUM);
+    _aliens = aliens;
     for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
         aliens[i] = alien_init(skin);
     return aliens;
@@ -55,6 +56,8 @@ Alien alien_create(IW_Texture *skin)
 
 Alien alien_get_next_one(Alien *aliens)
 {
+    assert(aliens);
+    assert(*aliens);
     Alien current = NULL;
     for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
         if (!aliens[i]->super->attacking)
@@ -95,7 +98,7 @@ void alien_update(Alien self)
     self->super->update(self->super);
     puts("## Inside");
     if (self->super->destroyed)
-        ;
+        alien_get_next_one(_aliens);
 }
 
 void alien_draw(Alien self)
