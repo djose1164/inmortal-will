@@ -2,7 +2,7 @@
 
 This init version is still way too much ugly. For next updates I will be working
 on improving its design; may be by reducing global variables; hiding more info and
-by that way.
+by that way. Also, I need to add more enemies.
 
 - [ ] Improve error management.
 - [ ] Design a better memory management.
