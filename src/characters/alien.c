@@ -33,8 +33,17 @@ static inline void alien_attack(restrict Alien self)
 Alien alien_init(IW_Texture *skin)
 {
     Alien self = memory_allocate(sizeof *self);
-    self->super = base_init("Alien", MONSTER, frame_init(skin, &(Vector2){GetScreenWidth() - 256, 100}, &WHITE));
-    self->super->speed = ALIEN_SPEED;
+    self->super = base_init(
+        MONSTER, 
+        frame_init(
+            skin, 
+            &(Vector2){
+                GetScreenWidth() - 256, 100
+            }, 
+            &WHITE
+        ),
+        ALIEN_SPEED
+    );
     self->super->destroyed = false;
     return self;
 }
