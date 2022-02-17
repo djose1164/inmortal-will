@@ -47,6 +47,26 @@ Alien alien_init(IW_Texture *skin)
     return self;
 }
 
+Alien alien_create(IW_Texture *skin)
+{
+    Alien *aliens = memory_allocate(sizeof *aliens * ALIEN_MAX_NUM);
+    for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
+        aliens[i] = alien_init(skin);
+    return aliens;
+}
+
+Alien alien_get_next_one(Alien *aliens)
+{
+    Alien current = NULL;
+    for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
+        if (!aliens[i]->super->attacking)
+            current =  aliens[i];
+    if (current)
+        current->super->frame->pos.x = (float)GetRandomValue(1, GetScreenHeight());
+    
+    return NULL;
+}
+
 void alien_update(Alien self)
 {
     assert(self);
