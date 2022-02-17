@@ -72,7 +72,7 @@ void alien_update(Alien self)
 void alien_draw(Alien self)
 {
     DrawText("Alien", 500, 350, 36, RED);
-    if (!self->destroyed)
+    if (!self->super->destroyed)
     {
         Texture2D skin = *self->super->frame->get_texture(self->super->frame);
         DrawTextureRec(skin, self->super->frame->rectangle, self->super->frame->pos, WHITE);
