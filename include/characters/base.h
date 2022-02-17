@@ -20,7 +20,7 @@ struct Base
     bool killed;
 
     void (*attack)(const Base *self);
-    void (*update_lasers)(const Base *self);
+    void (*update)(const Base *self);
     void (*draw_lasers)(const Base *self);
     void (*set_texture)(Base *const self, const char *texture);
     void (*set_name)(Base *const self, const char *name);
@@ -45,7 +45,7 @@ static void base_draw(const Base *self);
 
 static void base_attack(Base *self);
 
-static void base_update_lasers(const Base * self);
+static void base_update(const Base *self);
 
 static void base_draw_lasers(const Base * self);
 
