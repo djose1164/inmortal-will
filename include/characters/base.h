@@ -47,7 +47,7 @@ static void base_attack(Base *self);
 
 static void base_update(const Base *self);
 
-static void base_draw_lasers(const Base * self);
+static void base_draw_lasers(const Base *self);
 
 static bool base_is_killed(Base *self);
 
