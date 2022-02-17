@@ -17,7 +17,8 @@ struct Base
     Frame *frame;
     Laser laser;
     bool attacking;
-    bool killed;
+    bool destroyed;
+    double speed;
 
     void (*attack)(const Base *self);
     void (*update)(const Base *self);
@@ -49,7 +50,7 @@ static void base_update(const Base *self);
 
 static void base_draw_lasers(const Base *self);
 
-static bool base_is_killed(Base *self);
+static bool base_is_destroyed(Base *self);
 
 static void base_del(Base **self);
 
