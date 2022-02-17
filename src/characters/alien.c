@@ -104,10 +104,5 @@ bool alien_get_destroyed(Alien self)
 
 Rectangle alien_get_rec(Alien self)
 {
-    return (Rectangle){
-        .height = self->super->frame->rectangle.height,
-        .width = self->super->frame->rectangle.width,
-        .x = self->super->frame->pos.x,
-        .y = self->super->frame->pos.y,
-    };
+    return self->super->get_rec(self->super);
 }
