@@ -94,7 +94,10 @@ static void base_update(Base *self)
     laser_update_lasers(self->laser);
     Rectangle self_rec = self->get_rec(self);
     if (laser_crash_was_success(self->laser, &self_rec, self->type))
+    {
+        TraceLog(LOG_INFO, "%s", "Received a shot!");
         self->destroyed = true;
+    }
 }
 
 static void base_draw_lasers(const Base *self)
@@ -110,16 +113,4 @@ static Rectangle base_get_rec(const Base *self)
         .x = self->frame->pos.x,
         .y = self->frame->pos.y,
     };
-}
-
-static bool base_is_destroyed(Base *self)
-{
-    /**
-     * Si cada base es capaz de detectar si fue impactada por un laser, y por ende
-     * destruida, el codigo seria mas facil. Es decir, en el update de la base se
-     * chequearia esto y se pondria la variable pertinente de la base al status
-     * en el que se encuentra.
-     */
-
-    return self->destroyed;
 }
