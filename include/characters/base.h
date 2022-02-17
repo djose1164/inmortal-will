@@ -40,8 +40,6 @@ static void base_bindfuncs(Base *const self);
 
 static void base_set_frame(Base *const self, const Frame *frame);
 
-static void base_update(const Base *self);
-
 static void base_draw(const Base *self);
 
 static void base_attack(Base *self);
