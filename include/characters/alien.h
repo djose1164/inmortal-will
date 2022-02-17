@@ -11,6 +11,8 @@ extern T enemy;
 
 T alien_init(IW_Texture *skin);
 
+T alien_get_next_one(T *aliens);
+
 void alien_update(T self);
 
 void alien_draw(T self);
