@@ -1,5 +1,6 @@
 #include "characters/base.h"
 #include "core/memory_p.h"
+#include "weapon/laser.h"
 #include <stdio.h>
 
 const static float multiplier = 4.0f;
