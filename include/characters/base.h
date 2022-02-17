@@ -53,4 +53,5 @@ static bool base_is_killed(Base *self);
 
 static void base_del(Base **self);
 
+static Rectangle base_get_rec(const Base *self);
 #endif // BASE_H
