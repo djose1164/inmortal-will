@@ -42,7 +42,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-bool laser_impact_was_success(Laser laser, const Rectangle *target)
+bool laser_crash_was_success(Laser laser, const Rectangle *target)
 {
     assert(laser);
     assert(laser->frame);
