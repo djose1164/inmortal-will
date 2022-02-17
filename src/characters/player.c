@@ -65,7 +65,7 @@ static void player_update(Player *const self)
     if (self->super->attacking)
         self->super->update(self->super);
     if (self->super->destroyed)
-        *screen_manager = screens[SCREEN_GAMEOVER];
+       /* *screen_manager = screens[SCREEN_GAMEOVER]*/;
 }
 
 /*****************************************************************************/

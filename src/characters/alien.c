@@ -75,7 +75,7 @@ void alien_update(Alien self)
     self->super->update(self->super);
     puts("## Inside");
     if (self->super->destroyed)
-        *screen_manager = screens[SCREEN_WIN];
+        ;
 }
 
 void alien_draw(Alien self)
