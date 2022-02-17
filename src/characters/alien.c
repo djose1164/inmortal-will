@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #define TIME(v) (60 * (1.f / (v)))
-#define ALIEN_SPEED 2.5f
+#define ALIEN_SPEED 2.5
 typedef enum
 {
     GO_DOWN,
@@ -52,11 +52,11 @@ void alien_update(Alien self)
     switch (_goto)
     {
     case GO_UP:
-        *y += TIME(60) * self->speed;
+        *y += TIME(60) * self->super->speed;
         break;
 
     case GO_DOWN:
-        *y -= TIME(60) * self->speed;
+        *y -= TIME(60) * self->super->speed;
         break;
     default:
         fprintf(stderr, "Undefined address %s: %s", __FILE__, __LINE__);
@@ -64,9 +64,9 @@ void alien_update(Alien self)
     }
 
     alien_attack(self);
-    self->super->update_lasers(self->super);
-    if (self->destroyed)
-        screen_manager = screens[SCREEN_GAMEOVER];
+    self->super->update(self->super);
+    if (self->super->destroyed)
+        *screen_manager = screens[SCREEN_WIN];
 }
 
 void alien_draw(Alien self)
