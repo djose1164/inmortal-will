@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define TIME(v) 60 * (1.f / (v))
+#define TIME(v) (60 * (1.f / (v)))
 #define ALIEN_SPEED 2.5f
 typedef enum
 {
