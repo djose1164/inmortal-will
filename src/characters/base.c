@@ -48,6 +48,8 @@ static void base_set_frame(Base *const self, const Frame *frame)
 
 static void base_draw(const Base *self)
 {
+    assert(self);
+    assert(self->frame);
     self->frame->draw(self->frame);
 }
 
@@ -73,10 +75,8 @@ static void base_del(Base **self)
 
 static void base_attack(Base *const self)
 {
-    /*
-        Aqui se lanza los lasers.
-        El Laser tiene velocidad. Debe ser lanzado dede su punta.
-    */
+    assert(self);
+    assert(self->frame);
     puts("Launching laser...");
     Vector2 pos = {self->frame->pos.x + self->frame->rectangle.width, self->frame->pos.y};
     if (!laser_next_laser(self->laser, &pos))
@@ -87,6 +87,8 @@ static void base_attack(Base *const self)
 
 static void base_restart(Base *self)
 {
+    assert(self);
+    assert(self->frame);
     TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
     base_del_lasers(self->laser, true);
     alien_set_destroy(enemy, false);
@@ -95,12 +97,14 @@ static void base_restart(Base *self)
         self->frame->pos = (Vector2){100, (float)GetScreenWidth() / 3.5f};
     else
         self->frame->pos = (Vector2){GetScreenWidth() - 256, 100};
-    game_should_restart = false;
+    /*game_should_restart = false*/;
     TraceLog(LOG_INFO, "At %s(): restarting... Done!", __func__);
 }
 
 static void base_update(Base *self)
 {
+    assert(self);
+    assert(self->frame);
     laser_update_lasers(self->laser);
     Rectangle target;
     if (self->type == PLAYER)
@@ -115,17 +119,21 @@ static void base_update(Base *self)
         else
             alien_set_destroy(enemy, true);
     }
-    if (game_should_restart)
-        base_restart(self);
+   /* if (game_should_restart)
+        base_restart(self);*/
 }
 
 static void base_draw_lasers(const Base *self)
 {
+    assert(self);
+    assert(self->laser);
     laser_draw_lasers(self->laser);
 }
 
 static Rectangle base_get_rec(const Base *self)
 {
+    assert(self);
+    assert(self->frame);
     return (Rectangle){
         .height = self->frame->rectangle.height,
         .width = self->frame->rectangle.width,
