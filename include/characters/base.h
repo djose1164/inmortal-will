@@ -26,6 +26,7 @@ struct Base
     void (*set_name)(Base *const self, const char *name);
     void (*del)(Base *self);
     void (*draw)(const Base *self);
+    Rectangle (*get_rec)(const Base *self);
 };
 
 Base *base_init(const char *name, Type type, const Frame *frame);
