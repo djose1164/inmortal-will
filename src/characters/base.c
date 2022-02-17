@@ -106,7 +106,7 @@ static void base_update(Base *self)
     assert(self);
     assert(self->frame);
     laser_update_lasers(self->laser);
-    Rectangle target;
+    /*Rectangle target;
     if (self->type == PLAYER)
         target = alien_get_rec(enemy);
     else
@@ -118,7 +118,7 @@ static void base_update(Base *self)
             global_player->super->destroyed = true;
         else
             alien_set_destroy(enemy, true);
-    }
+    }*/
    /* if (game_should_restart)
         base_restart(self);*/
 }
