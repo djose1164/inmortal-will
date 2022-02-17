@@ -121,7 +121,7 @@ void laser_destroy_all(Laser laser, bool restart)
 {
     if (*laser->skin && !restart)
     {
-        (*laser->skin)->del(laser->skin);
+        (*laser->skin)->del(*laser->skin);
         UnloadSound(*laser->sound);
     }
     while (laser_is_attacking(laser))
