@@ -19,6 +19,7 @@ struct Base
     bool attacking;
     bool destroyed;
     double speed;
+    Type type;
 
     void (*attack)(const Base *self);
     void (*update)(const Base *self);

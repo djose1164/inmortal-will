@@ -17,6 +17,7 @@ Base *base_init(Type type, const Frame *frame, double speed)
     self->attacking = false;
     self->destroyed = false;
     self->speed = speed;
+    self->type = type;
 
     base_bindfuncs(self);
     puts("Creating base... Done!");
@@ -92,7 +93,7 @@ static void base_update(Base *self)
 {
     laser_update_lasers(self->laser);
     Rectangle self_rec = self->get_rec(self);
-    if (laser_crash_was_success(self->laser, &self_rec))
+    if (laser_crash_was_success(self->laser, &self_rec, self->type))
         self->destroyed = true;
 }
 
