@@ -49,6 +49,8 @@ Alien alien_init(IW_Texture *skin)
 
 void alien_update(Alien self)
 {
+    assert(self);
+    assert(self->super);
     static Goto _goto;
     float *y = &self->super->frame->pos.y;
     unsigned height = self->super->frame->get_texture_height(self->super->frame);
