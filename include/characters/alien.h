@@ -6,8 +6,9 @@
 typedef struct Alien *Alien;
 
 #define T Alien
+#define ALIEN_MAX_NUM 5
 
-extern T enemy;
+extern T *_aliens;
 
 T alien_init(IW_Texture *skin);
 
@@ -27,5 +28,6 @@ void alien_set_destroy(T self, bool status);
 
 bool alien_get_destroyed(T self);
 
+Base *alien_get_base(Alien self);
 #undef T
 #endif //ALIEN_H
