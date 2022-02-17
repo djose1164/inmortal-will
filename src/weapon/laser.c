@@ -45,37 +45,45 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
 bool laser_crash_was_success(Laser laser, const Rectangle *target, Type attacker)
 {
     assert(laser);
-    assert(laser->frame);
-    Rectangle rec = {
-        .height = laser->frame->rectangle.height,
-        .width = laser->frame->rectangle.width,
-        .x = laser->frame->pos.x,
-        .y = laser->frame->pos.y,
-    };
-    return CheckCollisionRecs(rec, *target) && laser->owner != attacker;
-/*
-    Frame _ = *global_player->super->frame;
-    Rectangle prec = {
-        .height = _.rectangle.height,
-        .width = _.rectangle.width,
-        .x = _.pos.x,
-        .y = _.pos.y,
-    };
-
-    bool player_hit = CheckCollisionRecs(rec, alien_get_rec(enemy)) && laser->owner == PLAYER;
-    bool alien_hit = CheckCollisionRecs(rec, prec) && laser->owner == MONSTER;
-
-    if (player_hit)
+    for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
-        TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Player hit!/-/-/-/-/-/-/-/-");
-        *screen_manager = screens[SCREEN_WIN];
+        if (laser[i].launched)
+        {
+            assert(laser[i].frame);
+            Rectangle rec = {
+                .height = laser[i].frame->rectangle.height,
+                .width = laser[i].frame->rectangle.width,
+                .x = laser[i].frame->pos.x,
+                .y = laser[i].frame->pos.y,
+            };
+            if (CheckCollisionRecs(rec, *target) && laser->owner != attacker)
+                return true;
+        }
     }
-    if (alien_hit)
-    {
-        TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
-        *screen_manager = screens[SCREEN_GAMEOVER];
-        //    alien_set_destroy(enemy, true);
-    }*/
+    return false;
+    /*
+        Frame _ = *global_player->super->frame;
+        Rectangle prec = {
+            .height = _.rectangle.height,
+            .width = _.rectangle.width,
+            .x = _.pos.x,
+            .y = _.pos.y,
+        };
+
+        bool player_hit = CheckCollisionRecs(rec, alien_get_rec(enemy)) && laser->owner == PLAYER;
+        bool alien_hit = CheckCollisionRecs(rec, prec) && laser->owner == MONSTER;
+
+        if (player_hit)
+        {
+            TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Player hit!/-/-/-/-/-/-/-/-");
+            *screen_manager = screens[SCREEN_WIN];
+        }
+        if (alien_hit)
+        {
+            TraceLog(LOG_DEBUG, "%s", "/-/-/-/-/-/-/Alien hit!/-/-/-/-/-/-/-/-");
+            *screen_manager = screens[SCREEN_GAMEOVER];
+            //    alien_set_destroy(enemy, true);
+        }*/
 }
 
 Laser laser_next_laser(Laser laser, Vector2 *pos)
@@ -92,7 +100,7 @@ Laser laser_next_laser(Laser laser, Vector2 *pos)
     if (current)
     {
         current->frame = frame_init(*current->skin, pos, &WHITE);
-        current->frame->pos.y += (*current->skin)->get_width((*current->skin))/1.5;
+        current->frame->pos.y += (*current->skin)->get_width((*current->skin)) / 1.5;
         current->frame->rectangle.height;
         current->launched = true;
         PlaySound(*current->sound);
