@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 // TODO: This function definition must be hidden.
 void draw_background(const Frame *self)
 {
@@ -41,14 +42,13 @@ int main(int argc, char const *argv[])
 
     while (!WindowShouldClose())
     {
-        if (game_should_end)
-            goto game_cleanup;
+
         UpdateMusicStream(music);
         player->update(player);
         for (size_t i = 0; i < 5; i++)
             alien_update(enemies[i]);
-    puts("## Here");
         
+    puts("## Here");
 
         BeginDrawing();
         ClearBackground(BLACK);
@@ -60,9 +60,7 @@ int main(int argc, char const *argv[])
     }
 
 game_cleanup:
-    // SCREEN_GAMEOVER->background = NULL;
-    for (size_t i = 0; i < _SCREEN_MANAGER_MAX; i++)
-        screens[i]->del(&screens[i]);
+
 
     UnloadMusicStream(music);
     CloseWindow();
