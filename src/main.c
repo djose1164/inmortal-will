@@ -48,7 +48,6 @@ int main(int argc, char const *argv[])
         for (size_t i = 0; i < 5; i++)
             alien_update(enemies[i]);
         
-    puts("## Here");
 
         BeginDrawing();
         ClearBackground(BLACK);

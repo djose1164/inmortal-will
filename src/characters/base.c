@@ -89,15 +89,16 @@ static void base_restart(Base *self)
 {
     assert(self);
     assert(self->frame);
-    TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
-    base_del_lasers(self->laser, true);
+   TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
+   /* base_del_lasers(self->laser, true);
     alien_set_destroy(enemy, false);
     global_player->super->destroyed = false;
     if (self->type == PLAYER)
         self->frame->pos = (Vector2){100, (float)GetScreenWidth() / 3.5f};
     else
         self->frame->pos = (Vector2){GetScreenWidth() - 256, 100};
-    /*game_should_restart = false*/;
+    game_should_restart = false;
+    */
     TraceLog(LOG_INFO, "At %s(): restarting... Done!", __func__);
 }
 

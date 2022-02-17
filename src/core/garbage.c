@@ -6,7 +6,6 @@ Stack allocated_ptrs = &l;
 
 void garbage_add(void *ptr)
 {
-    puts("## Here");
     stack_push(allocated_ptrs, ptr);
 }
 
@@ -17,7 +16,6 @@ void garbage_cleanup(void)
 
 static void stack_push(Stack stack, void* arg)
 {
-    puts("## Hola");
     linkedList_push(stack, arg);
 }
 

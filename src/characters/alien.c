@@ -96,7 +96,6 @@ void alien_update(Alien self)
 
     alien_attack(self);
     self->super->update(self->super);
-    puts("## Inside");
     if (self->super->destroyed)
         alien_get_next_one(_aliens);
 }
