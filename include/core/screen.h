@@ -11,7 +11,7 @@ typedef void (*fptrCallBack)(void *arg);
 typedef struct Screen Screen;
 typedef enum
 {
-    TESTING,
+    SCREEN_BATTLESPACE,
     SCREEN_GAMEOVER,
     SCREEN_WIN,
     _SCREEN_MANAGER_MAX

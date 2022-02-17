@@ -107,7 +107,7 @@ static void screen_render(const Screen *self)
             {
                 game_should_restart = true;
                 TraceLog(LOG_INFO, "At %s(): I wanna play again!", __func__);
-                *screen_manager = screens[TESTING];
+                *screen_manager = screens[SCREEN_BATTLESPACE];
             }
             else
                 game_should_end = true;

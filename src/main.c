@@ -58,12 +58,12 @@ int main(int argc, char const *argv[])
     Screen *gameover_screen = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
     Screen *win_screen = screen_init(string_init("You win!"), NULL, &background, NULL, 0, NULL);
     Screen *_screens[_SCREEN_MANAGER_MAX] = {
-        [TESTING] = battlespace,
+        [SCREEN_BATTLESPACE] = battlespace,
         [SCREEN_WIN] = win_screen,
         [SCREEN_GAMEOVER] = gameover_screen,
     };
     screens = _screens;
-    *screen_manager = screens[TESTING];
+    *screen_manager = screens[SCREEN_BATTLESPACE];
     while (!WindowShouldClose())
     {
         if (game_should_end)
