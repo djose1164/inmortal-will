@@ -1,5 +1,9 @@
 # Todo
 
+This init version is still way too much ugly. For next updates I will be working
+on improving its design; may be by reducing global variables; hiding more info and
+by that way.
+
 - [ ] Improve error management.
 - [ ] Design a better memory management.
 - [ ] Design a better error management.
@@ -22,10 +26,3 @@
 - [ ] Create more type of lists.
 - [ ] Finish implementation for monster type.
 
-## For manana
-
-Add mas documentation y comments donde it's necesario.
-
-## Cosas a checkear
-
-Memory es muy dependiente a otros modulos.
