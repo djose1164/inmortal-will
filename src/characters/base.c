@@ -1,6 +1,9 @@
 #include "characters/base.h"
 #include "core/memory_p.h"
 #include "weapon/laser.h"
+#include "characters/alien.h"
+#include "core/screen.h"
+#include "characters/player.h"
 #include <stdio.h>
 
 const static float multiplier = 4.0f;
@@ -57,12 +60,6 @@ static void base_del_lasers(Laser laser, bool restart)
     TraceLog(LOG_INFO, "At %s(): deleting... Done!", __func__);
 }
 
-void base_restart(Base *self, Vector2 pos)
-{
-    self->frame->pos = pos;
-    base_del_lasers(self->laser, true);
-}
-
 static void base_del(Base **self)
 {
     puts("Deleting base...");
@@ -89,6 +86,19 @@ static void base_attack(Base *const self)
     puts("Launching laser... Done!");
 }
 
+static void base_restart(Base *self)
+{
+    TraceLog(LOG_INFO, "At %s(): restarting...", __func__);
+    base_del_lasers(self->laser, true);
+    if (self->type == PLAYER)
+        self->frame->pos = (Vector2){100, (float)GetScreenWidth() / 3.5f};
+    else
+        self->frame->pos = (Vector2){GetScreenWidth() - 256, 100};
+    game_should_restart = false;
+    *screen_manager = screens[TESTING];
+    TraceLog(LOG_INFO, "At %s(): restarting... Done!", __func__);
+}
+
 static void base_update(Base *self)
 {
     laser_update_lasers(self->laser);
@@ -100,8 +110,13 @@ static void base_update(Base *self)
     if (laser_crash_was_success(self->laser, &target))
     {
         TraceLog(LOG_INFO, "%s", "Received a shot!");
-        self->destroyed = true;
+        if (self->type == MONSTER)
+            global_player->super->destroyed = true;
+        else
+            alien_set_destroy(enemy, true);
     }
+    if (game_should_restart)
+        base_restart(self);
 }
 
 static void base_draw_lasers(const Base *self)
