@@ -53,12 +53,12 @@ int main(int argc, char const *argv[])
     void *frames[] = {enemy, player};
     Frame *background = frame_init(texture_init("./resources/space_with_stars.png"), &(Vector2){0, 0}, &WHITE);
     background->draw = draw_background;
-    String *str = string_init("Testing");
-    Screen *testing = screen_init(str, player, &background, frames, 2, &handler);
+    String *str = string_init("Battlespace");
+    Screen *battlespace = screen_init(str, player, &background, frames, 2, &handler);
     Screen *gameover_screen = screen_init(string_init("Game Over"), NULL, &background, NULL, 0, NULL);
     Screen *win_screen = screen_init(string_init("You win!"), NULL, &background, NULL, 0, NULL);
     Screen *_screens[_SCREEN_MANAGER_MAX] = {
-        [TESTING] = testing,
+        [TESTING] = battlespace,
         [SCREEN_WIN] = win_screen,
         [SCREEN_GAMEOVER] = gameover_screen,
     };
