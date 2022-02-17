@@ -11,6 +11,7 @@
  */
 
 #include "characters/player.h"
+#include "characters/alien.h"
 #include "core/memory_p.h"
 #include <assert.h>
 
@@ -27,7 +28,7 @@ Player *player_init(const IW_Texture *texture)
     Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
 
     self->super = base_init(PLAYER, frame, PLAYER_SPEED);
-    
+
     const unsigned frame_height = self->super->frame->get_texture_height(self->super->frame);
     self->super->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
 
@@ -63,9 +64,14 @@ static void player_update(Player *const self)
 {
     player_handle_input(self);
     if (self->super->attacking)
+    {
+        for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
+            self->super->hit(self->super, alien_get_base(_aliens[i]));
+
         self->super->update(self->super);
+    }
     if (self->super->destroyed)
-       /* *screen_manager = screens[SCREEN_GAMEOVER]*/;
+        /* *screen_manager = screens[SCREEN_GAMEOVER]*/;
 }
 
 /*****************************************************************************/
