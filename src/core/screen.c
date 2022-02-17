@@ -5,6 +5,7 @@ Screen **screens = NULL;
 static ScreenManager *_screen_manager_private;
 ScreenManager screen_manager = &_screen_manager_private;
 bool game_should_end = false;
+bool game_should_restart = false;
 
 static inline void screen_update_camera2D(Screen *const self)
 {
@@ -101,11 +102,11 @@ static void screen_render(const Screen *self)
         DrawText("Want to tray again?", text_pos.x, text_pos.y * 2 + 20, font_size, RED);
         DrawText("No\t\tYes", text_pos.x + 50, text_pos.y * 2 + 30 + font_size, font_size, RED);
         if (IsKeyPressed(KEY_ENTER))
-            if (!restart_game)
+            if (restart_game)
+                game_should_restart = true;
+            else
                 game_should_end = true;
-            /*else
-            Me quede en la implementacion para el reset cuando el jugador pierde.
-            */
+            
     }
     DrawTextEx(GetFontDefault(), self->title->str, text_pos, font_size, spacing, RED);
     // DrawText(self->title->str, (GetScreenWidth()/2)-self->title->len, 50, font_size, RED);
