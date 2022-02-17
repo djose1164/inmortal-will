@@ -37,12 +37,7 @@ T laser_create_lasers(unsigned quantity, Owner direction);
  */
 T laser_next_laser(T laser, Vector2 *pos);
 
-/**
- * @brief Update all the launched lasers.
- * 
- * @param laser The attacker's laser.
- */
-void laser_update_lasers(T laser);
+void laser_update_lasers(Laser laser);
 
 /**
  * @brief Draw all the launched lasers.
@@ -116,7 +111,7 @@ Vector2 laser_get_pos(T Laser);
  */
 bool laser_is_attacking(T laser);
 
-bool laser_impact_was_success(Laser laser, const Rectangle *target);
+bool laser_crash_was_success(Laser laser, const Rectangle *target);
 
 /****************************************************************************/
 /*                            Private Functions.                            */
