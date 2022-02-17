@@ -102,11 +102,16 @@ static void screen_render(const Screen *self)
         DrawText("Want to tray again?", text_pos.x, text_pos.y * 2 + 20, font_size, RED);
         DrawText("No\t\tYes", text_pos.x + 50, text_pos.y * 2 + 30 + font_size, font_size, RED);
         if (IsKeyPressed(KEY_ENTER))
+        {
             if (restart_game)
+            {
                 game_should_restart = true;
+                TraceLog(LOG_INFO, "At %s(): I wanna play again!", __func__);
+                *screen_manager = screens[TESTING];
+            }
             else
                 game_should_end = true;
-            
+        }
     }
     DrawTextEx(GetFontDefault(), self->title->str, text_pos, font_size, spacing, RED);
     // DrawText(self->title->str, (GetScreenWidth()/2)-self->title->len, 50, font_size, RED);
