@@ -5,6 +5,7 @@
 
 #define TIME(v) (60 * (1.f / (v)))
 #define ALIEN_SPEED 2.5
+#define ALIEN_MAX_NUM 5
 typedef enum
 {
     GO_DOWN,
@@ -33,16 +34,13 @@ Alien alien_init(IW_Texture *skin)
 {
     Alien self = memory_allocate(sizeof *self);
     self->super = base_init(
-        MONSTER, 
+        MONSTER,
         frame_init(
-            skin, 
+            skin,
             &(Vector2){
-                GetScreenWidth() - 256, 100
-            }, 
-            &WHITE
-        ),
-        ALIEN_SPEED
-    );
+                GetScreenWidth() - 256, 100},
+            &WHITE),
+        ALIEN_SPEED);
     self->super->destroyed = false;
     return self;
 }
