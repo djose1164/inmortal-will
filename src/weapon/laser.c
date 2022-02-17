@@ -140,28 +140,18 @@ void laser_update_lasers(Laser laser)
     {
         if (laser[i].launched)
         {
-            Rectangle rec;
             switch (laser[i].owner)
             {
             case PLAYER:
                 laser[i].frame->pos.x += time * laser->speed;
-                rec = alien_get_rec(enemy);
                 TraceLog(LOG_DEBUG, "Player's laser's x: %.f", laser[i].frame->pos.x);
                 break;
 
             case MONSTER:
                 laser[i].frame->pos.x -= time * laser->speed;
-                Frame _ = *global_player->base_super->frame;
-                rec = (Rectangle){
-                    .height = _.rectangle.height,
-                    .width = _.rectangle.width,
-                    .x = _.pos.x,
-                    .y = _.pos.y,
-                };
                 TraceLog(LOG_DEBUG, "Alien's laser's x: %.f", laser[i].frame->pos.x);
                 break;
             }
-            laser_impact_was_success(&laser[i], &rec);
             if (laser[i].frame->pos.x > GetScreenWidth() * 1.5 || laser[i].frame->pos.x + laser[i].frame->get_texture_width(laser[i].frame) < 1)
                 laser_destroy(&laser[i]);
         }
