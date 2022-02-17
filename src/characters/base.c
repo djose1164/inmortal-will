@@ -31,8 +31,9 @@ static void base_bindfuncs(Base *const self)
     self->draw = base_draw;
     self->del = base_del;
     self->attack = base_attack;
-    self->update_lasers = base_update_lasers;
+    self->update = base_update;
     self->draw_lasers = base_draw_lasers;
+    self->get_rec = base_get_rec;
 }
 
 static void base_set_frame(Base *const self, const Frame *frame)
@@ -85,9 +86,12 @@ static void base_attack(Base *const self)
     puts("Launching laser... Done!");
 }
 
-static void base_update_lasers(const Base *self)
+static void base_update(Base *self)
 {
     laser_update_lasers(self->laser);
+    Rectangle self_rec = self->get_rec(self);
+    if (laser_crash_was_success(self->laser, &self_rec))
+        self->destroyed = true;
 }
 
 static void base_draw_lasers(const Base *self)
@@ -105,7 +109,14 @@ static Rectangle base_get_rec(const Base *self)
     };
 }
 
-static bool base_is_killed(Base *self)
+static bool base_is_destroyed(Base *self)
 {
-    return self->killed;
+    /**
+     * Si cada base es capaz de detectar si fue impactada por un laser, y por ende
+     * destruida, el codigo seria mas facil. Es decir, en el update de la base se
+     * chequearia esto y se pondria la variable pertinente de la base al status
+     * en el que se encuentra.
+     */
+
+    return self->destroyed;
 }
