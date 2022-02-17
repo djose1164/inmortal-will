@@ -12,7 +12,7 @@ typedef enum
     GO_UP
 } Goto;
 
-static Alien *_aliens = NULL; 
+static Alien *_aliens = NULL;
 struct Alien
 {
     Base *super;
@@ -45,7 +45,7 @@ Alien alien_init(IW_Texture *skin)
     return self;
 }
 
-Alien alien_create(IW_Texture *skin)
+void alien_create(IW_Texture *skin)
 {
     Alien *aliens = memory_allocate(sizeof *aliens * ALIEN_MAX_NUM);
     _aliens = aliens;
@@ -56,58 +56,77 @@ Alien alien_create(IW_Texture *skin)
 
 Alien alien_get_next_one(Alien *aliens)
 {
+    TraceLog(LOG_INFO, "%s(): getting next alien (if avaible)...", __func__);
     assert(aliens);
     assert(*aliens);
     Alien current = NULL;
     for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
         if (!aliens[i]->super->attacking)
-            current =  aliens[i];
+            current = aliens[i];
     if (current)
-        current->super->frame->pos.x = (float)GetRandomValue(1, GetScreenHeight());
-    
+    {
+        puts("## Here");
+        current->super->frame->pos.y = (float)GetRandomValue(1, GetScreenHeight());
+        TraceLog(LOG_INFO, "%s(): getting next alien (if avaible)... Done!", __func__);
+        return current;
+    }
+    else
+        TraceLog(LOG_INFO, "%s(): getting next alien (if avaible)... Failed!", __func__);
     return NULL;
 }
 
-void alien_update(Alien self)
+void alien_update()
 {
-    assert(self);
-    assert(self->super);
+    assert(_aliens);
     static Goto _goto;
-    float *y = &self->super->frame->pos.y;
-    unsigned height = self->super->frame->get_texture_height(self->super->frame);
-    if (*y < 1.f)
-        _goto = GO_UP;
-    if (*y > GetScreenHeight() - height)
-        _goto = GO_DOWN;
-
-    switch (_goto)
+    static unsigned timer;
+    timer++;
+    for (size_t i = 0, j = 0; j < ALIEN_MAX_NUM; j++)
     {
-    case GO_UP:
-        *y += TIME(60) * self->super->speed;
-        break;
+        i = GetRandomValue(0, 4);
+        float *y = &_aliens[i]->super->frame->pos.y;
+        unsigned height = _aliens[i]->super->frame->get_texture_height(_aliens[i]->super->frame);
+        if (*y < 1.f)
+            _goto = GO_UP;
+        if (*y > GetScreenHeight() - height)
+            _goto = GO_DOWN;
 
-    case GO_DOWN:
-        *y -= TIME(60) * self->super->speed;
-        break;
-    default:
-        fprintf(stderr, "Undefined address %s: %s", __FILE__, __LINE__);
-        break;
+        switch (_goto)
+        {
+        case GO_UP:
+            *y += TIME(60) * _aliens[i]->super->speed;
+            break;
+
+        case GO_DOWN:
+            *y -= TIME(60) * _aliens[i]->super->speed;
+            break;
+        default:
+            fprintf(stderr, "Undefined address %s: %s", __FILE__, __LINE__);
+            break;
+            alien_attack(_aliens[i]);
+        }
+
+        _aliens[i]->super->update(_aliens[i]->super);
+        if (_aliens[i]->super->destroyed)
+            alien_get_next_one(_aliens);
     }
-
-    alien_attack(self);
-    self->super->update(self->super);
-    if (self->super->destroyed)
+    if (timer >= 500)
+    {
+        timer = 0;
         alien_get_next_one(_aliens);
+    }
 }
 
-void alien_draw(Alien self)
+void alien_draw()
 {
-    DrawText("Alien", 500, 350, 36, RED);
-    if (!self->super->destroyed)
+    for (size_t i = 0; i < ALIEN_MAX_NUM; i++)
     {
-        Texture2D skin = *self->super->frame->get_texture(self->super->frame);
-        DrawTextureRec(skin, self->super->frame->rectangle, self->super->frame->pos, WHITE);
-        self->super->draw_lasers(self->super);
+        if (!_aliens[i]->super->destroyed)
+        {
+            Texture2D skin = *_aliens[i]->super->frame->get_texture(_aliens[i]->super->frame);
+            DrawTextureRec(skin, _aliens[i]->super->frame->rectangle, _aliens[i]->super->frame->pos, WHITE);
+            _aliens[i]->super->draw_lasers(_aliens[i]->super);
+        }
     }
 }
 
