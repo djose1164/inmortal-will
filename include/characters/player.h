@@ -24,7 +24,7 @@ extern Player *global_player;
 
 struct Player
 {
-    Base *base_super;
+    Base *super;
 
     void (*draw)(const Player *self);
     void (*update)(Player *const self);

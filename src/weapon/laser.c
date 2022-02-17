@@ -54,7 +54,7 @@ bool laser_crash_was_success(Laser laser, const Rectangle *target)
     };
     return CheckCollisionRecs(rec, *target);
 /*
-    Frame _ = *global_player->base_super->frame;
+    Frame _ = *global_player->super->frame;
     Rectangle prec = {
         .height = _.rectangle.height,
         .width = _.rectangle.width,

@@ -11,7 +11,7 @@ static inline void screen_update_camera2D(Screen *const self)
     Vector2 pos;
     if (self->_target)
     {
-        Frame *_target = ((Player *)self->_target)->base_super->frame;
+        Frame *_target = ((Player *)self->_target)->super->frame;
         pos = (Vector2){_target->pos.x, 0};
     }
     else
@@ -26,7 +26,7 @@ Screen *screen_init(String *title, void *target, Frame *background, const void *
     Screen *self = memory_allocate(sizeof *self);
     Frame *_target = NULL;
     if (target)
-        _target = ((Player *)target)->base_super->frame;
+        _target = ((Player *)target)->super->frame;
 
     self->_target = target;
     screen_init_camera2D(self);
@@ -53,7 +53,7 @@ static void screen_init_camera2D(Screen *const self)
     if (self->_target)
     {
         Player *temp = (Player *)self->_target;
-        Frame *_target = temp->base_super->frame;
+        Frame *_target = temp->super->frame;
         x_offset = _target->get_texture_width(_target) / 2.f;
         pos = _target->pos;
     }

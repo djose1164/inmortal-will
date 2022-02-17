@@ -12,6 +12,7 @@
 
 #include "characters/player.h"
 #include "core/memory_p.h"
+#include "core/screen.h"
 #include <assert.h>
 
 LinkedList player_list = {.head = NULL};
@@ -26,10 +27,10 @@ Player *player_init(const IW_Texture *texture)
     Player *self = memory_allocate(sizeof *self);
     Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
 
-    self->base_super = base_init("Player", PLAYER, frame);
+    self->super = base_init("Player", PLAYER, frame);
     
-    const unsigned frame_height = self->base_super->frame->get_texture_height(self->base_super->frame);
-    self->base_super->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
+    const unsigned frame_height = self->super->frame->get_texture_height(self->super->frame);
+    self->super->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
 
     player_bindfuncs(self);
     puts("Creating player... Done!");
@@ -39,7 +40,7 @@ Player *player_init(const IW_Texture *texture)
 void player_del(Player **self)
 {
     puts("Deleting player...");
-    (*self)->base_super->del(&(*self)->base_super);
+    (*self)->super->del(&(*self)->super);
     memory_release(self);
     puts("Deleting player... Done");
 }
@@ -48,22 +49,24 @@ void player_set_name(Player *const self, const char *name)
 {
     // if (!Str_is_valid(name))
     //     memory_die("Introduce a valid name!");
-    self->base_super->name = (char *)name;
+    self->super->name = (char *)name;
 }
 
 static void player_draw(const Player *self)
 {
     assert(self);
-    self->base_super->draw(self->base_super);
-    assert(self->base_super->laser);
-    self->base_super->draw_lasers(self->base_super);
+    self->super->draw(self->super);
+    assert(self->super->laser);
+    self->super->draw_lasers(self->super);
 }
 
 static void player_update(Player *const self)
 {
     player_handle_input(self);
-    if (self->base_super->attacking)
-        self->base_super->update_lasers(self->base_super);
+    if (self->super->attacking)
+        self->super->update(self->super);
+    if (self->super->destroyed)
+        *screen_manager = screens[SCREEN_GAMEOVER];
 }
 
 /*****************************************************************************/
@@ -72,7 +75,7 @@ static void player_update(Player *const self)
 
 void player_set_texture(Player *self, IW_Texture *texture)
 {
-    self->base_super->frame->bind_texture(self->base_super->frame, texture);
+    self->super->frame->bind_texture(self->super->frame, texture);
     puts("Skin loaded!");
 }
 
@@ -89,7 +92,7 @@ static void player_bindfuncs(Player *const self)
 static void player_handle_input(Player *const self)
 {
     static int counter = 0, current_frame = 1;
-    Frame *frame = self->base_super->frame;
+    Frame *frame = self->super->frame;
     unsigned height = (float)frame->get_texture_height(frame);
     bool condition = IsKeyDown(KEY_A) || IsKeyDown(KEY_D) || IsKeyDown(KEY_W) || IsKeyDown(KEY_S);
     counter++;
@@ -124,5 +127,5 @@ static void player_handle_input(Player *const self)
 
 static void player_attack(Player *self)
 {
-    self->base_super->attack(self->base_super);
+    self->super->attack(self->super);
 }
