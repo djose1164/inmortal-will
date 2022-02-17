@@ -5,7 +5,7 @@
 
 const static float multiplier = 4.0f;
 
-Base *base_init(const char *name, Type type, const Frame *frame)
+Base *base_init(Type type, const Frame *frame, double speed)
 {
     puts("Creating base...");
     Base *self = memory_allocate(sizeof *self);
@@ -15,6 +15,8 @@ Base *base_init(const char *name, Type type, const Frame *frame)
     else
         self->laser = laser_create_lasers(MAX_NUMS_OF_LASER, MONSTER);
     self->attacking = false;
+    self->destroyed = false;
+    self->speed = speed;
 
     base_bindfuncs(self);
     puts("Creating base... Done!");
