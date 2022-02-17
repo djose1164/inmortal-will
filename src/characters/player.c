@@ -17,9 +17,9 @@
 
 LinkedList player_list = {.head = NULL};
 Player *global_player = NULL;
-static const unsigned multiplier = 4;
 
 #define NUMS_OF_FRAME 2
+#define PLAYER_SPEED 3.5
 
 Player *player_init(const IW_Texture *texture)
 {
@@ -27,7 +27,7 @@ Player *player_init(const IW_Texture *texture)
     Player *self = memory_allocate(sizeof *self);
     Frame *frame = frame_init(texture, &(Vector2){100, (float)GetScreenWidth() / 3.5f}, &WHITE);
 
-    self->super = base_init("Player", PLAYER, frame);
+    self->super = base_init(PLAYER, frame, PLAYER_SPEED);
     
     const unsigned frame_height = self->super->frame->get_texture_height(self->super->frame);
     self->super->frame->rectangle.height = frame_height / NUMS_OF_FRAME;
@@ -98,7 +98,7 @@ static void player_handle_input(Player *const self)
     counter++;
     if (condition)
     {
-        // if (counter >= GetFPS() / multiplier)
+        // if (counter >= GetFPS() / PLAYER_SPEED)
         // {
         //     counter = 0;
         //     current_frame++;
@@ -113,13 +113,13 @@ static void player_handle_input(Player *const self)
         frame->rectangle.y = 0;
 
     if (IsKeyDown(KEY_A))
-        frame->pos.x -= multiplier;
+        frame->pos.x -= PLAYER_SPEED;
     if (IsKeyDown(KEY_D))
-        frame->pos.x += multiplier;
+        frame->pos.x += PLAYER_SPEED;
     if (IsKeyDown(KEY_W))
-        frame->pos.y -= multiplier;
+        frame->pos.y -= PLAYER_SPEED;
     if (IsKeyDown(KEY_S))
-        frame->pos.y += multiplier;
+        frame->pos.y += PLAYER_SPEED;
     if (IsKeyReleased(KEY_J))
         self->attack(self);
     /* Jump stuff. */
