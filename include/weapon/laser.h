@@ -111,7 +111,7 @@ Vector2 laser_get_pos(T Laser);
  */
 bool laser_is_attacking(T laser);
 
-bool laser_crash_was_success(Laser laser, const Rectangle *target);
+bool laser_crash_was_success(Laser laser, const Rectangle *target, Type attacker);
 
 /****************************************************************************/
 /*                            Private Functions.                            */

@@ -42,7 +42,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     return lasers;
 }
 
-bool laser_crash_was_success(Laser laser, const Rectangle *target)
+bool laser_crash_was_success(Laser laser, const Rectangle *target, Type attacker)
 {
     assert(laser);
     assert(laser->frame);
@@ -52,7 +52,7 @@ bool laser_crash_was_success(Laser laser, const Rectangle *target)
         .x = laser->frame->pos.x,
         .y = laser->frame->pos.y,
     };
-    return CheckCollisionRecs(rec, *target);
+    return CheckCollisionRecs(rec, *target) && laser->owner != attacker;
 /*
     Frame _ = *global_player->super->frame;
     Rectangle prec = {
