@@ -30,7 +30,7 @@ struct Base
     Rectangle (*get_rec)(const Base *self);
 };
 
-Base *base_init(const char *name, Type type, const Frame *frame, double speed);
+Base *base_init(Type type, const Frame *frame, double speed);
 
 /****************************************************************************/
 /*                                   Private Functions.                     */
