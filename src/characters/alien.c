@@ -34,8 +34,8 @@ Alien alien_init(IW_Texture *skin)
 {
     Alien self = memory_allocate(sizeof *self);
     self->super = base_init("Alien", MONSTER, frame_init(skin, &(Vector2){GetScreenWidth() - 256, 100}, &WHITE));
-    self->speed = ALIEN_SPEED;
-    self->destroyed = false;
+    self->super->speed = ALIEN_SPEED;
+    self->super->destroyed = false;
     return self;
 }
 
@@ -92,12 +92,12 @@ void alien_del(Alien *self)
 
 void alien_set_destroy(Alien self, bool status)
 {
-    self->destroyed = status;
+    self->super->destroyed = status;
 }
 
 bool alien_get_destroyed(Alien self)
 {
-    return self->destroyed;
+    return self->super->destroyed;
 }
 
 Rectangle alien_get_rec(Alien self)
