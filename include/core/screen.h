@@ -22,6 +22,7 @@ typedef Screen **ScreenManager;
 extern Screen **screens;
 extern ScreenManager screen_manager; /* For switching screen. */
 extern bool game_should_end;
+extern bool game_should_restart;
 
 struct ScreenHandler
 {
