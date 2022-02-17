@@ -1,7 +1,6 @@
 #include "weapon/laser.h"
 #include "characters/alien.h"
 #include "core/memory_p.h"
-#include "core/screen.h"
 #include <stdio.h>
 #include <assert.h>
 

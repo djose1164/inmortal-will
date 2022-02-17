@@ -3,7 +3,6 @@
 
 #include "characters/alien.h"
 #include "characters/player.h"
-#include "core/screen.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <raylib.h>

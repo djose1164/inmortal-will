@@ -12,7 +12,6 @@
 
 #include "characters/player.h"
 #include "core/memory_p.h"
-#include "core/screen.h"
 #include <assert.h>
 
 LinkedList player_list = {.head = NULL};

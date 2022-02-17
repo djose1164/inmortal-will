@@ -1,5 +1,4 @@
 #include "characters/alien.h"
-#include "core/screen.h"
 #include "core/memory_p.h"
 #include <assert.h>
 #include <stdio.h>

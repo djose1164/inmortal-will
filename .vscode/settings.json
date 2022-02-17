@@ -8,6 +8,7 @@
     "base.h": "c",
     "error.h": "c",
     "screen_manager.h": "c",
-    "laser.h": "c"
+    "laser.h": "c",
+    "memory_p.h": "c"
   }
 }

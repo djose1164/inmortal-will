@@ -2,7 +2,6 @@
 #include "core/memory_p.h"
 #include "weapon/laser.h"
 #include "characters/alien.h"
-#include "core/screen.h"
 #include "characters/player.h"
 #include <stdio.h>
 
