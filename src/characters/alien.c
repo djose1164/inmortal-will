@@ -12,7 +12,7 @@ typedef enum
     GO_UP
 } Goto;
 
-static Alien *_aliens = NULL;
+Alien *_aliens = NULL;
 struct Alien
 {
     Base *super;
@@ -153,4 +153,9 @@ bool alien_get_destroyed(Alien self)
 Rectangle alien_get_rec(Alien self)
 {
     return self->super->get_rec(self->super);
+}
+
+Base *alien_get_base(Alien self)
+{
+    return self->super;
 }
