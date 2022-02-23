@@ -23,12 +23,14 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
     puts("Creating lasers...");
     struct Laser *lasers = memory_allocate(sizeof *lasers * MAX_NUMS_OF_LASER);
     static IW_Texture *skin = NULL;
-    static Sound sound;
+    static Sound e_sound, p_sound;
     if (!skin)
     {
         skin = texture_init("resources/laser-beam.png");
-        sound = LoadSound("resources/laser_sound.ogg");
-        SetSoundVolume(sound, .6f);
+        p_sound = LoadSound("resources/laser_sound.ogg");
+        e_sound = LoadSound("resources/enemy_sound.ogg");
+        SetSoundVolume(p_sound, .6f);
+        SetSoundVolume(e_sound, .6f);
     }
     for (size_t i = 0; i < MAX_NUMS_OF_LASER; i++)
     {
@@ -36,7 +38,7 @@ Laser laser_create_lasers(unsigned quantity, Owner owner)
         lasers[i].launched = false;
         lasers[i].speed = LASER_SPEED;
         lasers[i].owner = owner;
-        lasers[i].sound = &sound;
+        lasers[i].sound = owner == PLAYER ? &p_sound : &e_sound;
     }
     puts("Creating lasers... Done!");
     return lasers;
