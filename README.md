@@ -7,3 +7,4 @@ Porting the game to Windows should be easy due to raylib.
 
 ## Preview
 ![Game](resources/spaceinvader.png)
+![Game over](resources/gameover.png)
