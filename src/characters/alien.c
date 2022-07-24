@@ -80,8 +80,7 @@ void alien_update(Alien self)
 
 void alien_draw(Alien self)
 {
-    DrawText("Alien", 500, 350, 36, RED);
-    if (!self->super->destroyed)
+    if (!alien_get_destroyed(self))
     {
         Texture2D skin = *self->super->frame->get_texture(self->super->frame);
         DrawTextureRec(skin, self->super->frame->rectangle, self->super->frame->pos, WHITE);
@@ -104,7 +103,7 @@ void alien_set_destroy(Alien self, bool status)
     self->super->destroyed = status;
 }
 
-bool alien_get_destroyed(Alien self)
+bool alien_get_destroyed(const Alien self)
 {
     return self->super->destroyed;
 }
