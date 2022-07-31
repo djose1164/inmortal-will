@@ -100,8 +100,8 @@ static void frame_check_margins(const Frame *self)
         *frame_x = 1.0f;
 
     // Check y-axis.
-    if (*frame_y + self->get_texture_height(self)/2 > screen_height)
-        *frame_y = (float)screen_height - self->get_texture_height(self)/2;
+    if (*frame_y + self->get_texture_height(self) > screen_height)
+        *frame_y = (float)screen_height - self->get_texture_height(self);
     else if (*frame_y < 1)
         *frame_y = 1.0f;
 }

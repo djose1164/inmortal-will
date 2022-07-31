@@ -18,7 +18,7 @@
 LinkedList player_list = {.head = NULL};
 Player *global_player = NULL;
 
-#define NUMS_OF_FRAME 2
+#define NUMS_OF_FRAME 1
 #define PLAYER_SPEED 3.5
 
 Player *player_init(const IW_Texture *texture)
@@ -107,7 +107,7 @@ static void player_handle_input(Player *const self)
 
         //     frame->rectangle.y = (float)current_frame * (height / 2);
         // }
-        frame->rectangle.y = (float)height / 2;
+        frame->rectangle.y = (float)height;
     }
     else
         frame->rectangle.y = 0;
